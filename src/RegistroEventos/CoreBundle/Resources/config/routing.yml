@@ -1,0 +1,3 @@
+registro_eventos_core_homepage:
+    path:     /hello/{name}
+    defaults: { _controller: RegistroEventosCoreBundle:Default:index }
