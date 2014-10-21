@@ -2,4 +2,4 @@ _assetic:
     resource: .
     type: assetic
 _app:
-    resource: /var/www/html/RegistroEventosIntendencia/app/config/routing_dev.yml
+    resource: /home/jogianotti/Desarrollos/RegistroEventosIntendencia/app/config/routing_dev.yml
