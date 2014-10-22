@@ -11,4 +11,4 @@ parameters:
     mailer_user: null
     mailer_password: null
     locale: en
-    secret: 3s|taES&laFrase$ecreta*?D3L114díadeH0Y[
+    secret: '3s|taES&laFrase$ecreta*?D3L114díadeH0Y['
