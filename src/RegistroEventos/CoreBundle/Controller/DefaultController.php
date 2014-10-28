@@ -6,8 +6,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class DefaultController extends Controller
 {
-    public function indexAction($name)
+    public function indexAction()
     {
-        return $this->render('RegistroEventosCoreBundle:Default:index.html.twig', array('name' => $name));
+    	$usuario = null;
+    	/*$usuario["id"] = '1';
+    	$usuario["nombre"] = 'Pablo';
+    	$usuario["rango"] = '1';*/
+        return $this->render('RegistroEventosCoreBundle::index.html.twig', array('usuario' => $usuario));
     }
 }

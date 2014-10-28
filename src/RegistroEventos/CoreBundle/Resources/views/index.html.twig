@@ -1,11 +1,15 @@
-{% extends "RegistroEventos::base.html.twig" %}
+{% extends "::base.html.twig" %}
 
 {% block title %}VENTAS{% endblock %}
 
 {% block head %}
 
-Id: {{ usuario.id }}<br>
+
+{% if usuario is null %}
+
+{% else %}
 Nombre: {{ usuario.nombre }}<br>
 Rango: {{ usuario.rango }}
+{% endif %}
 
 {% endblock %}
