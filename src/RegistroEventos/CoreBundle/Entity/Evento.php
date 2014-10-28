@@ -51,17 +51,21 @@ class Evento
     private $estado;
 
     /**
-     * @var \stdClass
-     *
-     * @ORM\Column(name="tipoEvento", type="object")
-     */
-    private $tipoEvento;
-
-    /**
      * @ORM\ManyToOne(targetEntity="Usuario", inversedBy="eventos")
      * @ORM\JoinColumn(name="id_usuario", referencedColumnName="id",nullable=false)
      **/
     private $usuario;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="TipoEvento", inversedBy="eventos")
+     * @ORM\JoinColumn(name="id_tipo_evento", referencedColumnName="id",nullable=false)
+     **/
+    private $tipoEvento;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Evento", mappedBy="detalle")
+     **/
+    private $detalles;
 
 
     /**

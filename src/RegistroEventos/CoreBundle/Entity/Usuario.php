@@ -44,6 +44,11 @@ class Usuario extends UsuarioBase
     protected $eventos;
 
     /**
+     * @ORM\OneToMany(targetEntity="Detalle", mappedBy="usuario")
+     **/
+    protected $detalles;
+
+    /**
      * Get id
      *
      * @return integer 
