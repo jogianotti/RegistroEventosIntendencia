@@ -8,7 +8,7 @@ use FOS\UserBundle\Model\User as UsuarioBase;
  * Usuario
  *
  * @ORM\Table(name="usuarios")
- * @ORM\Entity(repositoryClass="RegistroEventos\CoreBundle\Entity\UsuarioRepository")
+ * @ORM\Entity(repositoryClass="RegistroEventos\CoreBundle\Repository\UsuarioRepository")
  */
 class Usuario extends UsuarioBase
 {

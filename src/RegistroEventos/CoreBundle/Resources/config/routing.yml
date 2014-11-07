@@ -1,3 +1,7 @@
 registro_eventos_core_homepage:
     path:     /
     defaults: { _controller: RegistroEventosCoreBundle:Default:index }
+
+index:
+    path:     /administracion
+    defaults: { _controller: RegistroEventosCoreBundle:Administracion:index }

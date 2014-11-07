@@ -1,6 +1,6 @@
 <?php
 
-namespace RegistroEventos\CoreBundle\Entity;
+namespace RegistroEventos\CoreBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
 
