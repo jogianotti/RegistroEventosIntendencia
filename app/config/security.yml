@@ -4,6 +4,8 @@ security:
         FOS\UserBundle\Model\UserInterface: sha512
 
     role_hierarchy:
+        ROLE_SUPERVISOR: ROLE_USER
+        ROLE_INTENDENTE: ROLE_USER
         ROLE_ADMINISTRADOR: [ROLE_SUPERVISOR, ROLE_INTENDENTE]
 
     providers:
@@ -44,14 +46,14 @@ security:
             anonymous:    true
 
     access_control:
-        - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/administracion/, roles: ROLE_ADMINISTRADOR }
-        - { path: ^/supervision/, roles: ROLE_SUPERVISOR }
+        - { path: ^/login, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/administracion, roles: ROLE_ADMINISTRADOR }
+        - { path: ^/supervision, roles: ROLE_SUPERVISOR }
         - { path: ^/, roles: ROLE_INTENDENTE }
-        
+
         #- { path: ^/demo/secured/hello/admin/, roles: ROLE_ADMIN }
         #- { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
-        
         #- { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
         #- { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
         #- { path: ^/admin/, role: ROLE_ADMIN }

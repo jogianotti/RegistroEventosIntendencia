@@ -72,3 +72,6 @@ fos_user:
     db_driver: orm
     firewall_name: main
     user_class: RegistroEventos\CoreBundle\Entity\Usuario
+    registration:
+        form:
+            type: registro_eventos_core_registration

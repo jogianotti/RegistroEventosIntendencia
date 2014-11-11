@@ -33,7 +33,7 @@ class Usuario extends UsuarioBase
     /**
      * @var boolean
      *
-     * @ORM\Column(name="baja", type="boolean")
+     * @ORM\Column(name="baja", type="boolean", nullable=true, options={"default" = false})
      */
     private $baja;
     
