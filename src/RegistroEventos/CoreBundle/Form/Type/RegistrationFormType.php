@@ -11,6 +11,8 @@ class RegistrationFormType extends AbstractType
     {
         // add your custom field
         $builder->add('nombre');
+        $builder->add('baja');
+        $builder->add('roles');
     }
 
     public function getParent()
