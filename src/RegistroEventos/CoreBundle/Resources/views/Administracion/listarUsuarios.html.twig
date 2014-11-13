@@ -25,6 +25,7 @@ and open the template in the editor.
                 <td>{{usuario.getEmail()}}</td>
                 <td>{{usuario.getNombre()}}</td>
                 <td>{{usuario.isEnabled()}}</td>
+                <td><a href="{{ path('registro_eventos_core_administracion_usuarios_modificacion')}}?username={{usuario.getUsername()}}">EDITAR</a></td>
             </tr>
             {% endfor %}
             </table>

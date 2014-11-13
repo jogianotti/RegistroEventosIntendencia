@@ -18,6 +18,10 @@ registro_eventos_core_administracion_usuarios_baja:
     path:     /administracion/usuarios/eliminar
     defaults: { _controller: RegistroEventosCoreBundle:Administracion:eliminarUsuario }
 
+registro_eventos_core_administracion_usuarios_modificacion:
+    path:     /administracion/usuarios/modificar
+    defaults: { _controller: RegistroEventosCoreBundle:Administracion:modificarUsuario }
+
 registro_eventos_core_supervision:
     path:     /supervision
     defaults: { _controller: RegistroEventosCoreBundle:Supervision:index }

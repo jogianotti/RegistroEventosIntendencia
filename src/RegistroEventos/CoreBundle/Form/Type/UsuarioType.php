@@ -26,9 +26,11 @@ class UsuarioType extends AbstractType
                                         array( 'Administrador','Supervisor','Intendente')
                                     ),
                 'required'  => true,
+                'multiple' => true
                 
             ))
             ->add('nombre')
+            ->add('enabled', 'checkbox', array('required' => false))
         ;
     }
     
