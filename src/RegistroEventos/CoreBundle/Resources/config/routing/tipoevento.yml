@@ -1,0 +1,30 @@
+administracion_tipos:
+    path:     /
+    defaults: { _controller: "RegistroEventosCoreBundle:TipoEvento:index" }
+
+administracion_tipos_show:
+    path:     /{id}/show
+    defaults: { _controller: "RegistroEventosCoreBundle:TipoEvento:show" }
+
+administracion_tipos_new:
+    path:     /new
+    defaults: { _controller: "RegistroEventosCoreBundle:TipoEvento:new" }
+
+administracion_tipos_create:
+    path:     /create
+    defaults: { _controller: "RegistroEventosCoreBundle:TipoEvento:create" }
+    requirements: { _method: post }
+
+administracion_tipos_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "RegistroEventosCoreBundle:TipoEvento:edit" }
+
+administracion_tipos_update:
+    path:     /{id}/update
+    defaults: { _controller: "RegistroEventosCoreBundle:TipoEvento:update" }
+    requirements: { _method: post|put }
+
+administracion_tipos_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "RegistroEventosCoreBundle:TipoEvento:delete" }
+    requirements: { _method: post|delete }
