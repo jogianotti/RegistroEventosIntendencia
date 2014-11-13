@@ -13,11 +13,10 @@ class AdministracionController extends Controller
     {
         $usuario = $this->get('security.context')->getToken()->getUser();
         
-        return new Response($usuario->getUsername());
+        $usuario = $usuario->getUsername();
         
-//        return $this->render('RegistroEventosCoreBundle:Administracion:index.html.twig', array(
-//                // ...
-//            ));
+        return $this->render('RegistroEventosCoreBundle:Administracion:index.html.twig', array('user' => $usuario,
+            ));
     }
 
     public function listarUsuariosAction() {

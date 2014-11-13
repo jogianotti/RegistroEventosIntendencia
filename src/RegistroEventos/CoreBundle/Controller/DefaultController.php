@@ -12,6 +12,6 @@ class DefaultController extends Controller
     	/*$usuario["id"] = '1';
     	$usuario["nombre"] = 'Pablo';
     	$usuario["rango"] = '1';*/
-        return $this->render('RegistroEventosCoreBundle::index.html.twig', array('usuario' => $usuario));
+        return $this->render('RegistroEventosCoreBundle:Default:index.html.twig', array('usuario' => $usuario));
     }
 }
