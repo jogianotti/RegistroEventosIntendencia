@@ -125,4 +125,9 @@ class TipoEvento
     {
         return $this->prioridad;
     }
+
+    public function __toString()
+    {
+        return $this->getNombre();
+    }
 }

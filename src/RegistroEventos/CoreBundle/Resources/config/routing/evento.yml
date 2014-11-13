@@ -1,0 +1,30 @@
+eventos:
+    path:     /
+    defaults: { _controller: "RegistroEventosCoreBundle:Evento:index" }
+
+eventos_show:
+    path:     /{id}/show
+    defaults: { _controller: "RegistroEventosCoreBundle:Evento:show" }
+
+eventos_new:
+    path:     /new
+    defaults: { _controller: "RegistroEventosCoreBundle:Evento:new" }
+
+eventos_create:
+    path:     /create
+    defaults: { _controller: "RegistroEventosCoreBundle:Evento:create" }
+    requirements: { _method: post }
+
+eventos_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "RegistroEventosCoreBundle:Evento:edit" }
+
+eventos_update:
+    path:     /{id}/update
+    defaults: { _controller: "RegistroEventosCoreBundle:Evento:update" }
+    requirements: { _method: post|put }
+
+eventos_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "RegistroEventosCoreBundle:Evento:delete" }
+    requirements: { _method: post|delete }

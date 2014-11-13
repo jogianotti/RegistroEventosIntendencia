@@ -1,0 +1,30 @@
+usuarios:
+    path:     /
+    defaults: { _controller: "RegistroEventosCoreBundle:Usuario:index" }
+
+usuarios_show:
+    path:     /{id}/show
+    defaults: { _controller: "RegistroEventosCoreBundle:Usuario:show" }
+
+usuarios_new:
+    path:     /new
+    defaults: { _controller: "RegistroEventosCoreBundle:Usuario:new" }
+
+usuarios_create:
+    path:     /create
+    defaults: { _controller: "RegistroEventosCoreBundle:Usuario:create" }
+    requirements: { _method: post }
+
+usuarios_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "RegistroEventosCoreBundle:Usuario:edit" }
+
+usuarios_update:
+    path:     /{id}/update
+    defaults: { _controller: "RegistroEventosCoreBundle:Usuario:update" }
+    requirements: { _method: post|put }
+
+usuarios_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "RegistroEventosCoreBundle:Usuario:delete" }
+    requirements: { _method: post|delete }

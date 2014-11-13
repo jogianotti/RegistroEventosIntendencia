@@ -1,6 +1,6 @@
-registro_eventos_core_index:
-    path:     /
-    defaults: { _controller: RegistroEventosCoreBundle:Default:index }
+#registro_eventos_core_index:
+#    path:     /
+#    defaults: { _controller: RegistroEventosCoreBundle:Default:index }
 
 registro_eventos_core_administracion:
     path:     /administracion
@@ -25,3 +25,21 @@ registro_eventos_core_administracion_usuarios_modificacion:
 registro_eventos_core_supervision:
     path:     /supervision
     defaults: { _controller: RegistroEventosCoreBundle:Supervision:index }
+
+RegistroEventosCoreBundle_agenda:
+    resource: "@RegistroEventosCoreBundle/Resources/config/routing/contacto.yml"
+    prefix:   /agenda
+
+RegistroEventosCoreBundle_eventos:
+    resource: "@RegistroEventosCoreBundle/Resources/config/routing/evento.yml"
+    prefix:   /
+
+RegistroEventosCoreBundle_tipos_eventos:
+    resource: "@RegistroEventosCoreBundle/Resources/config/routing/tipoevento.yml"
+    prefix:   /tipos_eventos
+
+RegistroEventosCoreBundle_usuarios:
+    resource: "@RegistroEventosCoreBundle/Resources/config/routing/usuario.yml"
+    prefix:   /usuarios
+
+

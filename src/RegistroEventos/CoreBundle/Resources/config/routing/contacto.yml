@@ -1,0 +1,30 @@
+agenda:
+    path:     /
+    defaults: { _controller: "RegistroEventosCoreBundle:Contacto:index" }
+
+agenda_show:
+    path:     /{id}/show
+    defaults: { _controller: "RegistroEventosCoreBundle:Contacto:show" }
+
+agenda_new:
+    path:     /new
+    defaults: { _controller: "RegistroEventosCoreBundle:Contacto:new" }
+
+agenda_create:
+    path:     /create
+    defaults: { _controller: "RegistroEventosCoreBundle:Contacto:create" }
+    requirements: { _method: post }
+
+agenda_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "RegistroEventosCoreBundle:Contacto:edit" }
+
+agenda_update:
+    path:     /{id}/update
+    defaults: { _controller: "RegistroEventosCoreBundle:Contacto:update" }
+    requirements: { _method: post|put }
+
+agenda_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "RegistroEventosCoreBundle:Contacto:delete" }
+    requirements: { _method: post|delete }
