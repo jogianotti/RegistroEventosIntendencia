@@ -24,7 +24,8 @@ class AdministracionController extends Controller
     	$usuarios = $this->getDoctrine()->getManager()->getRepository('RegistroEventosCoreBundle:Usuario')->listar();
 
     	return$this->render('RegistroEventosCoreBundle:Administracion:listarUsuarios.html.twig',
-            array('usuarios' => $usuarios )
+            array('usuarioLogueado' => $this->get('security.context')->getToken()->getUser(),
+                'usuarios' => $usuarios )
     	);
     }
 
@@ -53,13 +54,23 @@ class AdministracionController extends Controller
         $formulario->handleRequest($request);
         if($formulario->isValid()) {
             $userManager->updateUser($usuario);
-        return $this->forward('RegistroEventosCoreBundle:Administracion:listarUsuarios');
+            return $this->forward('RegistroEventosCoreBundle:Administracion:listarUsuarios');
         }
         
         return $this->render('RegistroEventosCoreBundle:Administracion:modificarUsuario.html.twig', array('form'=>$formulario->createView(), 'usuario' => $usuario));
     }
 
-    public function eliminarUsuarioAction() {
-    	$um = $this->get('fos_user.user_manager');
+    public function eliminarUsuarioAction(Request $request) {
+        $userManager = $this->get('fos_user.user_manager');
+        $username = $request->query->get('username');
+        $usuario = $userManager->findUserByUsername($username);
+
+        if($usuario == NULL || $usuario === $this->get('security.context')->getToken()->getUser()){
+            return $this->forward('RegistroEventosCoreBundle:Administracion:listarUsuarios');
+        }
+        $usuario->setBaja(true);
+
+        $userManager->updateUser($usuario);
+        return $this->forward('RegistroEventosCoreBundle:Administracion:listarUsuarios');
     }
 }

@@ -24,7 +24,8 @@ framework:
 # Twig Configuration
 twig:
     debug:            "%kernel.debug%"
-    cache:            false;#poner en true al pasar a produccion
+    cache:            false
+    #poner en true al pasar a produccion
     strict_variables: "%kernel.debug%"
 
 # Assetic Configuration
