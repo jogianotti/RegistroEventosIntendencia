@@ -30,6 +30,7 @@ class UsuarioType extends AbstractType
                 
             ))
             ->add('nombre')
+            ->add('enabled', 'checkbox', array('required' => false))
         ;
     }
     
