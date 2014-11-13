@@ -13,10 +13,11 @@ use Doctrine\ORM\EntityRepository;
 class UsuarioRepository extends EntityRepository
 {
 	public function listar() {
-            return $this->createQueryBuilder('u')
-            ->select('u')
-            ->where('u.baja = FALSE')
-            ->getQuery()
-            ->getResult();
+		return $this->getEntityManager()
+		->createQueryBuilder()
+		->select('u')
+		->from('RegistroEventosCoreBundle:Usuario','u')
+		->getQuery()
+		->getResult();
 	}
 }

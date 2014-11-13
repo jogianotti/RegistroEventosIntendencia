@@ -2,8 +2,6 @@ registro_eventos_core:
     resource: "@RegistroEventosCoreBundle/Resources/config/routing.yml"
     prefix:   /
 
-#fos_user_security:
-#    resource: "@FOSUserBundle/Resources/config/routing/security.xml"
-
 fos_user:
     resource: "@FOSUserBundle/Resources/config/routing/all.xml"
+
