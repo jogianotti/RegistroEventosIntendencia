@@ -171,7 +171,6 @@ class TipoEventoController extends Controller
 
         if ($editForm->isValid()) {
             $em->flush();
-
             return $this->redirect($this->generateUrl('tipos_eventos_edit', array('id' => $id)));
         }
 

@@ -7,3 +7,7 @@ registro_eventos_core:
 
 fos_user:
     resource: "@FOSUserBundle/Resources/config/routing/all.xml"
+
+RegistroEventosCoreBundle_administracion_tipos:
+        resource: "@RegistroEventosCoreBundle/Resources/config/routing/tipoevento.yml"
+        prefix:   /administracion/tipos

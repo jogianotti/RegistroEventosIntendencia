@@ -16,7 +16,7 @@ class TipoEventoType extends AbstractType
     {
         $builder
             ->add('nombre')
-            ->add('email')
+            ->add('email',null,array('required' => false))
             ->add('prioridad')
         ;
     }
