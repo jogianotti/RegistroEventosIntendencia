@@ -15,6 +15,7 @@ class UsuarioType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        parent::buildForm($builder ,$options);
         $builder
             ->add('username')
             ->add('email')
@@ -25,7 +26,6 @@ class UsuarioType extends AbstractType
                                         array( 'Administrador','Supervisor','Intendente')
                                     ),
                 'required'  => true,
-                'multiple' => false,
                 
             ))
             ->add('nombre')

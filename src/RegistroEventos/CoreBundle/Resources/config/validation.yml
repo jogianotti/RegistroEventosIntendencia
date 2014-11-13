@@ -1,0 +1,4 @@
+RegistroEventos\CoreBundle\Entity\Usuario:
+    properties:
+        nombre:
+            - NotBlank: ~
