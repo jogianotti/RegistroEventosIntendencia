@@ -8,8 +8,16 @@ registro_eventos_core_administracion:
 
 registro_eventos_core_administracion_usuarios:
     path:     /administracion/usuarios
-    defaults: { _controller: RegistroEventosCoreBundle:Administracion:usuarios }
+    defaults: { _controller: RegistroEventosCoreBundle:Administracion:listarUsuarios }
+    
+registro_eventos_core_administracion_usuarios_alta:
+    path:     /administracion/usuarios/nuevo
+    defaults: { _controller: RegistroEventosCoreBundle:Administracion:crearUsuario }
+    
+registro_eventos_core_administracion_usuarios_baja:
+    path:     /administracion/usuarios/eliminar
+    defaults: { _controller: RegistroEventosCoreBundle:Administracion:eliminarUsuario }
 
-registro_eventos_core_administracion:
+registro_eventos_core_supervision:
     path:     /supervision
     defaults: { _controller: RegistroEventosCoreBundle:Supervision:index }
