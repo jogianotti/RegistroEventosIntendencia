@@ -1,24 +1,28 @@
-{% extends "FOSUserBundle::layout.html.twig" %}
+{% extends "::base.html.twig" %}
 
 {% trans_default_domain 'FOSUserBundle' %}
 
-{% block fos_user_content %}
+{% block body %}
 {% if error %}
     <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
 {% endif %}
-<h1>Sobreescribiendo</h1>
-<form action="{{ path("fos_user_security_check") }}" method="post">
+<div class="row">
+<div class="col-sm-4 col-sm-offset-4">
+<h1>Ingresar al sistema</h1>
+<form class="form-signin" action="{{ path("fos_user_security_check") }}" method="post">
     <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
 
-    <label for="username">{{ 'security.login.username'|trans }}</label>
-    <input type="text" id="username" name="_username" value="{{ last_username }}" required="required" />
+    <div><label for="username">Usuario</label>
+    <input class="form-control" type="text" id="username" name="_username" value="{{ last_username }}" required="required" /></div>
 
-    <label for="password">{{ 'security.login.password'|trans }}</label>
-    <input type="password" id="password" name="_password" required="required" />
+    <div><label for="password">Clave</label>
+    <input class="form-control" type="password" id="password" name="_password" required="required" /></div>
 
     <input type="checkbox" id="remember_me" name="_remember_me" value="on" />
-    <label for="remember_me">{{ 'security.login.remember_me'|trans }}</label>
+    <label for="remember_me">Recordar sesion</label>
 
-    <input type="submit" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans }}" />
+	<div><input class="btn btn-lg btn-primary" type="submit" id="_submit" name="_submit" value="Ingresar" /></div>
 </form>
-{% endblock fos_user_content %}
+</div>
+</div>
+{% endblock body %}

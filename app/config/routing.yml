@@ -5,9 +5,9 @@ registro_eventos_core:
 #fos_user_security:
 #    resource: "@FOSUserBundle/Resources/config/routing/security.xml"
 
-fos_user:
-    resource: "@FOSUserBundle/Resources/config/routing/all.xml"
+fos_user_security:
+    resource: "@FOSUserBundle/Resources/config/routing/security.xml"
 
-RegistroEventosCoreBundle_administracion_tipos:
-        resource: "@RegistroEventosCoreBundle/Resources/config/routing/tipoevento.yml"
-        prefix:   /administracion/tipos
+#RegistroEventosCoreBundle_administracion_tipos:
+#        resource: "@RegistroEventosCoreBundle/Resources/config/routing/tipoevento.yml"
+#        prefix:   /administracion/tipos

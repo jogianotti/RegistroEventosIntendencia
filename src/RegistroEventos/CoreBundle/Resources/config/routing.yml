@@ -36,7 +36,7 @@ RegistroEventosCoreBundle_eventos:
 
 RegistroEventosCoreBundle_tipos_eventos:
     resource: "@RegistroEventosCoreBundle/Resources/config/routing/tipoevento.yml"
-    prefix:   /tipos_eventos
+    prefix:   /administracion/tipos_eventos
 
 RegistroEventosCoreBundle_usuarios:
     resource: "@RegistroEventosCoreBundle/Resources/config/routing/usuario.yml"
