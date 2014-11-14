@@ -1,6 +1,5 @@
 Registro de Eventos de Intendencia
 
-<<<<<<< HEAD
 1) Configuracion de la Base de Datos
 ----------------------------------
 
@@ -13,7 +12,6 @@ git reset HEAD app/config/parameters.yml
 
 php app/console doctrine:schema:update --force
  
-=======
     /* Descripción */
 
 
@@ -56,10 +54,9 @@ PROCESO DE INSTALACIÓN
 
     php app/console cache:clear
 
-5) Comprobar que se se haya instalado correctamente ingresando a
+7) En el directorio root se encuentra una copia de la base de datos "registro_eventos.sql".
+
+8) Comprobar que se se haya instalado correctamente ingresando a
 
     {dominio o path}/app_dev.php/login
-
-
->>>>>>> 5b3c5ca4d0bc2cd84d85e2d2b2ae29a414d9c26c
 
