@@ -12,16 +12,16 @@
 <form class="form-signin" action="{{ path("fos_user_security_check") }}" method="post">
     <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
 
-    <div><label for="username">Usuario</label>
-    <input class="form-control" type="text" id="username" name="_username" value="{{ last_username }}" required="required" /></div>
+    <div><label for="username">Usuario:</label>
+    <input class="form-control" type="text" id="username" name="_username" value="{{ last_username }}" required="required" placeholder="Ej: Juan"/></div>
 
-    <div><label for="password">Clave</label>
-    <input class="form-control" type="password" id="password" name="_password" required="required" /></div>
+    <div><label for="password">Clave:</label>
+    <input class="form-control" type="password" id="password" placeholder="Ej: 123456" name="_password" required="required" /></div>
 
     <input type="checkbox" id="remember_me" name="_remember_me" value="on" />
     <label for="remember_me">Recordar sesion</label>
 
-	<div><input class="btn btn-lg btn-primary" type="submit" id="_submit" name="_submit" value="Ingresar" /></div>
+	<div><input class="btn btn-lg btn-primary btn-block" type="submit" id="_submit" name="_submit" value="Ingresar" /></div>
 </form>
 </div>
 </div>

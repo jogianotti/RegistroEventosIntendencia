@@ -6,3 +6,7 @@ body{
 .nombreSistema{
 	font-size: 2em;
 }
+
+.form-control{
+	height:3em;
+}
