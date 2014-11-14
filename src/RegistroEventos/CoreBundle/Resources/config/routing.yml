@@ -40,6 +40,6 @@ RegistroEventosCoreBundle_tipos_eventos:
 
 RegistroEventosCoreBundle_usuarios:
     resource: "@RegistroEventosCoreBundle/Resources/config/routing/usuario.yml"
-    prefix:   /usuarios
+    prefix:   /administracion/usuarios
 
 
