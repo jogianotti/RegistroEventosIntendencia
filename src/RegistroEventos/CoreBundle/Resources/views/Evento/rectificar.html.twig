@@ -1,0 +1,14 @@
+{% if error %}
+	Error al intentar crear el formulario de rectificacion
+{% else %}
+	<form id="formularioRectificacion" action="{{ path('eventos_rectificacion_crear') }}" method="post" {{ form_enctype(form) }}>
+	    {{ form_errors(form) }}
+
+	    {{ form_row(form.fechaEvento) }}
+	    {{ form_row(form.observaciones) }}
+	    {{ form_row(form.estado) }}
+	    {{ form_row(form.tipoEvento) }}
+	    {{ form_row(form._token) }}
+	    <input name="registroeventos_corebundle_evento_rectificar" type="hidden" value="{{ eventoRectificado }}">
+	</form>
+{% endif %}
