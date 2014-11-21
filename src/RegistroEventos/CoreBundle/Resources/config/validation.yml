@@ -2,3 +2,117 @@ RegistroEventos\CoreBundle\Entity\Usuario:
     properties:
         nombre:
             - NotBlank: ~
+            - Type:
+                type: string
+                message: 'El nombre debe ser de tipo texto.'
+            - Length:
+                min: 3
+                max: 80
+                minMessage: 'El nombre debe tener al menos {{ limit }} caractres.'
+                maxMessage: 'El nombre debe tener a lo sumo {{ limit }} caractres.'
+#        baja:
+#            Type:
+#                type: boolean
+#                message: 'Baja debe ser un booleano'
+
+RegistroEventos\CoreBundle\Entity\Evento:
+    properties:
+        fechaSistema:
+            - DateTime:
+                message: 'La fecha de sistema no es una fecha valida.'
+        fechaEvento:
+            - DateTime:
+                message: 'La fecha del evento no es una fecha valida.'
+        observaciones:
+            - Type:
+                type: string
+                message: 'Las observaciones deben ser de tipo texto'
+            - Length:
+                min: 6
+                max: 255
+                minMessage: 'Las observaciones deben tener al menos {{ limit }} caractres.'
+                maxMessage: 'Las observaciones deben tener a lo sumo {{ limit }} caractres.'
+            - NotBlank: 
+                message: 'Las obserbaciones no deben quedar en blanco.'
+
+RegistroEventos\CoreBundle\Entity\TipoEvento:
+    properties:
+        nombre:
+            - Type:
+                type: string
+                message: 'El nombre debe ser de tipo texto'
+            - Length:
+                min: 6
+                max: 50
+                minMessage: 'El nombre debe tener al menos {{ limit }} caractres.'
+                maxMessage: 'El nombre debe tener a lo sumo {{ limit }} caractres.'
+            - NotBlank:
+                message: 'El nombre no debe quedar en blanco.'
+        email:
+            - Email:
+                message: 'El email no es un email válido'
+        prioridad:
+            - Type:
+                type: integer
+                message: 'La prioridad debe ser de tipo entera.'
+            - NotNull: ~
+
+RegistroEventos\CoreBundle\Entity\Detalle:
+    properties:
+        fechaDetalle:
+            - DateTime:
+                message: 'La fecha del detalle no es una fecha valida.'
+        fechaSistema:
+            -DateTime:
+                message: 'La fecha del sistema no es una fecha valida.'
+        observaciones:
+            - Type:
+                type: string
+                message: 'Las observaciones deben ser de tipo texto'
+            - Length:
+                min: 6
+                max: 255
+                minMessage: 'Las observaciones deben al menos {{ limit }} caractres.'
+                maxMessage: 'Las observaciones deben tener a lo sumo {{ limit }} caractres.'
+            - NotBlank:
+                message: 'Las observaciones no deben quedar en blanco.'
+        
+RegistroEventos\CoreBundle\Entity\Contacto:
+    properties:
+        nombre:
+            - Type:
+                type: string
+                message: 'El nombre debe ser de tipo texto'
+            - Length:
+                min: 6
+                max: 60
+                minMessage: 'El nombre debe tener al menos {{ limit }} caractres.'
+                maxMessage: 'El nombre debe tener a lo sumo {{ limit }} caractres.'
+            - NotBlank:
+                message: 'El nombre no debe quedar en blanco.'
+        apellido:
+            - Type:
+                type: string
+                message: 'El apellido debe ser de tipo texto'
+            - Length:
+                min: 6
+                max: 60
+                minMessage: 'El apellido debe tener al menos {{ limit }} caractres.'
+                maxMessage: 'El apellido debe tener a lo sumo {{ limit }} caractres.'
+            - NotBlank:
+                message: 'El apellido no debe quedar en blanco.'
+        telefonoFijo:
+            - Type:
+                type: string
+                message: 'El telefono fijo debe ser de tipo texto.'
+            - Length:
+                max: 40
+                maxMessage: 'El telefono fijo debe tener a lo sumo {{limit}} caracteres.'
+        telefonoMovil:
+            - Type:
+                type: string
+                message: 'El telefono movil debe ser de tipo texto.'
+            - Length:
+                max: 40
+                maxMessage: 'El telefono movil debe tener a lo sumo {{limit}} caracteres.'
+                

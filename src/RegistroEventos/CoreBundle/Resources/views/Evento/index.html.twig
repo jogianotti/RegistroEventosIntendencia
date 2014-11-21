@@ -1,34 +1,32 @@
 {% extends '::base.html.twig' %}
 
 {% block body -%}
-    <h1>Evento list</h1>
+    <h1>Registro de eventos</h1>
 
     <table class="records_list">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Fechasistema</th>
-                <th>Fechaevento</th>
+                <th>Usuario</th>
+                <th>Fecha del Evento</th>
                 <th>Observacones</th>
                 <th>Estado</th>
-                <th>Actions</th>
+                <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
-        {% for entity in entities %}
+        {% for evento in eventos %}
             <tr>
-                <td><a href="{{ path('eventos_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
-                <td>{% if entity.fechaSistema %}{{ entity.fechaSistema|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td>{% if entity.fechaEvento %}{{ entity.fechaEvento|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td>{{ entity.observacones }}</td>
-                <td>{{ entity.estado }}</td>
+                <td>{{ evento.usuario.nombre }}</td>
+                <td>{{ evento.fechaEvento|date('Y-m-d H:i:s') }}</td>
+                <td>{{ evento.observacones }}</td>
+                <td>{{ evento.estado }}</td>
                 <td>
                 <ul>
                     <li>
-                        <a href="{{ path('eventos_show', { 'id': entity.id }) }}">show</a>
+                        <a href="{{ path('eventos_show', { 'id': evento.id }) }}">Ver</a>
                     </li>
                     <li>
-                        <a href="{{ path('eventos_edit', { 'id': entity.id }) }}">edit</a>
+                        <a href="{{ path('eventos_edit', { 'id': evento.id }) }}">Editar</a>
                     </li>
                 </ul>
                 </td>
@@ -40,7 +38,7 @@
         <ul>
         <li>
             <a href="{{ path('eventos_new') }}">
-                Create a new entry
+                Crear un nuevo evento
             </a>
         </li>
     </ul>

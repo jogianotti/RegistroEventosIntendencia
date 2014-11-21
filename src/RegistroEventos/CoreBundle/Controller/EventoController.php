@@ -16,17 +16,17 @@ class EventoController extends Controller
 {
 
     /**
-     * Lists all Evento entities.
+     * Listado de todos los Eventos.
      *
      */
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('RegistroEventosCoreBundle:Evento')->findAll();
+        $eventos = $em->getRepository('RegistroEventosCoreBundle:Evento')->findAll();//buscarEventosActivos();
 
         return $this->render('RegistroEventosCoreBundle:Evento:index.html.twig', array(
-            'entities' => $entities,
+            'eventos' => $eventos,
         ));
     }
     /**
@@ -220,5 +220,9 @@ class EventoController extends Controller
             ->add('submit', 'submit', array('label' => 'Delete'))
             ->getForm()
         ;
+    }
+
+    public function rectificarAction($id){
+        
     }
 }

@@ -12,4 +12,7 @@ use Doctrine\ORM\EntityRepository;
  */
 class EventoRepository extends EntityRepository
 {
+    public function buscarEventosActivos() {
+        
+    }
 }
