@@ -23,10 +23,14 @@ class EventoController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
+        $entity = new Evento();
+        $form   = $this->createCreateForm($entity);
+
         $eventos = $em->getRepository('RegistroEventosCoreBundle:Evento')->findAll();//buscarEventosActivos();
 
         return $this->render('RegistroEventosCoreBundle:Evento:index.html.twig', array(
             'eventos' => $eventos,
+            'form'   => $form->createView()
         ));
     }
     /**
@@ -35,20 +39,22 @@ class EventoController extends Controller
      */
     public function createAction(Request $request)
     {
-        $entity = new Evento();
-        $form = $this->createCreateForm($entity);
+        $evento = new Evento();
+        $form = $this->createCreateForm($evento);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
+            $evento->setFechaSistema(new \DateTime());
+            $evento->setUsuario($this->get('security.context')->getToken()->getUser());
             $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
+            $em->persist($evento);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('eventos_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('eventos', array('id' => $evento->getId())));
         }
 
         return $this->render('RegistroEventosCoreBundle:Evento:new.html.twig', array(
-            'entity' => $entity,
+            'evento' => $evento,
             'form'   => $form->createView(),
         ));
     }
@@ -218,11 +224,54 @@ class EventoController extends Controller
             ->setAction($this->generateUrl('eventos_delete', array('id' => $id)))
             ->setMethod('DELETE')
             ->add('submit', 'submit', array('label' => 'Delete'))
-            ->getForm()
-        ;
+            ->getForm();
     }
 
-    public function rectificarAction($id){
-        
+    public function newRectificacionAction(Request $request){
+        $id = $request->query->get('id');
+        $entity = new Evento();
+
+        $form = $this->createForm(new EventoType(), $entity, array(
+            'action' => $this->generateUrl('eventos_rectificacion_crear'),
+            'method' => 'POST',
+        ));
+
+        $form->add('submit', 'submit', array('label' => 'Create'));
+        if ($id == null){
+            return $this->render('RegistroEventosCoreBundle:Evento:rectificar.html.twig', array(
+                'error' => true
+            ));
+        }else{
+            return $this->render('RegistroEventosCoreBundle:Evento:rectificar.html.twig', array(
+                'form' => $form->createView(),
+                'entity'      => $entity,
+                'eventoRectificado' => $id,
+                'error' => false
+            ));
+        }
+    }
+
+    public function crearRectificacionAction(Request $request){
+        $evento = new Evento();
+        $form = $this->createForm(new EventoType(), $entity, array(
+            'action' => $this->generateUrl('eventos_rectificacion_crear'),
+            'method' => 'POST',
+        ));
+        $form->handleRequest($request);
+
+        $entity = new Evento();
+
+        if ($form->isValid()) {
+            //Buscar evento con ID: (REQUEST[registroeventos_corebundle_evento_rectificar])
+            //y setearle el campo BAJA "rectificacion" en $evento->getId();
+            $evento->setFechaSistema(new \DateTime());
+            $evento->setUsuario($this->get('security.context')->getToken()->getUser());
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($evento);
+            $em->flush();
+
+            return $this->redirect($this->generateUrl('eventos', array('id' => $evento->getId())));
+        }
+
     }
 }

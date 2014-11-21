@@ -1,24 +1,57 @@
 {% extends '::base.html.twig' %}
 
+{% block javascript %}
+    {{parent()}}
+    <script type="text/javascript" src="./../assets/js/rectificar.js"></script>
+{% endblock %}
 {% block body -%}
     <h1>Registro de eventos</h1>
+    <form action="{{ path('eventos_create') }}" method="post" {{ form_enctype(form) }}>
+        {{ form_errors(form) }}
 
+        {{ form_row(form.fechaEvento) }}
+        {{ form_row(form.observaciones) }}
+        {{ form_row(form.estado) }}
+        {{ form_row(form.tipoEvento) }}
+        {{ form_row(form._token) }}
+
+        <input type="submit" />
+    </form>
     <table class="records_list">
         <thead>
             <tr>
                 <th>Usuario</th>
                 <th>Fecha del Evento</th>
-                <th>Observacones</th>
+                <th>Observaciones</th>
                 <th>Estado</th>
                 <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
+
+            <div id="evento_rectificar" class="modal fade">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title">Rectificar Evento</h4>
+                  </div>
+                  <div id="rectificarPopUpBody" class="modal-body">
+                  </div>            
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button id="guardarRectificarPopUp" type="button" class="btn btn-primary">Save changes</button>
+                  </div>
+                </div><!-- /.modal-content -->
+              </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+
         {% for evento in eventos %}
+
             <tr>
                 <td>{{ evento.usuario.nombre }}</td>
                 <td>{{ evento.fechaEvento|date('Y-m-d H:i:s') }}</td>
-                <td>{{ evento.observacones }}</td>
+                <td>{{ evento.observaciones }}</td>
                 <td>{{ evento.estado }}</td>
                 <td>
                 <ul>
@@ -27,6 +60,9 @@
                     </li>
                     <li>
                         <a href="{{ path('eventos_edit', { 'id': evento.id }) }}">Editar</a>
+                    </li>
+                    <li>
+                        <button type="button" class="btn btn-primary rectificar" data-toggle="modal" data-target="#evento_rectificar" data-id="{{ evento.id }}">Large modal</button>
                     </li>
                 </ul>
                 </td>

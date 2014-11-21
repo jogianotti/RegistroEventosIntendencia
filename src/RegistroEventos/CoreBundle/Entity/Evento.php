@@ -39,9 +39,9 @@ class Evento
     /**
      * @var string
      *
-     * @ORM\Column(name="observacones", type="string", length=255)
+     * @ORM\Column(name="observaciones", type="string", length=255)
      */
-    private $observacones;
+    private $observaciones;
 
     /**
      * @var boolean
@@ -148,26 +148,26 @@ class Evento
     }
 
     /**
-     * Set observacones
+     * Set observaciones
      *
-     * @param string $observacones
+     * @param string $observaciones
      * @return Evento
      */
-    public function setObservacones($observacones)
+    public function setObservaciones($observaciones)
     {
-        $this->observacones = $observacones;
+        $this->observaciones = $observaciones;
 
         return $this;
     }
 
     /**
-     * Get observacones
+     * Get observaciones
      *
      * @return string 
      */
-    public function getObservacones()
+    public function getObservaciones()
     {
-        return $this->observacones;
+        return $this->observaciones;
     }
 
     /**

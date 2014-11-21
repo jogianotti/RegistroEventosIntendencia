@@ -11,8 +11,18 @@ eventos_new:
     defaults: { _controller: "RegistroEventosCoreBundle:Evento:new" }
 
 eventos_create:
-    path:     /create
+    path:     /crear
     defaults: { _controller: "RegistroEventosCoreBundle:Evento:create" }
+    requirements: { _method: post }
+
+
+eventos_rectificacion_nueva:
+    path:     /rectificacion_nueva
+    defaults: { _controller: "RegistroEventosCoreBundle:Evento:newRectificacion" }
+
+eventos_rectificacion_crear:
+    path:     /rectificacion_crear
+    defaults: { _controller: "RegistroEventosCoreBundle:Evento:crearRectificacion" }
     requirements: { _method: post }
 
 eventos_edit:

@@ -17,7 +17,7 @@ class EventoType extends AbstractType
         $builder
             ->add('fechaSistema')
             ->add('fechaEvento')
-            ->add('observacones')
+            ->add('observaciones')
             ->add('estado')
             ->add('usuario')
             ->add('tipoEvento')
