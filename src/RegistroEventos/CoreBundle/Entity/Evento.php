@@ -66,6 +66,12 @@ class Evento
      * @ORM\OneToMany(targetEntity="Evento", mappedBy="detalle")
      **/
     private $detalles;
+    
+    /**
+    * @ORM\OneToOne(targetEntity="Evento")
+    * @ORM\JoinColumn(name="rectificacion_id", referencedColumnName="id_evento")
+    */
+    private $rectificacion;
 
 
     /**

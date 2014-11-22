@@ -1,9 +1,10 @@
-{% extends '::base.html.twig' %}
+{% extends 'RegistroEventosCoreBundle::base.html.twig' %}
 
 {% block javascript %}
     {{parent()}}
     <script type="text/javascript" src="./../assets/js/rectificar.js"></script>
 {% endblock %}
+
 {% block body -%}
     <h1>Registro de eventos</h1>
     <form action="{{ path('eventos_create') }}" method="post" {{ form_enctype(form) }}>

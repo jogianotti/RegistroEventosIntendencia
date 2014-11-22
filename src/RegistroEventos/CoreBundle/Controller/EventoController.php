@@ -60,11 +60,11 @@ class EventoController extends Controller
     }
 
     /**
-     * Creates a form to create a Evento entity.
+     * Crea un formulario para crear una entidad Evento.
      *
-     * @param Evento $entity The entity
+     * @param Evento $entity La entidad
      *
-     * @return \Symfony\Component\Form\Form The form
+     * @return \Symfony\Component\Form\Form El formulario
      */
     private function createCreateForm(Evento $entity)
     {

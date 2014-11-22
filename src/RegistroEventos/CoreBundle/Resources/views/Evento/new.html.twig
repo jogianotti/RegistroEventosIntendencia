@@ -1,15 +1,13 @@
-{% extends '::base.html.twig' %}
+{% if error %}
+	Error al intentar crear el formulario de nuevo evento
+{% else %}
+	<form id="formularioAlta" action="{{ path('eventos_create') }}" method="post" {{ form_enctype(form) }}>
+	    {{ form_errors(form) }}
 
-{% block body -%}
-    <h1>Evento creation</h1>
-
-    {{ form(form) }}
-
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('eventos') }}">
-            Back to the list
-        </a>
-    </li>
-</ul>
-{% endblock %}
+	    {{ form_row(form.fechaEvento) }}
+	    {{ form_row(form.observaciones) }}
+	    {{ form_row(form.estado) }}
+	    {{ form_row(form.tipoEvento) }}
+	    {{ form_row(form._token) }}
+	</form>
+{% endif %}
