@@ -229,6 +229,7 @@ class EventoController extends Controller
 
     public function newRectificacionAction(Request $request){
         $id = $request->query->get('id');
+        $eventoRectificado = $this->getDoctrine()->getManager()->getRepository('RegistroEventosCoreBundle:Evento')->findOneBy(array('id' => $id));
         $entity = new Evento();
 
         $form = $this->createForm(new EventoType(), $entity, array(
@@ -245,7 +246,7 @@ class EventoController extends Controller
             return $this->render('RegistroEventosCoreBundle:Evento:rectificar.html.twig', array(
                 'form' => $form->createView(),
                 'entity'      => $entity,
-                'eventoRectificado' => $id,
+                'eventoRectificado' => $eventoRectificado->getId(),
                 'error' => false
             ));
         }

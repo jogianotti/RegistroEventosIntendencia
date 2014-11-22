@@ -1,21 +1,35 @@
-$(document).ready(function() {
-	$("#rectificarPopUp").html("<p>Cargando . . .</p>");
-    $(".rectificar").on("click",function() {
-        //alert("click bound directly to #test-element" + $(this).attr("data-id"));
+$(document).ready(function () {
+    $("#popUp").html("<p>Cargando . . .</p>");
+    
+    $('#crearEvento').on("click", function () {
         $.ajax({
-			url: window.location.origin + window.location.pathname + "rectificacion_nueva?id=" + $(this).attr("data-id"),
-			context: document.body
-			})
-    		.success(function(data) {
-				$( this ).addClass( "done" );
-				$("#rectificarPopUpBody").html(data);
-			});			
-	});
+            type: 'GET',
+            url: Routing.generate('eventos_new'),
+            context: document.body
+        })
+        .done(function (html) {
+            $("#popUpBody").html(html);
+            $('#popUp').modal();
+        });
+    });
+    
+    $(".rectificar").on("click", function () {
+        $.ajax({
+            type: 'POST',
+            data: { id: $(this).attr("data-id") },
+            url: Routing.generate('eventos_rectificacion_nueva'),
+            context: document.body
+        })
+        .done(function (html) {
+            $("#popUpBody").html(html);
+            $('#popUp').modal();
+        });
+    });
 
-	$("#guardarRectificarPopUp").on("click",function() {
-		$('formularioRectificacion').submit();
-		$('#evento_rectificar').modal('toggle');
-	});    
+    $("#guardarPopUp").on("click", function () {
+        $('#formularioEvento').submit();
+        $('#evento_rectificar').modal('toggle');
+    });
 });
 
 

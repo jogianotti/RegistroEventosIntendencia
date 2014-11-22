@@ -6,6 +6,7 @@
     <a class="navbar-brand nombreSistema">Registro de Eventos - Intendencia</a>
     <ul class="nav navbar-nav">
     {% block menu %}
+    {% if usuario is not null %}
         {% if usuario.hasRole('ROLE_ADMINISTRADOR') %}
         <li><a href="{{ path('usuarios')  }}">Usuarios</a></li>
         <li><a href="{{ path('tipos_eventos') }}">Tipos de Eventos</a></li>
@@ -15,11 +16,12 @@
         {% elseif usuario.hasRole('ROLE_INTENDENTE') %}
         <li><a href="{{ path('eventos_supervision') }}">Registro</a></li> 
         {% endif %}
+    {% endif %}
     {% endblock menu %}
     </ul>
 
     <ul class="nav navbar-nav navbar-right">
-      {% if usuario is defined %}
+      {% if usuario is not null %}
           <li><p class="navbar-text">{{ usuario.username }}</p></li>
       {% else %}
           <li><a href="{{ path('fos_user_security_login') }}">Ingresar</a></li>
