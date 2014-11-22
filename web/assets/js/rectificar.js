@@ -2,14 +2,18 @@ $(document).ready(function () {
     $("#popUp").html("<p>Cargando . . .</p>");
     
     $('#crearEvento').on("click", function () {
+        
         $.ajax({
             type: 'GET',
-            url: Routing.generate('eventos_new'),
+            url: Routing.generate('eventos_new',null,true),
             context: document.body
         })
         .done(function (html) {
-            $("#popUpBody").html(html);
-            $('#popUp').modal();
+            $("#contenidoPopUp").html(html);
+            $('#ventana').modal('show');
+        }).error(function() {
+            alert('ERROR');
+        
         });
     });
     
@@ -17,12 +21,13 @@ $(document).ready(function () {
         $.ajax({
             type: 'POST',
             data: { id: $(this).attr("data-id") },
-            url: Routing.generate('eventos_rectificacion_nueva'),
+            url: Routing.generate('eventos_rectificacion_nueva',null,true),
             context: document.body
         })
         .done(function (html) {
-            $("#popUpBody").html(html);
-            $('#popUp').modal();
+            alert(html);
+            $("#contenidoPopUp").html(html);
+            $('#popUp').modal('toggle');
         });
     });
 

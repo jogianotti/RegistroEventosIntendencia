@@ -1,7 +1,7 @@
 {% extends 'RegistroEventosCoreBundle::base.html.twig' %}
 
 {% block javascript %}
-    {{parent()}}
+    {{ parent() }}
     <script type="text/javascript" src="./../assets/js/rectificar.js"></script>
 {% endblock %}
 
@@ -19,6 +19,8 @@
         <input type="submit" />
     </form>
     <table class="records_list">
+        <button type="button" id="crearEvento" class="btn btn-primary">Crear evento</button>
+        
         <thead>
             <tr>
                 <th>Usuario</th>
@@ -30,7 +32,7 @@
         </thead>
         <tbody>
 
-            <div id="popUp" class="modal fade">
+            <div id="ventana" class="modal">
               <div class="modal-dialog">
                 <div class="modal-content">
                   <div class="modal-header">
@@ -49,7 +51,11 @@
                 </div>
               </div>
             </div>
-
+             
+        
+        
+        
+        
         {% for evento in eventos %}
 
             <tr>

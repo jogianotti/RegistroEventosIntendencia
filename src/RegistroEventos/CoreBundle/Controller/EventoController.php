@@ -90,6 +90,7 @@ class EventoController extends Controller
         return $this->render('RegistroEventosCoreBundle:Evento:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
+            'error' => false
         ));
     }
 
