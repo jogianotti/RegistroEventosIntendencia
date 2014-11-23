@@ -2,7 +2,7 @@
 
 {% block javascript %}
     {{ parent() }}
-    <script type="text/javascript" src="./../assets/js/rectificar.js"></script>
+    <script type="text/javascript" src="{{ asset('bundles/registroeventoscore/js/rectificar.js') }}"></script>
 {% endblock %}
 
 {% block body -%}
@@ -19,7 +19,7 @@
         <input type="submit" />
     </form>
     <table class="records_list">
-        <button type="button" id="crearEvento" class="btn btn-primary">Crear evento</button>
+        <button type="button" id="botonCrearEvento" class="btn btn-primary">Crear evento</button>
         
         <thead>
             <tr>
@@ -31,8 +31,9 @@
             </tr>
         </thead>
         <tbody>
-
-            <div id="ventana" class="modal">
+            
+            <!-- Ventana emergente -->
+            <div id="ventanaPopUp" class="modal">
               <div class="modal-dialog">
                 <div class="modal-content">
                   <div class="modal-header">
@@ -40,18 +41,18 @@
                         <span aria-hidden="true">&times;</span>
                         <span class="sr-only">Cerrar</span>
                     </button>
-                    <h4 class="modal-title">Rectificar Evento</h4>
+                    <h4 id="tituloPopUp" class="modal-title">Evento</h4>
                   </div>
                   <div id="contenidoPopUp" class="modal-body">
                   </div>            
                   <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                    <button id="guardarPopUp" type="button" class="btn btn-primary">Registrar</button>
+                    <button id="botonGuardarPopUp" type="button" class="btn btn-primary">Registrar</button>
                   </div>
                 </div>
               </div>
             </div>
-             
+            <!-- ----------------- -->
         
         
         
@@ -72,7 +73,7 @@
                         <a href="{{ path('eventos_edit', { 'id': evento.id }) }}">Editar</a>
                     </li>
                     <li>
-                        <button type="button" class="btn btn-primary rectificar" data-toggle="modal" data-target="#evento_rectificar" data-id="{{ evento.id }}">Large modal</button>
+                        <button id="botonRectificarEvento" type="button" class="btn btn-primary rectificar" data-id="{{ evento.id }}">Rectificar</button>
                     </li>
                 </ul>
                 </td>

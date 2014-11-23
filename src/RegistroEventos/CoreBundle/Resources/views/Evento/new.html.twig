@@ -1,7 +1,7 @@
 {% if error %}
 	Error al intentar crear el formulario de nuevo evento
 {% else %}
-	<form id="formularioAltaEvento" action="{{ path('eventos_create') }}" method="post" {{ form_enctype(form) }}>
+	<form id="formularioAltaEvento" action="{{ path('eventos_create',true) }}" method="post" {{ form_enctype(form) }}>
 	    {{ form_errors(form) }}
 
 	    {{ form_row(form.fechaEvento) }}

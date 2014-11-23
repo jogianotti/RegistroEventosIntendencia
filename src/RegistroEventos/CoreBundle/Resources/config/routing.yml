@@ -1,26 +1,26 @@
 #registro_eventos_core_index:
 #    path:     /
 #    defaults: { _controller: RegistroEventosCoreBundle:Default:index }
-
-registro_eventos_core_administracion:
-    path:     /administracion
-    defaults: { _controller: RegistroEventosCoreBundle:Administracion:index }
-
-registro_eventos_core_administracion_usuarios:
-    path:     /administracion/usuarios
-    defaults: { _controller: RegistroEventosCoreBundle:Administracion:listarUsuarios }
-
-registro_eventos_core_administracion_usuarios_alta:
-    path:     /administracion/usuarios/nuevo
-    defaults: { _controller: RegistroEventosCoreBundle:Administracion:crearUsuario }
-
-registro_eventos_core_administracion_usuarios_baja:
-    path:     /administracion/usuarios/eliminar
-    defaults: { _controller: RegistroEventosCoreBundle:Administracion:eliminarUsuario }
-
-registro_eventos_core_administracion_usuarios_modificacion:
-    path:     /administracion/usuarios/modificar
-    defaults: { _controller: RegistroEventosCoreBundle:Administracion:modificarUsuario }
+#
+#registro_eventos_core_administracion:
+#    path:     /administracion
+#    defaults: { _controller: RegistroEventosCoreBundle:Administracion:index }
+#
+#registro_eventos_core_administracion_usuarios:
+#    path:     /administracion/usuarios
+#    defaults: { _controller: RegistroEventosCoreBundle:Administracion:listarUsuarios }
+#
+#registro_eventos_core_administracion_usuarios_alta:
+#    path:     /administracion/usuarios/nuevo
+#    defaults: { _controller: RegistroEventosCoreBundle:Administracion:crearUsuario }
+#
+#registro_eventos_core_administracion_usuarios_baja:
+#    path:     /administracion/usuarios/eliminar
+#    defaults: { _controller: RegistroEventosCoreBundle:Administracion:eliminarUsuario }
+#
+#registro_eventos_core_administracion_usuarios_modificacion:
+#    path:     /administracion/usuarios/modificar
+#    defaults: { _controller: RegistroEventosCoreBundle:Administracion:modificarUsuario }
 
 registro_eventos_core_supervision:
     path:     /supervision

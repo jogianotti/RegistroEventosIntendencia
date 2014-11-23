@@ -8,7 +8,8 @@ $(document).ready(function () {
             context: document.body
         })
         .done(function (html) {
-            $("#contenidoPopUp").html(html);
+            $('#tituloPopUp').html('Registrar Evento');
+            $('#contenidoPopUp').html(html);
             $('#ventanaPopUp').modal('show');
         }).error(function() {
             alert('ERROR');
@@ -23,14 +24,13 @@ $(document).ready(function () {
             context: document.body
         })
         .done(function (html) {
-            alert(html);
+            $('tituloPopUp').html('Rectificar Evento');
             $("#contenidoPopUp").html(html);
             $('#ventanaPopUp').modal('toggle');
         });
     });
 
     $("#botonGuardarPopUp").on("click", function () {
-        alert('llegue');
         $('#formularioEvento').submit();
         $('#ventanaPopUp').modal('hide');
     });
