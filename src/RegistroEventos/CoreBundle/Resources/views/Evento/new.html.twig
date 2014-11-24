@@ -1,13 +1,9 @@
-{% if error %}
-	Error al intentar crear el formulario de nuevo evento
-{% else %}
-	<form id="formularioAltaEvento" action="{{ path('eventos_create',true) }}" method="post" {{ form_enctype(form) }}>
-	    {{ form_errors(form) }}
+<form id="formularioAltaEvento" action="{{ path('eventos_create') }}" method="post" {{ form_enctype(formulario) }}>
+    {{ form_errors(formulario) }}
 
-	    {{ form_row(form.fechaEvento) }}
-	    {{ form_row(form.observaciones) }}
-	    {{ form_row(form.estado) }}
-	    {{ form_row(form.tipoEvento) }}
-	    {{ form_row(form._token) }}
-	</form>
-{% endif %}
+    {{ form_row(formulario.fechaEvento) }}
+    {{ form_row(formulario.observaciones) }}
+    {{ form_row(formulario.estado) }}
+    {{ form_row(formulario.tipoEvento) }}
+    {{ form_row(formulario._token) }}
+</form>

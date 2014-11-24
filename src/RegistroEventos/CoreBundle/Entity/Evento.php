@@ -39,10 +39,10 @@ class Evento
     /**
      * @var string
      *
-     * @ORM\Column(name="observaciones", type="string", length=255)
+     * @ORM\Column(name="observaciones", type="text")
      */
     private $observaciones;
-
+    
     /**
      * @var boolean
      *

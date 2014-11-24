@@ -5,22 +5,63 @@
     <script type="text/javascript" src="{{ asset('bundles/registroeventoscore/js/rectificar.js') }}"></script>
 {% endblock %}
 
+{% block styles %}
+    {{ parent() }}
+    <link type="text/css" rel="stylesheet" href="{{ asset('bundles/registroeventoscore/css/eventos.css') }}" />
+{% endblock %}
+
 {% block body -%}
-    <h1>Registro de eventos</h1>
-    <form action="{{ path('eventos_create') }}" method="post" {{ form_enctype(form) }}>
-        {{ form_errors(form) }}
+    <div class="row">
+        <div class="col-sm-10 col-sm-offset-1">
+            <form role ="form" name="formularioAltaEvento" action="{{ path('eventos_create') }}" method="post" {{ form_enctype(form) }}>
+                {{ form_errors(form) }}
+                <div class="row">
+                    <div class="form-group col-sm-4">
+                        {{ form_label(form.tipoEvento, 'Tipo de Evento',{ 'attr': {'for': form.tipoEvento.vars.id} }) }}
+                        {{ form_errors(form.tipoEvento) }}
+                        {{ form_widget(form.tipoEvento, { 'attr': {'class': 'form-control input-sm'} }) }}
+                    </div>
+                    <div class="form-group col-sm-5">
+                        {{ form_label(form.fechaEvento, 'Fecha del Evento') }}
+                        {{ form_errors(form.fechaEvento) }}
+                        <div class="row padding-5">
+                            <div class="col-sm-2">{{ form_widget(form.fechaEvento.date.year, { 'attr': {'class': 'form-control input-sm'} }) }}</div>
+                            <div class="col-sm-2">{{ form_widget(form.fechaEvento.date.month, { 'attr': {'class': 'form-control input-sm'} }) }}</div>
+                            <div class="col-sm-2">{{ form_widget(form.fechaEvento.date.day, { 'attr': {'class': 'form-control input-sm'} }) }}</div>
+                            <div class="col-sm-2">{{ form_widget(form.fechaEvento.time.hour, { 'attr': {'class': 'form-control input-sm'} }) }}</div>
+                            <div class="col-sm-2">{{ form_widget(form.fechaEvento.time.minute, { 'attr': {'class': 'form-control input-sm'} }) }}</div>
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-3">
+                        {{ form_label(form.estado, 'Estado del Evento') }}
+                        {{ form_errors(form.estado) }}
+                        <div class="radio">
+                          <label class="radio-inline">
+                            <input type="radio" name="{{ form.estado.vars.name }}" value="true">
+                            Abierto
+                          </label>
+                          <label class="radio-inline">
+                            <input type="radio" name="{{ form.estado.vars.name }}" value="false">
+                            Cerrado
+                          </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    {{ form_label(form.observaciones) }}
+                    {{ form_errors(form.observaciones) }}
+                    {{ form_widget(form.observaciones, { 'attr': {'class': 'form-control'} }) }}
+                </div>
 
-        {{ form_row(form.fechaEvento) }}
-        {{ form_row(form.observaciones) }}
-        {{ form_row(form.estado) }}
-        {{ form_row(form.tipoEvento) }}
-        {{ form_row(form._token) }}
+                {{ form_row(form._token) }}
+                <input type="submit" class="btn btn-default pull-right" value="Registrar" />
+            </form>
+        </div>
+    </div>
 
-        <input type="submit" />
-    </form>
+
     <table class="records_list">
-        <button type="button" id="botonCrearEvento" class="btn btn-primary">Crear evento</button>
-        
+        {#        <button type="button" id="botonCrearEvento" class="btn btn-primary">Crear evento</button>#}
         <thead>
             <tr>
                 <th>Usuario</th>
@@ -31,62 +72,50 @@
             </tr>
         </thead>
         <tbody>
-            
-            <!-- Ventana emergente -->
-            <div id="ventanaPopUp" class="modal">
-              <div class="modal-dialog">
-                <div class="modal-content">
-                  <div class="modal-header">
+            {% for evento in eventos %}
+
+                <tr>
+                    <td>{{ evento.usuario.nombre }}</td>
+                    <td>{{ evento.fechaEvento|date('Y-m-d H:i') }}</td>
+                    <td>{{ evento.observaciones }}</td>
+                    <td>{{ evento.estado }}</td>
+                    <td>
+                        <ul>
+                            <li>
+                                <a href="{{ path('eventos_show', { 'id': evento.id }) }}">Ver</a>
+                            </li>
+                            <li>
+                                <a href="{{ path('eventos_edit', { 'id': evento.id }) }}">Editar</a>
+                            </li>
+                            <li>
+                                <button id="botonRectificarEvento" type="button" class="btn btn-primary rectificar" data-id="{{ evento.id }}">Rectificar</button>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Ventana emergente -->
+    <div id="ventanaPopUp" class="modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">
                         <span aria-hidden="true">&times;</span>
                         <span class="sr-only">Cerrar</span>
                     </button>
                     <h4 id="tituloPopUp" class="modal-title">Evento</h4>
-                  </div>
-                  <div id="contenidoPopUp" class="modal-body">
-                  </div>            
-                  <div class="modal-footer">
+                </div>
+                <div id="contenidoPopUp" class="modal-body">
+                </div>            
+                <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
                     <button id="botonGuardarPopUp" type="button" class="btn btn-primary">Registrar</button>
-                  </div>
                 </div>
-              </div>
             </div>
-            <!-- ----------------- -->
-        
-        
-        
-        
-        {% for evento in eventos %}
-
-            <tr>
-                <td>{{ evento.usuario.nombre }}</td>
-                <td>{{ evento.fechaEvento|date('Y-m-d H:i:s') }}</td>
-                <td>{{ evento.observaciones }}</td>
-                <td>{{ evento.estado }}</td>
-                <td>
-                <ul>
-                    <li>
-                        <a href="{{ path('eventos_show', { 'id': evento.id }) }}">Ver</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('eventos_edit', { 'id': evento.id }) }}">Editar</a>
-                    </li>
-                    <li>
-                        <button id="botonRectificarEvento" type="button" class="btn btn-primary rectificar" data-id="{{ evento.id }}">Rectificar</button>
-                    </li>
-                </ul>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-        <ul>
-        <li>
-            <a href="{{ path('eventos_new') }}">
-                Crear un nuevo evento
-            </a>
-        </li>
-    </ul>
-    {% endblock %}
+        </div>
+    </div>
+    <!-- ----------------- -->
+{% endblock %}

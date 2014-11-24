@@ -3,6 +3,8 @@
 namespace RegistroEventos\CoreBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use RegistroEventos\CoreBundle\Entity\Evento;
@@ -42,21 +44,26 @@ class EventoController extends Controller
         $evento = new Evento();
         $form = $this->createCreateForm($evento);
         $form->handleRequest($request);
-
+        
+        $datos['registro'] = false;
         if ($form->isValid()) {
             $evento->setFechaSistema(new \DateTime());
             $evento->setUsuario($this->get('security.context')->getToken()->getUser());
             $em = $this->getDoctrine()->getManager();
             $em->persist($evento);
             $em->flush();
-
-            return $this->redirect($this->generateUrl('eventos', array('id' => $evento->getId())));
+            $datos['registro'] = true;
+//            return $this->redirect($this->generateUrl('eventos', array('id' => $evento->getId())));
         }
 
-        return $this->render('RegistroEventosCoreBundle:Evento:new.html.twig', array(
+        $formulario = $this->renderView('RegistroEventosCoreBundle:Evento:new.html.twig', array(
             'evento' => $evento,
             'form'   => $form->createView(),
         ));
+        
+        $datos['formulario'] = $formulario;
+        
+        return $this->view($datos, 200)->setFormat('json');
     }
 
     /**
@@ -84,14 +91,13 @@ class EventoController extends Controller
      */
     public function newAction()
     {
-        $entity = new Evento();
-        $form   = $this->createCreateForm($entity);
+        $evento = new Evento();
+        $formulario = $this->createCreateForm($evento);
 
-        return $this->render('RegistroEventosCoreBundle:Evento:new.html.twig', array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-            'error' => false
-        ));
+        $vista = $this->renderView('RegistroEventosCoreBundle:Evento:new.html.twig', 
+        ['formulario' => $formulario->createView()]);
+        
+        return new JsonResponse(array('contenido' => $vista));
     }
 
     /**
