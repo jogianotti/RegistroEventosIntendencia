@@ -1,7 +1,9 @@
 eventos:
     path:     /
     defaults: { _controller: "RegistroEventosCoreBundle:Evento:index" }
-
+    options:
+        expose: true
+        
 eventos_show:
     path:     /{id}/show
     defaults: { _controller: "RegistroEventosCoreBundle:Evento:show" }
@@ -9,7 +11,6 @@ eventos_show:
 eventos_new:
     path:     /new
     defaults: { _controller: "RegistroEventosCoreBundle:Evento:new" }
-    options:
 
 eventos_create:
     path:     /crear
@@ -19,7 +20,7 @@ eventos_create:
 
 eventos_rectificacion_nueva:
     path:     /rectificacion_nueva
-    defaults: { _controller: "RegistroEventosCoreBundle:Evento:newRectificacion" }
+    defaults: { _controller: "RegistroEventosCoreBundle:Evento:nuevaRectificacion" }
     options:
         expose: true
 

@@ -30,12 +30,8 @@ $(document).ready(function () {
     });
 
     $("#botonGuardarPopUp").on("click", function () {
-//        alert('llegue');
-//        $("#formularioRectificarEvento").submit(function()
-//        {
             var datosFormulario = $("#formularioRectificarEvento").serializeArray();
-            var urlFormulario = $("#formularioRectificarEvento").attr("action");
-//            alert('ajax');
+            var urlFormulario = Routing.generate('eventos_rectificacion_crear',null,true);
             $.ajax(
             {
                 url : urlFormulario,
@@ -43,25 +39,19 @@ $(document).ready(function () {
                 data : datosFormulario,
                 success: function(datos)
                 {
-                    alert(datos.llegue);
-//                    if(datos.formulario){
-//                        $('#ventanaPopUp').modal('hide');
-//                        //Y mostrar mensaje que se guardo correctamente
-//                    } else {
-//                        $("#contenidoPopUp").html(html);
-//                    }
+                    if(datos.rectificado){
+                        $('#ventanaPopUp').modal('hide');
+                        $( location ).attr("href", Routing.generate('eventos',null,true));
+                    } else {
+                        $("#contenidoPopUp").html(datos.html);
+                    }
                 },
                 error: function() {
                     alert('error');
                 }
             });
             return false;
-//            e.preventDefault();
-//            e.unbind();
         });
-//        $('#formularioEvento').submit();
-//        $('#formularioEvento').submit();
-//    });
 });
 
 

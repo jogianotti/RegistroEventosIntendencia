@@ -233,7 +233,7 @@ class EventoController extends Controller
             ->getForm();
     }
 
-    public function newRectificacionAction(Request $request){
+    public function nuevaRectificacionAction(Request $request){
         $id = $request->request->get('id',NULL);
         $eventoRectificado = $this->getDoctrine()->getManager()->getRepository('RegistroEventosCoreBundle:Evento')->findOneBy(array('id' => $id));
         
@@ -255,7 +255,6 @@ class EventoController extends Controller
         }else{
             return $this->render('RegistroEventosCoreBundle:Evento:rectificar.html.twig', array(
                 'form' => $form->createView(),
-                'evento' => $evento,
                 'eventoRectificado' => $eventoRectificado,
                 'error' => false
             ));
@@ -279,14 +278,19 @@ class EventoController extends Controller
             $em->flush();
             
             $eventoRectificado = $this->getDoctrine()->getManager()->getRepository('RegistroEventosCoreBundle:Evento')->findOneBy(array('id' => $id));
-            $eventoRectificado->setRectificacion($evento->getId());
+            $eventoRectificado->setRectificacion($evento);
             
-            $em->refresh($eventoRectificado);
+            $em->persist($eventoRectificado);
             $em->flush();
             
-            return new JsonResponse(array('llegue' => 'si'));
+            return new JsonResponse(array('rectificado' => TRUE));
 //            return $this->redirect($this->generateUrl('eventos'));
         }
-        return new JsonResponse(array('llegue' => 'no'));
+        $vista = $this->renderView('RegistroEventosCoreBundle:Evento:rectificar.html.twig', array(
+                'form' => $form->createView(),
+                'eventoRectificado' => $eventoRectificado,
+                'error' => false
+            ));
+        return new JsonResponse(array('rectificado' => FALSE, 'html' => $vista));
     }
 }
