@@ -25,13 +25,17 @@ class EventoController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = new Evento();
-        $form   = $this->createCreateForm($entity);
+        $evento = new Evento();
+        $evento->setFechaEvento(new \DateTime());
+        $evento->setEstado(true);
+        $form = $this->createCreateForm($evento);
 
-        $eventos = $em->getRepository('RegistroEventosCoreBundle:Evento')->findAll();//buscarEventosActivos();
+        $eventosAbiertos = $em->getRepository('RegistroEventosCoreBundle:Evento')->buscarEventosAbiertos();
+        $eventosCerrados = $em->getRepository('RegistroEventosCoreBundle:Evento')->buscarEventosCerrados();
 
         return $this->render('RegistroEventosCoreBundle:Evento:index.html.twig', array(
-            'eventos' => $eventos,
+            'eventosAbiertos' => $eventosAbiertos,
+            'eventosCerrados' => $eventosCerrados,
             'form'   => $form->createView()
         ));
     }
@@ -45,25 +49,20 @@ class EventoController extends Controller
         $form = $this->createCreateForm($evento);
         $form->handleRequest($request);
         
-        $datos['registro'] = false;
         if ($form->isValid()) {
             $evento->setFechaSistema(new \DateTime());
             $evento->setUsuario($this->get('security.context')->getToken()->getUser());
             $em = $this->getDoctrine()->getManager();
             $em->persist($evento);
             $em->flush();
-            $datos['registro'] = true;
-//            return $this->redirect($this->generateUrl('eventos', array('id' => $evento->getId())));
+            
+            return $this->redirect($this->generateUrl('eventos'));
         }
 
-        $formulario = $this->renderView('RegistroEventosCoreBundle:Evento:new.html.twig', array(
+        return $this->render('RegistroEventosCoreBundle:Evento:index.html.twig', array(
             'evento' => $evento,
             'form'   => $form->createView(),
         ));
-        
-        $datos['formulario'] = $formulario;
-        
-        return $this->view($datos, 200)->setFormat('json');
     }
 
     /**
@@ -89,16 +88,16 @@ class EventoController extends Controller
      * Displays a form to create a new Evento entity.
      *
      */
-    public function newAction()
-    {
-        $evento = new Evento();
-        $formulario = $this->createCreateForm($evento);
-
-        $vista = $this->renderView('RegistroEventosCoreBundle:Evento:new.html.twig', 
-        ['formulario' => $formulario->createView()]);
-        
-        return new JsonResponse(array('contenido' => $vista));
-    }
+//    public function newAction()
+//    {
+//        $evento = new Evento();
+//        $formulario = $this->createCreateForm($evento);
+//
+//        $vista = $this->renderView('RegistroEventosCoreBundle:Evento:new.html.twig', 
+//        ['formulario' => $formulario->createView()]);
+//        
+//        return new JsonResponse(array('contenido' => $vista));
+//    }
 
     /**
      * Finds and displays a Evento entity.
@@ -235,51 +234,59 @@ class EventoController extends Controller
     }
 
     public function newRectificacionAction(Request $request){
-        $id = $request->query->get('id');
+        $id = $request->request->get('id',NULL);
         $eventoRectificado = $this->getDoctrine()->getManager()->getRepository('RegistroEventosCoreBundle:Evento')->findOneBy(array('id' => $id));
-        $entity = new Evento();
+        
+        $evento = new Evento();
+        $evento->setFechaEvento($eventoRectificado->getFechaEvento());
+        $evento->setTipoEvento($eventoRectificado->getTipoEvento());
+        $evento->setObservaciones($eventoRectificado->getObservaciones());
+        $evento->setEstado($eventoRectificado->getEstado());
 
-        $form = $this->createForm(new EventoType(), $entity, array(
+        $form = $this->createForm(new EventoType(), $evento, array(
             'action' => $this->generateUrl('eventos_rectificacion_crear'),
-            'method' => 'POST',
+            'method' => 'POST'
         ));
-
-        $form->add('submit', 'submit', array('label' => 'Create'));
-        if ($id == null){
+        
+        if($id === NULL){
             return $this->render('RegistroEventosCoreBundle:Evento:rectificar.html.twig', array(
                 'error' => true
             ));
         }else{
             return $this->render('RegistroEventosCoreBundle:Evento:rectificar.html.twig', array(
                 'form' => $form->createView(),
-                'entity'      => $entity,
-                'eventoRectificado' => $eventoRectificado->getId(),
+                'evento' => $evento,
+                'eventoRectificado' => $eventoRectificado,
                 'error' => false
             ));
         }
     }
 
     public function crearRectificacionAction(Request $request){
+        $id = $request->request->get('eventoRectificadoId',NULL);
+        
         $evento = new Evento();
-        $form = $this->createForm(new EventoType(), $entity, array(
-            'action' => $this->generateUrl('eventos_rectificacion_crear'),
-            'method' => 'POST',
-        ));
+        $form = $this->createForm(new EventoType(), $evento);
         $form->handleRequest($request);
 
-        $entity = new Evento();
-
         if ($form->isValid()) {
-            //Buscar evento con ID: (REQUEST[registroeventos_corebundle_evento_rectificar])
-            //y setearle el campo BAJA "rectificacion" en $evento->getId();
+            $em = $this->getDoctrine()->getManager();
+            
             $evento->setFechaSistema(new \DateTime());
             $evento->setUsuario($this->get('security.context')->getToken()->getUser());
-            $em = $this->getDoctrine()->getManager();
+            
             $em->persist($evento);
             $em->flush();
-
-            return $this->redirect($this->generateUrl('eventos', array('id' => $evento->getId())));
+            
+            $eventoRectificado = $this->getDoctrine()->getManager()->getRepository('RegistroEventosCoreBundle:Evento')->findOneBy(array('id' => $id));
+            $eventoRectificado->setRectificacion($evento->getId());
+            
+            $em->refresh($eventoRectificado);
+            $em->flush();
+            
+            return new JsonResponse(array('llegue' => 'si'));
+//            return $this->redirect($this->generateUrl('eventos'));
         }
-
+        return new JsonResponse(array('llegue' => 'no'));
     }
 }

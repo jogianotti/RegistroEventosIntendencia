@@ -12,7 +12,20 @@ use Doctrine\ORM\EntityRepository;
  */
 class EventoRepository extends EntityRepository
 {
-    public function buscarEventosActivos() {
-        
+    private function buscarEventosActivosConEstado($estado){
+        return $this->createQueryBuilder('e')
+                ->select('e')
+                ->where('e.rectificacion IS NULL')
+                ->andWhere('e.estado = :estado')->setParameter('estado', $estado)
+                ->orderBy('e.fechaEvento', 'DESC')
+                ->getQuery()
+                ->getResult();
+    }
+    public function buscarEventosAbiertos() {
+        return $this->buscarEventosActivosConEstado(TRUE);
+    }
+    
+    public function buscarEventosCerrados() {
+        return $this->buscarEventosActivosConEstado(FALSE);
     }
 }

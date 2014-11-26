@@ -30,10 +30,12 @@ $(document).ready(function () {
     });
 
     $("#botonGuardarPopUp").on("click", function () {
-        $("#formularioEvento").submit(function(e)
-        {
-            var datosFormulario = $(this).serializeArray();
-            var urlFormulario = $(this).attr("action");
+//        alert('llegue');
+//        $("#formularioRectificarEvento").submit(function()
+//        {
+            var datosFormulario = $("#formularioRectificarEvento").serializeArray();
+            var urlFormulario = $("#formularioRectificarEvento").attr("action");
+//            alert('ajax');
             $.ajax(
             {
                 url : urlFormulario,
@@ -41,19 +43,25 @@ $(document).ready(function () {
                 data : datosFormulario,
                 success: function(datos)
                 {
-                    if(datos.formulario){
-                        $('#ventanaPopUp').modal('hide');
-                        //Y mostrar mensaje que se guardo correctamente
-                    } else {
-                        $("#contenidoPopUp").html(html);
-                    }
+                    alert(datos.llegue);
+//                    if(datos.formulario){
+//                        $('#ventanaPopUp').modal('hide');
+//                        //Y mostrar mensaje que se guardo correctamente
+//                    } else {
+//                        $("#contenidoPopUp").html(html);
+//                    }
+                },
+                error: function() {
+                    alert('error');
                 }
             });
-            e.preventDefault();
-            e.unbind();
+            return false;
+//            e.preventDefault();
+//            e.unbind();
         });
-        $('#formularioEvento').submit();
-    });
+//        $('#formularioEvento').submit();
+//        $('#formularioEvento').submit();
+//    });
 });
 
 

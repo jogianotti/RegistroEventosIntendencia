@@ -1,14 +1,36 @@
 {% if error %}
-	Error al intentar crear el formulario de rectificacion
+    Error al intentar crear el formulario de rectificacion
 {% else %}
-	<form id="formularioEvento" action="{{ path('eventos_rectificacion_crear') }}" method="post" {{ form_enctype(form) }}>
-	    {{ form_errors(form) }}
+    <form role="form" name="formularioRectificarEvento" id="formularioRectificarEvento" action="{{ path('eventos_rectificacion_crear') }}" method="post" {{ form_enctype(form) }}>
+        {{ form_errors(form) }}
+        <div class="form-group">
+            {{ form_label(form.tipoEvento, 'Tipo de Evento: ',{ 'attr': {'for': form.tipoEvento.vars.id} }) }}
+            {{ form_errors(form.tipoEvento) }}
+            {{ form_widget(form.tipoEvento) }}
+        </div>
+        <div class="form-group">
+            {{ form_label(form.estado, 'Estado del evento: ',{ 'attr': {'for': form.estado.vars.id} }) }}
+            {{ form_errors(form.estado) }}
+            {{ form_widget(form.estado) }}
+        </div>
+        <div class="form-group">
+            {{ form_label(form.fechaEvento, 'Fecha del Evento: ') }}
+            <span>{{ form_errors(form.fechaEvento) }}</span>
+            <span>{{ form_widget(form.fechaEvento.date.year) }}</span>
+            <span>{{ form_widget(form.fechaEvento.date.month) }}</span>
+            <span>{{ form_widget(form.fechaEvento.date.day) }}</span>
+            <span>{{ form_widget(form.fechaEvento.time.hour) }}</span>
+            <span>{{ form_widget(form.fechaEvento.time.minute) }}</span>
 
-	    {{ form_row(form.fechaEvento) }}
-	    {{ form_row(form.observaciones) }}
-	    {{ form_row(form.estado) }}
-	    {{ form_row(form.tipoEvento) }}
-	    {{ form_row(form._token) }}
-	    <input name="registroeventos_corebundle_evento_rectificar" type="hidden" value="{{ eventoRectificado }}">
-	</form>
+        </div>
+        <div class="form-group">
+            {{ form_label(form.observaciones, 'Observaciones: ') }} 
+            {{ form_errors(form.observaciones) }}
+            {{ form_widget(form.observaciones, { 'attr': {'class': 'form-control'} }) }}
+        </div>
+
+        {{ form_row(form._token) }}
+{#        <input name="{{ form.estado.vars.name }}" type="hidden" value="{{ form.estado.vars.value }}">#}
+        <input name="eventoRectificadoId" type="hidden" value="{{ eventoRectificado.id }}">
+    </form>
 {% endif %}

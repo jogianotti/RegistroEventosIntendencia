@@ -73,7 +73,6 @@ class Evento
     */
     private $rectificacion;
 
-
     /**
      * Get id
      *
@@ -244,4 +243,14 @@ class Evento
     {
         return $this->usuario;
     }
+    
+    function getRectificacion() {
+        return $this->rectificacion;
+    }
+
+    function setRectificacion($rectificacion) {
+        $this->rectificacion = $rectificacion;
+    }
+
+
 }

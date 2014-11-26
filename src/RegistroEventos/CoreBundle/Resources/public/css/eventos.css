@@ -2,3 +2,11 @@
     padding-left: 5px;
     padding-right: 5px;
 }
+
+table {
+    margin-top: 3em;
+}
+
+.accion {
+    width: 100px;
+}

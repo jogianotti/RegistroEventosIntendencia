@@ -12,8 +12,7 @@ security:
 #        in_memory:
 #            memory:
 #                users:
-#                    user:  { password: userpass, roles: [ 'ROLE_USER' ] }
-#                    admin: { password: adminpass, roles: [ 'ROLE_ADMIN' ] }
+#                    administrador: { password: 123456, roles: [ 'ROLE_ADMINISTRADOR' ] }
         fos_userbundle:
             id: fos_user.user_provider.username
     

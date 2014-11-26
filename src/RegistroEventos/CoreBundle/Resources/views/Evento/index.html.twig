@@ -13,38 +13,41 @@
 {% block body -%}
     <div class="row">
         <div class="col-sm-10 col-sm-offset-1">
-            <form role ="form" name="formularioAltaEvento" action="{{ path('eventos_create') }}" method="post" {{ form_enctype(form) }}>
+            <form role="form" name="formularioAltaEvento" action="{{ path('eventos_create') }}" method="post" {{ form_enctype(form) }}>
                 {{ form_errors(form) }}
                 <div class="row">
                     <div class="form-group col-sm-4">
                         {{ form_label(form.tipoEvento, 'Tipo de Evento',{ 'attr': {'for': form.tipoEvento.vars.id} }) }}
                         {{ form_errors(form.tipoEvento) }}
-                        {{ form_widget(form.tipoEvento, { 'attr': {'class': 'form-control input-sm'} }) }}
+                        {{ form_widget(form.tipoEvento, { 'attr': {'class': 'form-control'} }) }}
                     </div>
-                    <div class="form-group col-sm-5">
+                    <div class="form-group col-sm-6">
                         {{ form_label(form.fechaEvento, 'Fecha del Evento') }}
                         {{ form_errors(form.fechaEvento) }}
                         <div class="row padding-5">
-                            <div class="col-sm-2">{{ form_widget(form.fechaEvento.date.year, { 'attr': {'class': 'form-control input-sm'} }) }}</div>
-                            <div class="col-sm-2">{{ form_widget(form.fechaEvento.date.month, { 'attr': {'class': 'form-control input-sm'} }) }}</div>
-                            <div class="col-sm-2">{{ form_widget(form.fechaEvento.date.day, { 'attr': {'class': 'form-control input-sm'} }) }}</div>
-                            <div class="col-sm-2">{{ form_widget(form.fechaEvento.time.hour, { 'attr': {'class': 'form-control input-sm'} }) }}</div>
-                            <div class="col-sm-2">{{ form_widget(form.fechaEvento.time.minute, { 'attr': {'class': 'form-control input-sm'} }) }}</div>
+                            <div class="col-sm-2">{{ form_widget(form.fechaEvento.date.year, { 'attr': {'class': 'form-control', 'style': 'width: 75px;','value': form.fechaEvento.date.year.vars.value} }) }}</div>
+                            <div class="col-sm-2">{{ form_widget(form.fechaEvento.date.month, { 'attr': {'class': 'form-control'} }) }}</div>
+                            <div class="col-sm-2">{{ form_widget(form.fechaEvento.date.day, { 'attr': {'class': 'form-control'} }) }}</div>
+                            <div class="col-sm-2">{{ form_widget(form.fechaEvento.time.hour, { 'attr': {'class': 'form-control'} }) }}</div>
+                            <div class="col-sm-2">{{ form_widget(form.fechaEvento.time.minute, { 'attr': {'class': 'form-control'} }) }}</div>
                         </div>
                     </div>
-                    <div class="form-group col-sm-3">
+                    <div class="form-group col-sm-2">
                         {{ form_label(form.estado, 'Estado del Evento') }}
                         {{ form_errors(form.estado) }}
-                        <div class="radio">
-                          <label class="radio-inline">
-                            <input type="radio" name="{{ form.estado.vars.name }}" value="true">
+                        {{ form_widget(form.estado) }}
+                        {#<div class="radio">
+                          <label>
+                              <input type="radio" name="{{ form.estado.vars.name }}" value="true">
                             Abierto
                           </label>
-                          <label class="radio-inline">
+                        </div>
+                        <div class="radio">
+                          <label>
                             <input type="radio" name="{{ form.estado.vars.name }}" value="false">
                             Cerrado
                           </label>
-                        </div>
+                        </div>#}
                     </div>
                 </div>
                 <div class="form-group">
@@ -59,44 +62,60 @@
         </div>
     </div>
 
-
-    <table class="records_list">
-        {#        <button type="button" id="botonCrearEvento" class="btn btn-primary">Crear evento</button>#}
+    <table id="tablaEventosAbiertos" class="table table-hover">
+        <h2>Eventos abiertos</h2>
         <thead>
             <tr>
                 <th>Usuario</th>
                 <th>Fecha del Evento</th>
+                <th>Tipo de Evento</th>
                 <th>Observaciones</th>
-                <th>Estado</th>
                 <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
-            {% for evento in eventos %}
+            {% for evento in eventosAbiertos %}
 
-                <tr>
+                <tr data-id="{{ evento.id }}">
                     <td>{{ evento.usuario.nombre }}</td>
                     <td>{{ evento.fechaEvento|date('Y-m-d H:i') }}</td>
+                    <td>{{ evento.tipoEvento }}</td>
                     <td>{{ evento.observaciones }}</td>
-                    <td>{{ evento.estado }}</td>
-                    <td>
-                        <ul>
-                            <li>
-                                <a href="{{ path('eventos_show', { 'id': evento.id }) }}">Ver</a>
-                            </li>
-                            <li>
-                                <a href="{{ path('eventos_edit', { 'id': evento.id }) }}">Editar</a>
-                            </li>
-                            <li>
-                                <button id="botonRectificarEvento" type="button" class="btn btn-primary rectificar" data-id="{{ evento.id }}">Rectificar</button>
-                            </li>
-                        </ul>
-                    </td>
+                    <td class="accion"><button type="button" class="btn btn-primary botonRectificarEvento" data-id="{{ evento.id }}">Rectificar</button></td>
+                    <td class="accion"><button type="button" class="btn btn-default botonCerrarEvento" data-id="{{ evento.id }}">Cerrar</button></td>
                 </tr>
             {% endfor %}
         </tbody>
     </table>
+        
+        
+    <table id="tablaEventosCerrados" class="table table-hover">
+        <h2>Eventos cerrados</h2>
+        <thead>
+            <tr>
+                <th>Usuario</th>
+                <th>Fecha del Evento</th>
+                <th>Tipo de Evento</th>
+                <th>Observaciones</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for evento in eventosCerrados %}
 
+                <tr data-id="{{ evento.id }}">
+                    <td>{{ evento.usuario.nombre }}</td>
+                    <td>{{ evento.fechaEvento|date('Y-m-d H:i') }}</td>
+                    <td>{{ evento.tipoEvento }}</td>
+                    <td>{{ evento.observaciones }}</td>
+                    <td class="accion"><button type="button" class="btn btn-primary botonRectificarEvento" data-id="{{ evento.id }}">Rectificar</button></td>
+                    <td class="accion"><button type="button" class="btn btn-default botonAbrirEvento" data-id="{{ evento.id }}">Abrir</button></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+        
     <!-- Ventana emergente -->
     <div id="ventanaPopUp" class="modal">
         <div class="modal-dialog">
