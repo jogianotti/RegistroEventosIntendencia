@@ -82,7 +82,7 @@
                     <td>{{ evento.tipoEvento }}</td>
                     <td>{{ evento.observaciones }}</td>
                     <td class="accion"><button type="button" class="btn btn-primary botonRectificarEvento" data-id="{{ evento.id }}">Rectificar</button></td>
-                    <td class="accion"><button type="button" class="btn btn-default botonCerrarEvento" data-id="{{ evento.id }}">Cerrar</button></td>
+                    <td class="accion"><a href="{{ path('eventos_cerrar',{'id': evento.id}) }}" type="button" class="btn btn-default botonCerrarEvento" data-id="{{ evento.id }}">Cerrar</a></td>
                 </tr>
             {% endfor %}
         </tbody>
@@ -109,7 +109,7 @@
                     <td>{{ evento.tipoEvento }}</td>
                     <td>{{ evento.observaciones }}</td>
                     <td class="accion"><button type="button" class="btn btn-primary botonRectificarEvento" data-id="{{ evento.id }}">Rectificar</button></td>
-                    <td class="accion"><button type="button" class="btn btn-default botonAbrirEvento" data-id="{{ evento.id }}">Abrir</button></td>
+                    <td class="accion"><a href="{{ path('eventos_abrir', {'id': evento.id} ) }}" type="button" class="btn btn-default botonAbrirEvento" data-id="{{ evento.id }}">Abrir</a></td>
                 </tr>
             {% endfor %}
         </tbody>

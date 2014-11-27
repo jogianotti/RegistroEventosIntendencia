@@ -293,4 +293,26 @@ class EventoController extends Controller
             ));
         return new JsonResponse(array('rectificado' => FALSE, 'html' => $vista));
     }
+    
+    public function cerrarEventoAction($id){
+        $em = $this->getDoctrine()->getManager();
+        $evento = $em->getRepository('RegistroEventosCoreBundle:Evento')->findOneBy(array('id' => $id));
+        $evento->setEstado(FALSE);
+        
+        $em->persist($evento);
+        $em->flush();
+        
+        return $this->forward('RegistroEventosCoreBundle:Evento:index');
+    }
+    
+    public function abrirEventoAction($id){
+        $em = $this->getDoctrine()->getManager();
+        $evento = $em->getRepository('RegistroEventosCoreBundle:Evento')->findOneBy(array('id' => $id));
+        $evento->setEstado(TRUE);
+        
+        $em->persist($evento);
+        $em->flush();
+        
+        return $this->forward('RegistroEventosCoreBundle:Evento:index');
+    }
 }

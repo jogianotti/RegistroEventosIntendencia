@@ -44,3 +44,11 @@ eventos_delete:
     path:     /{id}/delete
     defaults: { _controller: "RegistroEventosCoreBundle:Evento:delete" }
     requirements: { _method: post|delete }
+
+eventos_abrir:
+    path:     /{id}/abrir
+    defaults: { _controller: "RegistroEventosCoreBundle:Evento:abrirEvento" }
+
+eventos_cerrar:
+    path:     /{id}/cerrar
+    defaults: { _controller: "RegistroEventosCoreBundle:Evento:cerrarEvento" }
