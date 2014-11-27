@@ -25,6 +25,151 @@
                         {{ form_label(form.fechaEvento, 'Fecha del Evento') }}
                         {{ form_errors(form.fechaEvento) }}
                         <div class="row padding-5">
+                            <div class="col-sm-10">
+
+                                <div class="input-group date" id="datetimepicker1">
+                                    <input id="{{ form.fechaEvento.vars.id }}" name="{{ form.fechaEvento.vars.name }}" type="datetime" class="form-control" />
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-2">
+                        {{ form_label(form.estado, 'Estado del Evento') }}
+                        {{ form_errors(form.estado) }}
+                        {{ form_widget(form.estado) }}
+                        {#<div class="radio">
+                          <label>
+                              <input type="radio" name="{{ form.estado.vars.name }}" value="true">
+                            Abierto
+                          </label>
+                        </div>
+                        <div class="radio">
+                          <label>
+                            <input type="radio" name="{{ form.estado.vars.name }}" value="false">
+                            Cerrado
+                          </label>
+                        </div>#}
+                    </div>
+                </div>
+                <div class="form-group">
+                    {{ form_label(form.observaciones) }}
+                    {{ form_errors(form.observaciones) }}
+                    {{ form_widget(form.observaciones, { 'attr': {'class': 'form-control'} }) }}
+                </div>
+
+                {{ form_row(form._token) }}
+                <input type="submit" class="btn btn-default pull-right" value="Registrar" />
+            </form>
+        </div>
+    </div>
+
+    <table id="tablaEventosAbiertos" class="table table-hover">
+        <h2>Eventos abiertos</h2>
+        <thead>
+            <tr>
+                <th>Usuario</th>
+                <th>Fecha del Evento</th>
+                <th>Tipo de Evento</th>
+                <th>Observaciones</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for evento in eventosAbiertos %}
+
+                <tr data-id="{{ evento.id }}">
+                    <td>{{ evento.usuario.nombre }}</td>
+                    <td>{{ evento.fechaEvento|date('Y-m-d H:i') }}</td>
+                    <td>{{ evento.tipoEvento }}</td>
+                    <td>{{ evento.observaciones }}</td>
+                    <td class="accion"><button type="button" class="btn btn-success botonRectificarEvento" data-id="{{ evento.id }}">Detalles</button></td>
+                    <td class="accion"><button type="button" class="btn btn-primary botonRectificarEvento" data-id="{{ evento.id }}">Rectificar</button></td>
+                    <td class="accion"><a href="{{ path('eventos_cerrar',{'id': evento.id}) }}" type="button" class="btn btn-default botonCerrarEvento" data-id="{{ evento.id }}">Cerrar</a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+        
+        
+    <table id="tablaEventosCerrados" class="table table-hover">
+        <h2>Eventos cerrados</h2>
+        <thead>
+            <tr>
+                <th>Usuario</th>
+                <th>Fecha del Evento</th>
+                <th>Tipo de Evento</th>
+                <th>Observaciones</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for evento in eventosCerrados %}
+
+                <tr data-id="{{ evento.id }}">
+                    <td>{{ evento.usuario.nombre }}</td>
+                    <td>{{ evento.fechaEvento|date('Y-m-d H:i') }}</td>
+                    <td>{{ evento.tipoEvento }}</td>
+                    <td>{{ evento.observaciones }}</td>
+                    <td class="accion"><button type="button" class="btn btn-success botonRectificarEvento" data-id="{{ evento.id }}">Detalles</button></td>
+                    <td class="accion"><button type="button" class="btn btn-primary botonRectificarEvento" data-id="{{ evento.id }}">Rectificar</button></td>
+                    <td class="accion"><a href="{{ path('eventos_abrir', {'id': evento.id} ) }}" type="button" class="btn btn-default botonAbrirEvento" data-id="{{ evento.id }}">Abrir</a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+        
+    <!-- Ventana emergente -->
+    <div id="ventanaPopUp" class="modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Cerrar</span>
+                    </button>
+                    <h4 id="tituloPopUp" class="modal-title">Evento</h4>
+                </div>
+                <div id="contenidoPopUp" class="modal-body">
+                </div>            
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                    <button id="botonGuardarPopUp" type="button" class="btn btn-primary">Registrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ----------------- -->
+{% endblock %}
+{% extends 'RegistroEventosCoreBundle::base.html.twig' %}
+
+{% block javascript %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('bundles/registroeventoscore/js/rectificar.js') }}"></script>
+{% endblock %}
+
+{% block styles %}
+    {{ parent() }}
+    <link type="text/css" rel="stylesheet" href="{{ asset('bundles/registroeventoscore/css/eventos.css') }}" />
+{% endblock %}
+
+{% block body -%}
+    <div class="row">
+        <div class="col-sm-10 col-sm-offset-1">
+            <form role="form" name="formularioAltaEvento" action="{{ path('eventos_create') }}" method="post" {{ form_enctype(form) }}>
+                {{ form_errors(form) }}
+                <div class="row">
+                    <div class="form-group col-sm-4">
+                        {{ form_label(form.tipoEvento, 'Tipo de Evento',{ 'attr': {'for': form.tipoEvento.vars.id} }) }}
+                        {{ form_errors(form.tipoEvento) }}
+                        {{ form_widget(form.tipoEvento, { 'attr': {'class': 'form-control'} }) }}
+                    </div>
+                    <div class="form-group col-sm-6">
+                        {{ form_label(form.fechaEvento, 'Fecha del Evento') }}
+                        {{ form_errors(form.fechaEvento) }}
+                        <div class="row padding-5">
                             <div class="col-sm-2">{{ form_widget(form.fechaEvento.date.year, { 'attr': {'class': 'form-control', 'style': 'width: 75px;','value': form.fechaEvento.date.year.vars.value} }) }}</div>
                             <div class="col-sm-2">{{ form_widget(form.fechaEvento.date.month, { 'attr': {'class': 'form-control'} }) }}</div>
                             <div class="col-sm-2">{{ form_widget(form.fechaEvento.date.day, { 'attr': {'class': 'form-control'} }) }}</div>
