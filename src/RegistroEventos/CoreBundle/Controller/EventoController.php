@@ -49,6 +49,10 @@ class EventoController extends Controller
         $form = $this->createCreateForm($evento);
         $form->handleRequest($request);
         
+        $date = \DateTime::createFromFormat('d-m-y H:i', $request->request->get('fechaEvento'));
+        $evento->setFechaEvento($date);        
+
+
         if ($form->isValid()) {
             $evento->setFechaSistema(new \DateTime());
             $evento->setUsuario($this->get('security.context')->getToken()->getUser());
