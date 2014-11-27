@@ -16,6 +16,10 @@ function openClose(id){
     }
 }
 $(document).ready(function () {
+    $('#datetimepicker1').datetimepicker({
+        format: 'DD-MM-YY HH:mm'
+    }); 
+
     $('#botonCrearEvento').on("click", function () {
         $.ajax({
             type: 'GET',
