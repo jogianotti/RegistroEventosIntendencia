@@ -237,6 +237,14 @@ class EventoController extends Controller
         $id = $request->request->get('id',NULL);
         $eventoRectificado = $this->getDoctrine()->getManager()->getRepository('RegistroEventosCoreBundle:Evento')->findOneBy(array('id' => $id));
         
+        $rectificacion = $this->getDoctrine()->getManager()->getRepository('RegistroEventosCoreBundle:Evento')->findOneBy(array('rectificacion' => $eventoRectificado));
+        $rectificaciones = null;
+        while ($rectificacion != NULL){
+            $rectificaciones[] = $rectificacion;    
+            $rectificacion = $this->getDoctrine()->getManager()->getRepository('RegistroEventosCoreBundle:Evento')->findOneBy(array('rectificacion' => $rectificacion));
+        }
+        
+
         $evento = new Evento();
         $evento->setFechaEvento($eventoRectificado->getFechaEvento());
         $evento->setTipoEvento($eventoRectificado->getTipoEvento());
@@ -256,6 +264,7 @@ class EventoController extends Controller
             return $this->render('RegistroEventosCoreBundle:Evento:rectificar.html.twig', array(
                 'form' => $form->createView(),
                 'eventoRectificado' => $eventoRectificado,
+                'rectificaciones' => $rectificaciones,
                 'error' => false
             ));
         }

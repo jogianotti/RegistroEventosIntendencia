@@ -10,3 +10,11 @@ body{
 .form-control{
 	height:3em;
 }
+
+.oculto{
+	display: none;
+}
+
+#mostrarRectificaciones{
+	cursor:pointer;
+}

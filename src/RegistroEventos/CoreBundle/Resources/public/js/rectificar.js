@@ -1,5 +1,21 @@
+function closeObject(id) {
+  document.getElementById(id).style.display = 'none';
+}
+
+function openObject(id) {
+  document.getElementById(id).style.display = 'block';
+}
+
+function openClose(id){
+    if (document.getElementById(id).style.display == 'block'){
+        console.log('intenta cerrar');
+        closeObject(id);
+    }else{
+        console.log('intenta abrir');
+        openObject(id);
+    }
+}
 $(document).ready(function () {
-    
     $('#botonCrearEvento').on("click", function () {
         $.ajax({
             type: 'GET',

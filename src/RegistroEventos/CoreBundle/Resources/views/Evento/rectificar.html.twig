@@ -1,6 +1,15 @@
 {% if error %}
     Error al intentar crear el formulario de rectificacion
 {% else %}
+    {% if rectificaciones %}
+        <div id="mostrarRectificaciones" onclick="openClose('rectificaciones');">RECTIFICACIONES ANTERIORES</div>
+        <div class="oculto" id="rectificaciones">
+            {% for rectificacion in rectificaciones %}
+                <div id="{{ rectificacion.id }}">Fecha: {{rectificacion.fechaEvento|date('d/m/Y') }} Observaciones: {{ rectificacion.observaciones }}</div>
+            {% endfor %}
+        </div>
+    {% endif %}
+    
     <form role="form" name="formularioRectificarEvento" id="formularioRectificarEvento" action="{{ path('eventos_rectificacion_crear') }}" method="post" {{ form_enctype(form) }}>
         {{ form_errors(form) }}
         <div class="form-group">
@@ -30,6 +39,7 @@
         </div>
 
         {{ form_row(form._token) }}
+    
 {#        <input name="{{ form.estado.vars.name }}" type="hidden" value="{{ form.estado.vars.value }}">#}
         <input name="eventoRectificadoId" type="hidden" value="{{ eventoRectificado.id }}">
     </form>
