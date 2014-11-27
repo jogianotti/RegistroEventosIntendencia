@@ -16,6 +16,7 @@
         {% elseif usuario.hasRole('ROLE_INTENDENTE') %}
         <li><a href="{{ path('eventos_supervision') }}">Registro</a></li> 
         {% endif %}
+        <li><a href="{{ path('fos_user_security_logout') }}">Salir</a></li> 
     {% endif %}
     {% endblock menu %}
     </ul>
