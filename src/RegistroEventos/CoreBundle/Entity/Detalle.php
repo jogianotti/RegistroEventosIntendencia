@@ -24,7 +24,7 @@ class Detalle
     /**
      * @var integer
      *
-     * @ORM\Column(name="fechaDetalle", type="integer")
+     * @ORM\Column(name="fechaDetalle", type="datetime")
      */
     private $fechaDetalle;
 
@@ -38,7 +38,7 @@ class Detalle
     /**
      * @var string
      *
-     * @ORM\Column(name="observaciones", type="string", length=255)
+     * @ORM\Column(name="observaciones", type="text")
      */
     private $observaciones;
 

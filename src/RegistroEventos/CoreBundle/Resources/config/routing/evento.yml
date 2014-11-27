@@ -52,3 +52,9 @@ eventos_abrir:
 eventos_cerrar:
     path:     /{id}/cerrar
     defaults: { _controller: "RegistroEventosCoreBundle:Evento:cerrarEvento" }
+    
+eventos_detalle:
+    path:     /{id}/detalle
+    defaults: { _controller: "RegistroEventosCoreBundle:Evento:detalleEvento" }
+    options:
+        expose: true

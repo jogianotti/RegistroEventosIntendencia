@@ -62,7 +62,7 @@
         </div>
     </div>
 
-    <table id="tablaEventosAbiertos" class="table table-hover">
+    <table id="tablaEventosAbiertos" class="table table-hover eventos">
         <h2>Eventos abiertos</h2>
         <thead>
             <tr>
@@ -81,7 +81,7 @@
                     <td>{{ evento.fechaEvento|date('Y-m-d H:i') }}</td>
                     <td>{{ evento.tipoEvento }}</td>
                     <td>{{ evento.observaciones }}</td>
-                    <td class="accion"><button type="button" class="btn btn-success botonRectificarEvento" data-id="{{ evento.id }}">Detalles</button></td>
+                    <td class="accion"><button type="button" class="btn btn-success mostrarDetalleEvento" data-id="{{ evento.id }}">Detalles</button></td>
                     <td class="accion"><button type="button" class="btn btn-primary botonRectificarEvento" data-id="{{ evento.id }}">Rectificar</button></td>
                     <td class="accion"><a href="{{ path('eventos_cerrar',{'id': evento.id}) }}" type="button" class="btn btn-default botonCerrarEvento" data-id="{{ evento.id }}">Cerrar</a></td>
                 </tr>
@@ -90,7 +90,7 @@
     </table>
         
         
-    <table id="tablaEventosCerrados" class="table table-hover">
+    <table id="tablaEventosCerrados" class="table table-hover eventos">
         <h2>Eventos cerrados</h2>
         <thead>
             <tr>
@@ -109,7 +109,7 @@
                     <td>{{ evento.fechaEvento|date('Y-m-d H:i') }}</td>
                     <td>{{ evento.tipoEvento }}</td>
                     <td>{{ evento.observaciones }}</td>
-                    <td class="accion"><button type="button" class="btn btn-success botonRectificarEvento" data-id="{{ evento.id }}">Detalles</button></td>
+                    <td class="accion"><button type="button" class="btn btn-success mostrarDetalleEvento" data-id="{{ evento.id }}">Detalles</button></td>
                     <td class="accion"><button type="button" class="btn btn-primary botonRectificarEvento" data-id="{{ evento.id }}">Rectificar</button></td>
                     <td class="accion"><a href="{{ path('eventos_abrir', {'id': evento.id} ) }}" type="button" class="btn btn-default botonAbrirEvento" data-id="{{ evento.id }}">Abrir</a></td>
                 </tr>

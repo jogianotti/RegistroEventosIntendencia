@@ -9,6 +9,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use RegistroEventos\CoreBundle\Entity\Evento;
 use RegistroEventos\CoreBundle\Form\EventoType;
+use RegistroEventos\CoreBundle\Entity\Detalle;
+use RegistroEventos\CoreBundle\Form\DetalleType;
 
 /**
  * Evento controller.
@@ -323,5 +325,50 @@ class EventoController extends Controller
         $em->flush();
         
         return $this->forward('RegistroEventosCoreBundle:Evento:index');
+    }
+    
+    public function detalleEventoAction($id) {
+        
+        $em = $this->getDoctrine()->getManager();
+        $evento = $em->getRepository('RegistroEventosCoreBundle:Evento')->findOneBy(array('id' => $id));
+        $detalle = new Detalle();
+        $detalle->setFechaDetalle(new \DateTime());
+        $form = $this->createForm(new DetalleType(), $detalle, array(
+            'action' => $this->generateUrl('eventos_detalle',array('id' => $evento->getId())),
+            'method' => 'POST'
+        ));
+        
+//        if($id === NULL){
+//            return $this->render('RegistroEventosCoreBundle:Evento:detalle.html.twig', array(
+//                'error' => true
+//            ));
+        
+        return $this->render('RegistroEventosCoreBundle:Evento:detalle.html.twig',array('form' => $form->createView(),'detalles'=>array()));
+    }
+    
+    public function crearDetalleEventoAction(Request $request){
+        
+        $detalle = new Detalle();
+        $form = $this->createForm(new EventoType(), $detalle);
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            
+            $detalle->setFechaSistema(new \DateTime());
+            $detalle->setUsuario($this->get('security.context')->getToken()->getUser());
+            
+            $em->persist($detalle);
+            $em->flush();
+            
+            return new JsonResponse(array('agregado' => TRUE,'detalle'=>$detalle));
+//            return $this->redirect($this->generateUrl('eventos'));
+        }
+        $detalles = 
+        $vista = $this->renderView('RegistroEventosCoreBundle:Evento:detalle.html.twig', array(
+                'form' => $form->createView(),
+                'detalles' => array()
+        ));
+        return new JsonResponse(array('agregado' => FALSE, 'html' => $vista));
     }
 }

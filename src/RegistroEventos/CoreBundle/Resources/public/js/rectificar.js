@@ -41,6 +41,21 @@ $(document).ready(function () {
         .done(function (html) {
             $('#tituloPopUp').html('Rectificar Evento');
             $("#contenidoPopUp").html(html);
+                        $('.modal-dialog').removeClass('modal-lg');
+            $('#ventanaPopUp').modal('show');
+        });
+    });
+    
+    $('.mostrarDetalleEvento').on('click',function(){
+        $.ajax({
+            type: 'GET',
+            url: Routing.generate('eventos_detalle',{'id': $(this).attr('data-id')},true),
+            context: document.body
+        })
+        .done(function (html) {
+            $('#tituloPopUp').html('Detalle eventos');
+            $("#contenidoPopUp").html(html);
+            $('.modal-dialog').addClass('modal-lg');
             $('#ventanaPopUp').modal('show');
         });
     });
