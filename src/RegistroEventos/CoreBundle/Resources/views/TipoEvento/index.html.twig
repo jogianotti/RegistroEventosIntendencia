@@ -1,9 +1,21 @@
 {% extends 'RegistroEventosCoreBundle::base.html.twig' %}
 
-{% block body -%}
-    <h1>TipoEvento list</h1>
+{% block styles %}
+    {{ parent() }}
+    <link type="text/css" rel="stylesheet" href="{{ asset('bundles/registroeventoscore/css/tipoEvento.css') }}" />
+{% endblock %}
 
-    <table class="records_list">
+{% block body -%}
+
+
+    <h2>Tipos de Eventos</h2>
+
+<a href="{{ path('tipos_eventos_new') }}" role="button" class="btn btn-success btn-large">
+<span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+Crear un tipo de evento nuevo</a>
+
+
+    <table class="table table-hover">
         <thead>
             <tr>
                 <th>Id</th>
@@ -21,25 +33,19 @@
                 <td>{{ entity.email }}</td>
                 <td>{{ entity.prioridad }}</td>
                 <td>
-                <ul>
-                    <li>
-                        <a href="{{ path('tipos_eventos_show', { 'id': entity.id }) }}">show</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('tipos_eventos_edit', { 'id': entity.id }) }}">edit</a>
-                    </li>
-                </ul>
+
+                <a href="{{ path('tipos_eventos_show', { 'id': entity.id }) }}" role="button" class="btn btn-default btn-large">
+                <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                Ver</a>
+
+                <a href="{{ path('tipos_eventos_edit', { 'id': entity.id }) }}" role="button" class="btn btn-primary btn-large">
+                <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                Editar</a>                
+
                 </td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-        <ul>
-        <li>
-            <a href="{{ path('tipos_eventos_new') }}">
-                Create a new entry
-            </a>
-        </li>
-    </ul>
     {% endblock %}

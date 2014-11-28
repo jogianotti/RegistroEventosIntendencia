@@ -1,9 +1,20 @@
 {% extends 'RegistroEventosCoreBundle::base.html.twig' %}
 
-{% block body -%}
-    <h1>Usuario list</h1>
+{% block styles %}
+    {{ parent() }}
+    <link type="text/css" rel="stylesheet" href="{{ asset('bundles/registroeventoscore/css/usuarios.css') }}" />
+{% endblock %}
 
-    <table class="records_list">
+{% block body -%}
+
+    <h2>Usuarios</h2>
+
+<a href="{{ path('usuarios_new') }}" role="button" class="btn btn-success btn-large">
+<span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+Crear un usuario nuevo</a>
+
+
+    <table class="table table-hover">
         <thead>
             <tr>
                 <th>Id</th>
@@ -13,31 +24,29 @@
             </tr>
         </thead>
         <tbody>
+
+        
         {% for entity in entities %}
             <tr>
                 <td><a href="{{ path('usuarios_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
                 <td>{{ entity.nombre }}</td>
-                <td>{{ entity.baja }}</td>
                 <td>
-                <ul>
-                    <li>
-                        <a href="{{ path('usuarios_show', { 'id': entity.id }) }}">show</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('usuarios_edit', { 'id': entity.id }) }}">edit</a>
-                    </li>
-                </ul>
+                {% if entity.baja %}
+                <span class="glyphicon glyphicon-trash"></span>
+                {% endif %}
+                </td>
+                <td>
+                <a href="{{ path('usuarios_show', { 'id': entity.id }) }}" role="button" class="btn btn-default btn-large">
+                <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                Ver</a>
+
+                <a href="{{ path('usuarios_edit', { 'id': entity.id }) }}" role="button" class="btn btn-primary btn-large">
+                <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                Editar</a>                
+    
                 </td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
-
-        <ul>
-        <li>
-            <a href="{{ path('usuarios_new') }}">
-                Create a new entry
-            </a>
-        </li>
-    </ul>
     {% endblock %}

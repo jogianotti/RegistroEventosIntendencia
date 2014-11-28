@@ -67,7 +67,7 @@ class TipoEventoController extends Controller
             'method' => 'POST',
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Create'));
+        $form->add('submit', 'submit', array('label' => 'Crear tipo de evento', 'attr' => array('class' => 'btn btn-success btn-large')));
 
         return $form;
     }
@@ -102,7 +102,7 @@ class TipoEventoController extends Controller
         }
 
         $deleteForm = $this->createDeleteForm($id);
-
+        $deleteForm->add('submit', 'submit', array('label' => 'Eliminar tipo de evento', 'attr' => array('class' => 'btn btn-danger btn-large pull-right')));
         return $this->render('RegistroEventosCoreBundle:TipoEvento:show.html.twig', array(
             'entity'      => $entity,
             'delete_form' => $deleteForm->createView(),
@@ -125,7 +125,8 @@ class TipoEventoController extends Controller
 
         $editForm = $this->createEditForm($entity);
         $deleteForm = $this->createDeleteForm($id);
-
+        $editForm->add('submit', 'submit', array('label' => 'Guardar cambios', 'attr' => array('class' => 'btn btn-primary btn-large')));
+        $deleteForm->add('submit', 'submit', array('label' => 'Eliminar tipo de evento', 'attr' => array('class' => 'btn btn-danger btn-large pull-right')));
         return $this->render('RegistroEventosCoreBundle:TipoEvento:edit.html.twig', array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),

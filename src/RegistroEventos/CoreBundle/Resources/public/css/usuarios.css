@@ -1,0 +1,21 @@
+.padding-5 div {
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+table.usuarios {
+    margin-top: 3em;
+}
+
+.accion {
+    width: 100px;
+}
+
+span.glyphicon-trash {
+    font-size: 2em;
+}
+
+.space{
+	height:2em;
+	width:100%;
+}

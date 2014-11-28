@@ -1,16 +1,27 @@
 {% extends 'RegistroEventosCoreBundle::base.html.twig' %}
 
-{% block body -%}
-    <h1>Usuario edit</h1>
+{% block styles %}
+    {{ parent() }}
+    <link type="text/css" rel="stylesheet" href="{{ asset('bundles/registroeventoscore/css/usuarios.css') }}" />
+{% endblock %}
 
+{% block body -%}
+	<a href="{{ path('usuarios') }}" role="button" class="btn btn-default btn-large">
+	<span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+	Regresar al listado de usuarios</a>
+
+    <h2>Editar un usuario</h2>
+
+	<label for="exampleInputNombre">Nombre</label>
+	{{ form_widget(edit_form.nombre, { 'attr': {'class': 'form-control'} }) }}
+
+	<label for="exampleInputNombre">Baja</label>
+	{{ form_widget(edit_form.baja) }}
+
+	<div class="space"></div>
+	
     {{ form(edit_form) }}
 
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('usuarios') }}">
-            Back to the list
-        </a>
-    </li>
-    <li>{{ form(delete_form) }}</li>
-</ul>
+    {{ form(delete_form) }}
+
 {% endblock %}
