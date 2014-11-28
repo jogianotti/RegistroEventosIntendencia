@@ -24,8 +24,6 @@
       {% if usuario is not null %}
           <li><p class="navbar-text">{{ usuario.username }}</p></li>
           <li><a href="{{ path('fos_user_security_logout') }}">Salir</a></li>
-      {% else %}
-          <li><a href="{{ path('fos_user_security_login') }}">Ingresar</a></li>
       {% endif %}
     </ul>
   </div>
