@@ -12,11 +12,16 @@
 <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
 Regresar al listado de usuarios</a>
 
-    <h1>Nuevo Usuario</h1>
+    <h2>Nuevo Usuario</h2>
 	
+	<label for="exampleInputNombre">Nombre de usuario</label>
+	{{ form_widget(form.nombre, { 'attr': {'class': 'form-control'} }) }}
 
+	<label for="exampleInputBaja">Baja </label>
+	{{ form_widget(form.baja) }}
 
-
+	<div class="space"></div>
+	
     {{ form(form) }}
 
 {% endblock %}

@@ -1,16 +1,30 @@
 {% extends 'RegistroEventosCoreBundle::base.html.twig' %}
 
+{% block styles %}
+    {{ parent() }}
+    <link type="text/css" rel="stylesheet" href="{{ asset('bundles/registroeventoscore/css/tipoEvento.css') }}" />
+{% endblock %}
+
 {% block body -%}
-    <h1>TipoEvento edit</h1>
+	<a href="{{ path('tipos_eventos') }}" role="button" class="btn btn-default btn-large">
+	<span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+	Regresar al listado de tipos de eventos</a>
+
+    <h2>Editar un tipo de evento</h2>
+
+	<label for="exampleInputNombre">Nombre</label>
+	{{ form_widget(edit_form.nombre, { 'attr': {'class': 'form-control'} }) }}
+
+	<label for="exampleInputEmail">Email</label>
+	{{ form_widget(edit_form.email, { 'attr': {'class': 'form-control'} }) }}
+
+	<label for="exampleInputPrioridad">Prioridad</label>
+	{{ form_widget(edit_form.prioridad, { 'attr': {'class': 'form-control'} }) }}
+
+	<div class="space"></div>
 
     {{ form(edit_form) }}
 
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('tipos_eventos') }}">
-            Back to the list
-        </a>
-    </li>
-    <li>{{ form(delete_form) }}</li>
-</ul>
+    {{ form(delete_form) }}
+
 {% endblock %}

@@ -10,9 +10,16 @@
 	<span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
 	Regresar al listado de usuarios</a>
 
-    <h1>Editar un usuario</h1>
+    <h2>Editar un usuario</h2>
 
+	<label for="exampleInputNombre">Nombre</label>
+	{{ form_widget(edit_form.nombre, { 'attr': {'class': 'form-control'} }) }}
 
+	<label for="exampleInputNombre">Baja</label>
+	{{ form_widget(edit_form.baja) }}
+
+	<div class="space"></div>
+	
     {{ form(edit_form) }}
 
     {{ form(delete_form) }}

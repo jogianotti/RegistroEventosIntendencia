@@ -10,3 +10,8 @@ table.eventos {
 .accion {
     width: 100px;
 }
+
+.space{
+	height:2em;
+	width:100%;
+}
