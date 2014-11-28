@@ -53,7 +53,7 @@ $(document).ready(function () {
     $('.botonMostrarDetallesEvento').on('click',function(){
         $.ajax({
             type: 'GET',
-            url: Routing.generate('eventos_detalle_crear',{'id': $(this).attr('data-id')},true),
+            url: Routing.generate('eventos_detalle',{'id': $(this).attr('data-id')},true),
             context: document.body
         })
         .done(function (html) {

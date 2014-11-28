@@ -345,6 +345,7 @@ class EventoController extends Controller
     }
     
     public function crearDetalleEventoAction(Request $request){
+        
         $eventoId = $request->request->get('eventoId');
         $em = $this->getDoctrine()->getManager();
         $evento = $em->getRepository('RegistroEventosCoreBundle:Evento')->findOneBy(array('id' => $eventoId));
