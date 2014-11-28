@@ -12,4 +12,10 @@ use Doctrine\ORM\EntityRepository;
  */
 class TipoEventoRepository extends EntityRepository
 {
+	public function listarTiposEventosActivos(){
+		return $this->createQueryBuilder('t')
+			->select('t')
+			->where('t.baja = :baja')->setParameter('baja',FALSE)
+			->getQuery()->getResult();
+	}
 }

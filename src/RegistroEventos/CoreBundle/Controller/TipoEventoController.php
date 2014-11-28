@@ -23,7 +23,7 @@ class TipoEventoController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('RegistroEventosCoreBundle:TipoEvento')->findAll();
+        $entities = $em->getRepository('RegistroEventosCoreBundle:TipoEvento')->listarTiposEventosActivos();
 
         return $this->render('RegistroEventosCoreBundle:TipoEvento:index.html.twig', array(
             'entities' => $entities,
@@ -102,7 +102,7 @@ class TipoEventoController extends Controller
         }
 
         $deleteForm = $this->createDeleteForm($id);
-        $deleteForm->add('submit', 'submit', array('label' => 'Eliminar tipo de evento', 'attr' => array('class' => 'btn btn-danger btn-large pull-right')));
+        //$deleteForm->add('submit', 'submit', array('label' => 'Eliminar tipo de evento', 'attr' => array('class' => 'btn btn-danger btn-large pull-right')));
         return $this->render('RegistroEventosCoreBundle:TipoEvento:show.html.twig', array(
             'entity'      => $entity,
             'delete_form' => $deleteForm->createView(),
@@ -187,20 +187,20 @@ class TipoEventoController extends Controller
      */
     public function deleteAction(Request $request, $id)
     {
-        $form = $this->createDeleteForm($id);
-        $form->handleRequest($request);
+        //$form = $this->createDeleteForm($id);
+        //$form->handleRequest($request);
 
-        if ($form->isValid()) {
+        //if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $entity = $em->getRepository('RegistroEventosCoreBundle:TipoEvento')->find($id);
 
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find TipoEvento entity.');
             }
-
-            $em->remove($entity);
+            $entity->setBaja(TRUE);
+            $em->persist($entity);
             $em->flush();
-        }
+       // }
 
         return $this->redirect($this->generateUrl('tipos_eventos'));
     }

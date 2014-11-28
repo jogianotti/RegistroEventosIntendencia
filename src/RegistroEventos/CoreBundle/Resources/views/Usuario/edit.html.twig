@@ -12,15 +12,49 @@
 
     <h2>Editar un usuario</h2>
 
-	<label for="exampleInputNombre">Nombre</label>
-	{{ form_widget(edit_form.nombre, { 'attr': {'class': 'form-control'} }) }}
+<div class="row">
+<div class="col-sm-6 col-sm-offset-3">
+	{{ form_start(edit_form, {attr:{role:'form'}}) }}
+	<div class="form-group">
+		{{ form_errors(edit_form.nombre) }}
+		{{ form_label(edit_form.nombre, 'Nombre y Apellido: ')}}
+		{{ form_widget(edit_form.nombre, { 'attr': {'class': 'form-control'} }) }}
+	</div>
+	<div class="form-group">
+		{{ form_errors(edit_form.email) }}
+		{{ form_label(edit_form.email, 'Correo electronico: ')}}
+		{{ form_widget(edit_form.email, { 'attr': {'class': 'form-control'} }) }}
+	</div>
+	<div class="form-group">
+		{{ form_errors(edit_form.username) }}
+		{{ form_label(edit_form.username, 'Nombre de Usuario: ')}}
+		{{ form_widget(edit_form.username, { 'attr': {'class': 'form-control'} }) }}
+	</div>
+	<div class="form-group">
+		{{ form_errors(edit_form.plainPassword.first) }}
+		{{ form_label(edit_form.plainPassword.first, 'Clave: ')}}
+		{{ form_widget(edit_form.plainPassword.first, { 'attr': {'class': 'form-control'} }) }}
+	</div>
+	<div class="form-group">
+		{{ form_errors(edit_form.plainPassword.second) }}
+		{{ form_label(edit_form.plainPassword.second, 'Confirmacion Clave: ')}}
+		{{ form_widget(edit_form.plainPassword.second, { 'attr': {'class': 'form-control'} }) }}
+	</div>
+	<div class="form-group">
+		{{ form_widget(edit_form.baja, { 'attr': {'class': 'oculto'} }) }}
+	</div>
 
-	<label for="exampleInputNombre">Baja</label>
-	{{ form_widget(edit_form.baja) }}
+	{{ form_rest(edit_form) }}
 
 	<div class="space"></div>
-	
-    {{ form(edit_form) }}
+	{{form_widget(edit_form.submit)}}
+
+	{{ form_end(edit_form) }}
+   
+{{ form(edit_form) }}
+</div>
+</div>
+
 
     {{ form(delete_form) }}
 

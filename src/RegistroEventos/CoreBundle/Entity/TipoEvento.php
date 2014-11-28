@@ -29,6 +29,13 @@ class TipoEvento
     private $nombre;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="baja", type="boolean")
+     */
+    private $baja;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="email", type="string", length=255, nullable=true)
@@ -129,5 +136,28 @@ class TipoEvento
     public function __toString()
     {
         return $this->getNombre();
+    }
+
+    /**
+     * Get baja
+     *
+     * @return bolean 
+     */
+    public function getBaja()
+    {
+        return $this->baja;
+    }
+
+    /**
+     * Set baja
+     *
+     * @param boolean $baja
+     * @return TipoEvento
+     */
+    public function setBaja($baja)
+    {
+        $this->baja = $baja;
+
+        return $this;
     }
 }
