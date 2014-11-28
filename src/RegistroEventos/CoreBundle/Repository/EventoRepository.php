@@ -3,6 +3,7 @@
 namespace RegistroEventos\CoreBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use RegistroEventos\CoreBundle\Repository\DetalleRepository;
 
 /**
  * EventoRepository
@@ -27,5 +28,21 @@ class EventoRepository extends EntityRepository
     
     public function buscarEventosCerrados() {
         return $this->buscarEventosActivosConEstado(FALSE);
+    }
+    
+    public function listarDetallesPara($evento){
+        $qb = $this->createQueryBuilder('e');
+        
+        $eventoAnterior = $qb->select('e')->where('e.rectificacion = :id')->setParameter('id', $evento->getId());
+        $detalles = $this->getEntityManager()->getRepository('RegistroEventosCoreBundle:Detalle')->listarPara($eventoAnterior);
+        while($eventoAnterior !== NULL){
+            $arrayDetalles = $this->getEntityManager()->getRepository('RegistroEventosCoreBundle:Detalle')->listarPara($eventoAnterior);
+            if($arrayDetalles !== NULL && $detlles !== NULL){
+                $detalles = array_merge($detalles,$arrayDetalles);
+            }
+            $eventoAnterior = $qb->select('e')->where('e.rectificacion = :id')->setParameter('id', $eventoAnterior->getId());
+        }
+        
+        return $detalles;
     }
 }

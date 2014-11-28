@@ -12,4 +12,14 @@ use Doctrine\ORM\EntityRepository;
  */
 class DetalleRepository extends EntityRepository
 {
+
+    public function listarPara($evento)
+    {
+        return $this->createQueryBuilder('d')
+                ->select('d')
+                ->where('d.evento = :idEvento')
+                ->setParameter('idEvento', $evento->getId())
+                ->getQuery()->getResult();
+    }
+
 }

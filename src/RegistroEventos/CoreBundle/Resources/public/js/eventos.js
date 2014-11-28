@@ -20,20 +20,20 @@ $(document).ready(function () {
         format: 'DD-MM-YY HH:mm'
     }); 
 
-    $('#botonCrearEvento').on("click", function () {
-        $.ajax({
-            type: 'GET',
-            url: Routing.generate('eventos_new',null,true),
-            context: document.body
-        })
-        .done(function (respuesta) {
-            $('#tituloPopUp').html('Registrar Evento');
-            $('#contenidoPopUp').html(respuesta.contenido);
-            $('#ventanaPopUp').modal('show');
-        }).error(function(respuesta) {
-            console.log(respuesta.contenido);
-        });
-    });
+//    $('#botonCrearEvento').on("click", function () {
+//        $.ajax({
+//            type: 'GET',
+//            url: Routing.generate('eventos_new',null,true),
+//            context: document.body
+//        })
+//        .done(function (respuesta) {
+//            $('#tituloPopUp').html('Registrar Evento');
+//            $('#contenidoPopUp').html(respuesta.contenido);
+//            $('#ventanaPopUp').modal('show');
+//        }).error(function(respuesta) {
+//            console.log(respuesta.contenido);
+//        });
+//    });
     
     $(".botonRectificarEvento").on("click", function () {
         $.ajax({
@@ -50,10 +50,10 @@ $(document).ready(function () {
         });
     });
     
-    $('.mostrarDetalleEvento').on('click',function(){
+    $('.botonMostrarDetallesEvento').on('click',function(){
         $.ajax({
             type: 'GET',
-            url: Routing.generate('eventos_detalle',{'id': $(this).attr('data-id')},true),
+            url: Routing.generate('eventos_detalle_crear',{'id': $(this).attr('data-id')},true),
             context: document.body
         })
         .done(function (html) {
@@ -87,4 +87,29 @@ $(document).ready(function () {
             });
             return false;
         });
+    
+    $('#botonAgregarDetalle').on("click",function(){
+        var datosFormulario = $("#formularioAgregarDetalle").serializeArray();
+        var urlFormulario = Routing.generate('eventos_rectificacion_crear',null,true);
+        alert('LLEGUE');
+        $.ajax(
+        {
+            url : urlFormulario,
+            type: "POST",
+            data : datosFormulario,
+            success: function(datos)
+            {
+                if(datos.rectificado){
+                    $('#ventanaPopUp').modal('hide');
+                    $( location ).attr("href", Routing.generate('eventos',null,true));
+                } else {
+                    $("#contenidoPopUp").html(datos.html);
+                }
+            },
+            error: function() {
+                alert('error');
+            }
+        });
+        return false;
+    });
 });
