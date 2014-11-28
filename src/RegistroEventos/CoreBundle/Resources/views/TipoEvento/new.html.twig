@@ -11,18 +11,36 @@
 	Regresar al listado de usuarios</a>
 
     <h2>Crear un Tipo de Evento</h2>
-
-	<label for="exampleInputNombre">Nombre</label>
-	{{ form_widget(form.nombre, { 'attr': {'class': 'form-control'} }) }}
-
-	<label for="exampleInputEmail">Email</label>
-	{{ form_widget(form.email, { 'attr': {'class': 'form-control'} }) }}
-
-	<label for="exampleInputPrioridad">Prioridad</label>
-	{{ form_widget(form.prioridad, { 'attr': {'class': 'form-control'} }) }}
+<div class="row">
+<div class="col-sm-6 col-sm-offset-3">
+	{{ form_start(form, {attr:{role:'form'}}) }}
+	<div class="form-group">
+		{{ form_errors(form.nombre) }}
+		{{ form_label(form.nombre, 'Nombre: ')}}
+		{{ form_widget(form.nombre, { 'attr': {'class': 'form-control'} }) }}
+	</div>
+	<div class="form-group">
+		{{ form_errors(form.email) }}
+		{{ form_label(form.email, 'Email: ')}}
+		{{ form_widget(form.email, { 'attr': {'class': 'form-control'} }) }}
+	</div>
+	<div class="form-group">
+		{{ form_errors(form.prioridad) }}
+		{{ form_label(form.prioridad, 'Prioridad: ')}}
+		{{ form_widget(form.prioridad, { 'attr': {'class': 'form-control'} }) }}
+	</div>
+	<div class="form-group">
+		{{ form_widget(form.baja, { 'attr': {'class': 'oculto'} }) }}
+	</div>
+	
+	{{ form_rest(form) }}
 
 	<div class="space"></div>
+	{{form_widget(form.submit)}}
 
-    {{ form(form) }}
+	{{ form_end(form) }}
+   
+</div>
+</div>
 
 {% endblock %}

@@ -18,6 +18,7 @@ class TipoEventoType extends AbstractType
             ->add('nombre')
             ->add('email',null,array('required' => false))
             ->add('prioridad')
+            ->add('baja',null,array('required' => false))
         ;
     }
     

@@ -187,10 +187,6 @@ class TipoEventoController extends Controller
      */
     public function deleteAction(Request $request, $id)
     {
-        //$form = $this->createDeleteForm($id);
-        //$form->handleRequest($request);
-
-        //if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $entity = $em->getRepository('RegistroEventosCoreBundle:TipoEvento')->find($id);
 
@@ -200,7 +196,7 @@ class TipoEventoController extends Controller
             $entity->setBaja(TRUE);
             $em->persist($entity);
             $em->flush();
-       // }
+       
 
         return $this->redirect($this->generateUrl('tipos_eventos'));
     }
