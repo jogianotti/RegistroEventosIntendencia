@@ -103,7 +103,7 @@ class UsuarioController extends Controller
         }
 
         $deleteForm = $this->createDeleteForm($id);
-        $deleteForm->add('submit', 'submit', array('label' => 'Eliminar usuario', 'attr' => array('class' => 'btn btn-danger btn-large pull-right')));
+        //$deleteForm->add('submit', 'submit', array('label' => 'Eliminar usuario', 'attr' => array('class' => 'btn btn-danger btn-large pull-right')));
         
         return $this->render('RegistroEventosCoreBundle:Usuario:show.html.twig', array(
             'entity'      => $entity,
@@ -129,7 +129,7 @@ class UsuarioController extends Controller
         $deleteForm = $this->createDeleteForm($id);
 
         $editForm->add('submit', 'submit', array('label' => 'Guardar cambios', 'attr' => array('class' => 'btn btn-primary btn-large')));
-        $deleteForm->add('submit', 'submit', array('label' => 'Eliminar usuario', 'attr' => array('class' => 'btn btn-danger btn-large pull-right')));
+        //$deleteForm->add('submit', 'submit', array('label' => 'Eliminar usuario', 'attr' => array('class' => 'btn btn-danger btn-large pull-right')));
         return $this->render('RegistroEventosCoreBundle:Usuario:edit.html.twig', array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
