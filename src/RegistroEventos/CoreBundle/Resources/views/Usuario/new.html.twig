@@ -1,15 +1,22 @@
 {% extends 'RegistroEventosCoreBundle::base.html.twig' %}
 
+{% block styles %}
+    {{ parent() }}
+    <link type="text/css" rel="stylesheet" href="{{ asset('bundles/registroeventoscore/css/usuarios.css') }}" />
+{% endblock %}
+
 {% block body -%}
-    <h1>Usuario creation</h1>
+
+
+<a href="{{ path('usuarios') }}" role="button" class="btn btn-default btn-large">
+<span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+Regresar al listado de usuarios</a>
+
+    <h1>Nuevo Usuario</h1>
+	
+
+
 
     {{ form(form) }}
 
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('usuarios') }}">
-            Back to the list
-        </a>
-    </li>
-</ul>
 {% endblock %}

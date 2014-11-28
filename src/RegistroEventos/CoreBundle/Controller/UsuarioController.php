@@ -39,6 +39,7 @@ class UsuarioController extends Controller
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
 
+        
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
@@ -67,7 +68,7 @@ class UsuarioController extends Controller
             'method' => 'POST',
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Create'));
+        $form->add('submit', 'submit', array('label' => 'Crear usuario', 'attr' => array('class' => 'btn btn-success btn-large')));
 
         return $form;
     }
@@ -102,7 +103,8 @@ class UsuarioController extends Controller
         }
 
         $deleteForm = $this->createDeleteForm($id);
-
+        $deleteForm->add('submit', 'submit', array('label' => 'Eliminar usuario', 'attr' => array('class' => 'btn btn-danger btn-large pull-right')));
+        
         return $this->render('RegistroEventosCoreBundle:Usuario:show.html.twig', array(
             'entity'      => $entity,
             'delete_form' => $deleteForm->createView(),
@@ -126,6 +128,8 @@ class UsuarioController extends Controller
         $editForm = $this->createEditForm($entity);
         $deleteForm = $this->createDeleteForm($id);
 
+        $editForm->add('submit', 'submit', array('label' => 'Guardar cambios', 'attr' => array('class' => 'btn btn-primary btn-large')));
+        $deleteForm->add('submit', 'submit', array('label' => 'Eliminar usuario', 'attr' => array('class' => 'btn btn-danger btn-large pull-right')));
         return $this->render('RegistroEventosCoreBundle:Usuario:edit.html.twig', array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
