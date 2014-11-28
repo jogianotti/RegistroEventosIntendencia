@@ -11,17 +11,47 @@
 <a href="{{ path('usuarios') }}" role="button" class="btn btn-default btn-large">
 <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
 Regresar al listado de usuarios</a>
+<h2>Nuevo Usuario</h2>
+<div class="row">
+<div class="col-sm-6 col-sm-offset-3">
+	{{ form_start(form, {attr:{role:'form'}}) }}
+	<div class="form-group">
+		{{ form_errors(form.nombre) }}
+		{{ form_label(form.nombre, 'Nombre y Apellido: ')}}
+		{{ form_widget(form.nombre, { 'attr': {'class': 'form-control'} }) }}
+	</div>
+	<div class="form-group">
+		{{ form_errors(form.email) }}
+		{{ form_label(form.email, 'Correo electronico: ')}}
+		{{ form_widget(form.email, { 'attr': {'class': 'form-control'} }) }}
+	</div>
+	<div class="form-group">
+		{{ form_errors(form.username) }}
+		{{ form_label(form.username, 'Nombre de Usuario: ')}}
+		{{ form_widget(form.username, { 'attr': {'class': 'form-control'} }) }}
+	</div>
+	<div class="form-group">
+		{{ form_errors(form.plainPassword.first) }}
+		{{ form_label(form.plainPassword.first, 'Clave: ')}}
+		{{ form_widget(form.plainPassword.first, { 'attr': {'class': 'form-control'} }) }}
+	</div>
+	<div class="form-group">
+		{{ form_errors(form.plainPassword.second) }}
+		{{ form_label(form.plainPassword.second, 'Confirmacion Clave: ')}}
+		{{ form_widget(form.plainPassword.second, { 'attr': {'class': 'form-control'} }) }}
+	</div>
+	<div class="form-group">
+		{{ form_widget(form.baja, { 'attr': {'class': 'oculto'} }) }}
+	</div>
 
-    <h2>Nuevo Usuario</h2>
-	
-	<label for="exampleInputNombre">Nombre de usuario</label>
-	{{ form_widget(form.nombre, { 'attr': {'class': 'form-control'} }) }}
-
-	<label for="exampleInputBaja">Baja </label>
-	{{ form_widget(form.baja) }}
+	{{ form_rest(form) }}
 
 	<div class="space"></div>
-	
-    {{ form(form) }}
+	{{form_widget(form.submit)}}
 
+	{{ form_end(form) }}
+   
+{{ form(form) }}
+</div>
+</div>
 {% endblock %}

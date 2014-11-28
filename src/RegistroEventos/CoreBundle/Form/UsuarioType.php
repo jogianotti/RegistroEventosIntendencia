@@ -37,4 +37,9 @@ class UsuarioType extends AbstractType
     {
         return 'registroeventos_corebundle_usuario';
     }
+
+    public function getParent()
+    {
+        return 'fos_user_registration';
+    }
 }
