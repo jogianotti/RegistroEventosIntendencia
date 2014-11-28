@@ -25,27 +25,29 @@ class EventoController extends Controller
      */
     public function indexAction()
     {
+        
         $em = $this->getDoctrine()->getManager();
 
         $evento = new Evento();
         $evento->setFechaEvento(new \DateTime());
         $evento->setEstado(true);
         $form = $this->createCreateForm($evento);
-
+        
         $eventosAbiertos = $em->getRepository('RegistroEventosCoreBundle:Evento')->buscarEventosAbiertos();
         $eventosCerrados = $em->getRepository('RegistroEventosCoreBundle:Evento')->buscarEventosCerrados();
-
+        
         return $this->render('RegistroEventosCoreBundle:Evento:index.html.twig', array(
             'eventosAbiertos' => $eventosAbiertos,
             'eventosCerrados' => $eventosCerrados,
             'form'   => $form->createView()
         ));
+        print_r('LLEGUE'); die();
     }
     /**
      * Creates a new Evento entity.
      *
      */
-    public function createAction(Request $request)
+    public function crearAction(Request $request)
     {
         $evento = new Evento();
         $form = $this->createCreateForm($evento);
@@ -80,7 +82,7 @@ class EventoController extends Controller
     private function createCreateForm(Evento $entity)
     {
         $form = $this->createForm(new EventoType(), $entity, array(
-            'action' => $this->generateUrl('eventos_create'),
+            'action' => $this->generateUrl('eventos_crear'),
             'method' => 'POST',
         ));
 
@@ -130,97 +132,97 @@ class EventoController extends Controller
      * Displays a form to edit an existing Evento entity.
      *
      */
-    public function editAction($id)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('RegistroEventosCoreBundle:Evento')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Evento entity.');
-        }
-
-        $editForm = $this->createEditForm($entity);
-        $deleteForm = $this->createDeleteForm($id);
-
-        return $this->render('RegistroEventosCoreBundle:Evento:edit.html.twig', array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        ));
-    }
-
-    /**
-    * Creates a form to edit a Evento entity.
-    *
-    * @param Evento $entity The entity
-    *
-    * @return \Symfony\Component\Form\Form The form
-    */
-    private function createEditForm(Evento $entity)
-    {
-        $form = $this->createForm(new EventoType(), $entity, array(
-            'action' => $this->generateUrl('eventos_update', array('id' => $entity->getId())),
-            'method' => 'PUT',
-        ));
-
-        $form->add('submit', 'submit', array('label' => 'Update'));
-
-        return $form;
-    }
+//    public function editAction($id)
+//    {
+//        $em = $this->getDoctrine()->getManager();
+//
+//        $entity = $em->getRepository('RegistroEventosCoreBundle:Evento')->find($id);
+//
+//        if (!$entity) {
+//            throw $this->createNotFoundException('Unable to find Evento entity.');
+//        }
+//
+//        $editForm = $this->createEditForm($entity);
+//        $deleteForm = $this->createDeleteForm($id);
+//
+//        return $this->render('RegistroEventosCoreBundle:Evento:edit.html.twig', array(
+//            'entity'      => $entity,
+//            'edit_form'   => $editForm->createView(),
+//            'delete_form' => $deleteForm->createView(),
+//        ));
+//    }
+//
+//    /**
+//    * Creates a form to edit a Evento entity.
+//    *
+//    * @param Evento $entity The entity
+//    *
+//    * @return \Symfony\Component\Form\Form The form
+//    */
+//    private function createEditForm(Evento $entity)
+//    {
+//        $form = $this->createForm(new EventoType(), $entity, array(
+//            'action' => $this->generateUrl('eventos_update', array('id' => $entity->getId())),
+//            'method' => 'PUT',
+//        ));
+//
+//        $form->add('submit', 'submit', array('label' => 'Update'));
+//
+//        return $form;
+//    }
     /**
      * Edits an existing Evento entity.
      *
      */
-    public function updateAction(Request $request, $id)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('RegistroEventosCoreBundle:Evento')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Evento entity.');
-        }
-
-        $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createEditForm($entity);
-        $editForm->handleRequest($request);
-
-        if ($editForm->isValid()) {
-            $em->flush();
-
-            return $this->redirect($this->generateUrl('eventos_edit', array('id' => $id)));
-        }
-
-        return $this->render('RegistroEventosCoreBundle:Evento:edit.html.twig', array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        ));
-    }
+//    public function updateAction(Request $request, $id)
+//    {
+//        $em = $this->getDoctrine()->getManager();
+//
+//        $entity = $em->getRepository('RegistroEventosCoreBundle:Evento')->find($id);
+//
+//        if (!$entity) {
+//            throw $this->createNotFoundException('Unable to find Evento entity.');
+//        }
+//
+//        $deleteForm = $this->createDeleteForm($id);
+//        $editForm = $this->createEditForm($entity);
+//        $editForm->handleRequest($request);
+//
+//        if ($editForm->isValid()) {
+//            $em->flush();
+//
+//            return $this->redirect($this->generateUrl('eventos_edit', array('id' => $id)));
+//        }
+//
+//        return $this->render('RegistroEventosCoreBundle:Evento:edit.html.twig', array(
+//            'entity'      => $entity,
+//            'edit_form'   => $editForm->createView(),
+//            'delete_form' => $deleteForm->createView(),
+//        ));
+//    }
     /**
      * Deletes a Evento entity.
      *
      */
-    public function deleteAction(Request $request, $id)
-    {
-        $form = $this->createDeleteForm($id);
-        $form->handleRequest($request);
-
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('RegistroEventosCoreBundle:Evento')->find($id);
-
-            if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Evento entity.');
-            }
-
-            $em->remove($entity);
-            $em->flush();
-        }
-
-        return $this->redirect($this->generateUrl('eventos'));
-    }
+//    public function deleteAction(Request $request, $id)
+//    {
+//        $form = $this->createDeleteForm($id);
+//        $form->handleRequest($request);
+//
+//        if ($form->isValid()) {
+//            $em = $this->getDoctrine()->getManager();
+//            $entity = $em->getRepository('RegistroEventosCoreBundle:Evento')->find($id);
+//
+//            if (!$entity) {
+//                throw $this->createNotFoundException('Unable to find Evento entity.');
+//            }
+//
+//            $em->remove($entity);
+//            $em->flush();
+//        }
+//
+//        return $this->redirect($this->generateUrl('eventos'));
+//    }
 
     /**
      * Creates a form to delete a Evento entity by id.
@@ -316,7 +318,7 @@ class EventoController extends Controller
         $em->persist($evento);
         $em->flush();
         
-        return $this->forward('RegistroEventosCoreBundle:Evento:index');
+        return $this->redirect($this->generateUrl('eventos'));//'RegistroEventosCoreBundle:Evento:index');
     }
     
     public function abrirEventoAction($id){
@@ -327,36 +329,31 @@ class EventoController extends Controller
         $em->persist($evento);
         $em->flush();
         
-        return $this->forward('RegistroEventosCoreBundle:Evento:index');
+        return $this->redirect($this->generateUrl('eventos'));//    forward('RegistroEventosCoreBundle:Evento:index');
     }
     
     public function detalleEventoAction($id) {
         
         $em = $this->getDoctrine()->getManager();
         $evento = $em->getRepository('RegistroEventosCoreBundle:Evento')->findOneBy(array('id' => $id));
+        
         $detalle = new Detalle();
         $detalle->setFechaDetalle(new \DateTime());
-        $form = $this->createForm(new DetalleType(), $detalle, array(
-            'action' => $this->generateUrl('eventos_detalle',array('id' => $evento->getId())),
-            'method' => 'POST'
-        ));
+        $form = $this->createForm(new DetalleType(), $detalle);
         
-//        if($id === NULL){
-//            return $this->render('RegistroEventosCoreBundle:Evento:detalle.html.twig', array(
-//                'error' => true
-//            ));
-        
-        return $this->render('RegistroEventosCoreBundle:Evento:detalle.html.twig',array('form' => $form->createView(),'detalles'=>array()));
+        return $this->render('RegistroEventosCoreBundle:Evento:detalle.html.twig',array('form' => $form->createView(),'detalles'=>array(),'evento'=>$evento));
     }
     
     public function crearDetalleEventoAction(Request $request){
+        $eventoId = $request->request->get('eventoId');
+        $em = $this->getDoctrine()->getManager();
+        $evento = $em->getRepository('RegistroEventosCoreBundle:Evento')->findOneBy(array('id' => $eventoId));
         
         $detalle = new Detalle();
-        $form = $this->createForm(new EventoType(), $detalle);
+        $form = $this->createForm(new DetalleType(), $detalle);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
             
             $detalle->setFechaSistema(new \DateTime());
             $detalle->setUsuario($this->get('security.context')->getToken()->getUser());
@@ -364,13 +361,17 @@ class EventoController extends Controller
             $em->persist($detalle);
             $em->flush();
             
-            return new JsonResponse(array('agregado' => TRUE,'detalle'=>$detalle));
-//            return $this->redirect($this->generateUrl('eventos'));
-        }
-        $detalles = 
-        $vista = $this->renderView('RegistroEventosCoreBundle:Evento:detalle.html.twig', array(
+            $detalles = $this->getDoctrine()->getManager()->getRepository('RegistroEventosCoreBundle:Evento')->listarDetallesPara($evento);
+            $vista = $this->renderView('RegistroEventosCoreBundle:Evento:detalle.html.twig', array(
                 'form' => $form->createView(),
-                'detalles' => array()
+                'detalles' => $detalles
+            ));
+            return new JsonResponse(array('agregado' => TRUE,'html'=> $vista));
+        }
+        $detalles = $this->getDoctrine()->getManager()->getRepository('RegistroEventosCoreBundle:Evento')->listarDetallesPara($evento);
+        $vista = $this->renderView('RegistroEventosCoreBundle:Evento:detalle.html.twig', array(
+            'form' => $form->createView(),
+            'detalles' => $detalles
         ));
         return new JsonResponse(array('agregado' => FALSE, 'html' => $vista));
     }

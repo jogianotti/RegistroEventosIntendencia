@@ -4,17 +4,17 @@ eventos:
     options:
         expose: true
         
-eventos_show:
-    path:     /{id}/show
-    defaults: { _controller: "RegistroEventosCoreBundle:Evento:show" }
+#eventos_show:
+#    path:     /{id}/ver
+#    defaults: { _controller: "RegistroEventosCoreBundle:Evento:verEvento" }
 
-eventos_new:
-    path:     /new
-    defaults: { _controller: "RegistroEventosCoreBundle:Evento:new" }
+#eventos_new:
+#    path:     /nuevo
+#    defaults: { _controller: "RegistroEventosCoreBundle:Evento:nuevo" }
 
-eventos_create:
+eventos_crear:
     path:     /crear
-    defaults: { _controller: "RegistroEventosCoreBundle:Evento:create" }
+    defaults: { _controller: "RegistroEventosCoreBundle:Evento:crear" }
     requirements: { _method: post }
 
 
@@ -31,19 +31,19 @@ eventos_rectificacion_crear:
     options:
         expose: true
 
-eventos_edit:
-    path:     /{id}/edit
-    defaults: { _controller: "RegistroEventosCoreBundle:Evento:edit" }
+#eventos_edit:
+#    path:     /{id}/edit
+#    defaults: { _controller: "RegistroEventosCoreBundle:Evento:edit" }
 
-eventos_update:
-    path:     /{id}/update
-    defaults: { _controller: "RegistroEventosCoreBundle:Evento:update" }
-    requirements: { _method: post|put }
+#eventos_update:
+#    path:     /{id}/update
+#    defaults: { _controller: "RegistroEventosCoreBundle:Evento:update" }
+#    requirements: { _method: post|put }
 
-eventos_delete:
-    path:     /{id}/delete
-    defaults: { _controller: "RegistroEventosCoreBundle:Evento:delete" }
-    requirements: { _method: post|delete }
+#eventos_delete:
+#    path:     /{id}/delete
+#    defaults: { _controller: "RegistroEventosCoreBundle:Evento:delete" }
+#    requirements: { _method: post|delete }
 
 eventos_abrir:
     path:     /{id}/abrir
@@ -56,5 +56,11 @@ eventos_cerrar:
 eventos_detalle:
     path:     /{id}/detalle
     defaults: { _controller: "RegistroEventosCoreBundle:Evento:detalleEvento" }
+    options:
+        expose: true
+        
+eventos_detalle_crear:
+    path:     /{id}/detalle_crear
+    defaults: { _controller: "RegistroEventosCoreBundle:Evento:crearDetalleEvento" }
     options:
         expose: true
