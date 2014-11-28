@@ -24,7 +24,12 @@ usuarios_update:
     defaults: { _controller: "RegistroEventosCoreBundle:Usuario:update" }
     requirements: { _method: post|put }
 
-usuarios_delete:
-    path:     /{id}/delete
-    defaults: { _controller: "RegistroEventosCoreBundle:Usuario:delete" }
-    requirements: { _method: post|delete }
+usuarios_disable:
+    path:     /{id}/disable
+    defaults: { _controller: "RegistroEventosCoreBundle:Usuario:disable" }
+    requirements: { _method: GET }
+
+usuarios_enable:
+    path:     /{id}/enable
+    defaults: { _controller: "RegistroEventosCoreBundle:Usuario:enable" }
+    requirements: { _method: GET }
