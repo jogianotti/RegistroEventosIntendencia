@@ -39,7 +39,8 @@ class EventoController extends Controller
         return $this->render('RegistroEventosCoreBundle:Evento:index.html.twig', array(
             'eventosAbiertos' => $eventosAbiertos,
             'eventosCerrados' => $eventosCerrados,
-            'form'   => $form->createView()
+            'form'   => $form->createView(),
+            'evento' => $evento
         ));
         print_r('LLEGUE'); die();
     }
@@ -53,7 +54,7 @@ class EventoController extends Controller
         $form = $this->createCreateForm($evento);
         $form->handleRequest($request);
         
-        $date = \DateTime::createFromFormat('d-m-y H:i', $request->request->get('fechaEvento'));
+        $date = \DateTime::createFromFormat('d/m/Y H:i', $request->request->get('fechaEvento'));
         $evento->setFechaEvento($date);
 
         if ($form->isValid()) {

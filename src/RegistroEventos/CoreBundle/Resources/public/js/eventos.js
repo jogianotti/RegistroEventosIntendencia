@@ -17,7 +17,7 @@ function openClose(id){
 }
 $(document).ready(function () {
     $('#datetimepicker1').datetimepicker({
-        format: 'DD-MM-YY HH:mm'
+        format: 'DD/MM/YYYY HH:mm'
     }); 
 
 //    $('#botonCrearEvento').on("click", function () {

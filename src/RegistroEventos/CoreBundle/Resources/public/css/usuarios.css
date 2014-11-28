@@ -11,6 +11,9 @@ table.usuarios {
     width: 100px;
 }
 
+.glyphicon-2x{
+	font-size: 2em;
+}
 
 .space{
 	height:2em;
