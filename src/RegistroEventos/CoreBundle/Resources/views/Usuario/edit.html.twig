@@ -15,6 +15,7 @@
 <div class="row">
 <div class="col-sm-6 col-sm-offset-3">
 	{{ form_start(edit_form, {attr:{role:'form'}}) }}
+        {{form_errors(edit_form)}}
 	<div class="form-group">
 		{{ form_errors(edit_form.nombre) }}
 		{{ form_label(edit_form.nombre, 'Nombre y Apellido: ')}}

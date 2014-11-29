@@ -126,14 +126,14 @@ class UsuarioController extends Controller
         }
 
         $editForm = $this->createEditForm($entity);
-        $deleteForm = $this->createDeleteForm($id);
+//        $deleteForm = $this->createDeleteForm($id);
 
         $editForm->add('submit', 'submit', array('label' => 'Guardar cambios', 'attr' => array('class' => 'btn btn-primary btn-large')));
         //$deleteForm->add('submit', 'submit', array('label' => 'Eliminar usuario', 'attr' => array('class' => 'btn btn-danger btn-large pull-right')));
         return $this->render('RegistroEventosCoreBundle:Usuario:edit.html.twig', array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+//            'delete_form' => $deleteForm->createView(),
         ));
     }
 
@@ -162,27 +162,25 @@ class UsuarioController extends Controller
     public function updateAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
-
         $entity = $em->getRepository('RegistroEventosCoreBundle:Usuario')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Usuario entity.');
         }
 
-        $deleteForm = $this->createDeleteForm($id);
         $editForm = $this->createEditForm($entity);
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
+            $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('usuarios_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('usuarios'));
         }
 
         return $this->render('RegistroEventosCoreBundle:Usuario:edit.html.twig', array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
         ));
     }
     /**

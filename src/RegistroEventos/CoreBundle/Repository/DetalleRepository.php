@@ -17,8 +17,8 @@ class DetalleRepository extends EntityRepository
     {
         return $this->createQueryBuilder('d')
                 ->select('d')
-                ->where('d.evento = :idEvento')
-                ->setParameter('idEvento', $evento->getId())
+                ->where('d.evento = :evento')
+                ->setParameter('evento', $evento)
                 ->getQuery()->getResult();
     }
 

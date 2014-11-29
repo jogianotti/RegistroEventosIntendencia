@@ -334,19 +334,31 @@ class EventoController extends Controller
     }
     
     public function detalleEventoAction($id) {
-        
         $em = $this->getDoctrine()->getManager();
-        $evento = $em->getRepository('RegistroEventosCoreBundle:Evento')->findOneBy(array('id' => $id));
+        
+        $evento = $em->getRepository('RegistroEventosCoreBundle:Evento')->find($id);
+        
+        if (!$evento) {
+            throw $this->createNotFoundException(
+                'No se encontro el evento '.$id
+            );
+        }
+        
+        $detallesActuales = $em->getRepository('RegistroEventosCoreBundle:Evento')->listarDetallesPara($evento);
         
         $detalle = new Detalle();
         $detalle->setFechaDetalle(new \DateTime());
         $form = $this->createForm(new DetalleType(), $detalle);
         
-        return $this->render('RegistroEventosCoreBundle:Evento:detalle.html.twig',array('form' => $form->createView(),'detalles'=>array(),'evento'=>$evento));
+        return $this->render('RegistroEventosCoreBundle:Evento:detalle.html.twig',
+                array(
+                    'form' => $form->createView(),
+                    'detalles'=>$detallesActuales,
+                    'evento'=>$evento)
+                );
     }
     
     public function crearDetalleEventoAction(Request $request){
-        
         $eventoId = $request->request->get('eventoId');
         $em = $this->getDoctrine()->getManager();
         $evento = $em->getRepository('RegistroEventosCoreBundle:Evento')->findOneBy(array('id' => $eventoId));
@@ -354,26 +366,28 @@ class EventoController extends Controller
         $detalle = new Detalle();
         $form = $this->createForm(new DetalleType(), $detalle);
         $form->handleRequest($request);
-
+        
+        $detalle->setFechaSistema(new \DateTime());
+        $detalle->setUsuario($this->get('security.context')->getToken()->getUser());
+        $detalle->setEvento($evento);
+        
         if ($form->isValid()) {
-            
-            $detalle->setFechaSistema(new \DateTime());
-            $detalle->setUsuario($this->get('security.context')->getToken()->getUser());
-            
             $em->persist($detalle);
             $em->flush();
             
             $detalles = $this->getDoctrine()->getManager()->getRepository('RegistroEventosCoreBundle:Evento')->listarDetallesPara($evento);
             $vista = $this->renderView('RegistroEventosCoreBundle:Evento:detalle.html.twig', array(
                 'form' => $form->createView(),
-                'detalles' => $detalles
+                'detalles' => $detalles,
+                'evento' => $evento
             ));
             return new JsonResponse(array('agregado' => TRUE,'html'=> $vista));
         }
         $detalles = $this->getDoctrine()->getManager()->getRepository('RegistroEventosCoreBundle:Evento')->listarDetallesPara($evento);
         $vista = $this->renderView('RegistroEventosCoreBundle:Evento:detalle.html.twig', array(
             'form' => $form->createView(),
-            'detalles' => $detalles
+            'detalles' => $detalles,
+            'evento' => $evento
         ));
         return new JsonResponse(array('agregado' => FALSE, 'html' => $vista));
     }

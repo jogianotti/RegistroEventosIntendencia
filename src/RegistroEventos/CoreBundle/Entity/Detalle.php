@@ -13,25 +13,19 @@ use Doctrine\ORM\Mapping as ORM;
 class Detalle
 {
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Column(name="id", type="integer")
      */
     private $id;
 
     /**
-     * @var integer
-     *
      * @ORM\Column(name="fechaDetalle", type="datetime")
      */
     private $fechaDetalle;
 
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="fechaSistema", type="integer")
+     * @ORM\Column(name="fechaSistema", type="datetime")
      */
     private $fechaSistema;
 
@@ -43,14 +37,14 @@ class Detalle
     private $observaciones;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Detalle", inversedBy="eventos")
-     * @ORM\JoinColumn(name="id_evento", referencedColumnName="id",nullable=false)
+     * @ORM\ManyToOne(targetEntity="Evento", inversedBy="detalles")
+     * @ORM\JoinColumn(name="id_evento", referencedColumnName="id_evento",nullable=false)
      **/
     private $evento;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Detalle", inversedBy="usuarios")
-     * @ORM\JoinColumn(name="id_usuario", referencedColumnName="id",nullable=false)
+     * @ORM\ManyToOne(targetEntity="Usuario")
+     * @ORM\JoinColumn(name="id_usuario", referencedColumnName="id_usuario",nullable=false)
      **/
     private $usuario;
 
@@ -131,5 +125,21 @@ class Detalle
     public function getObservaciones()
     {
         return $this->observaciones;
+    }
+    
+    function getEvento() {
+        return $this->evento;
+    }
+
+    function getUsuario() {
+        return $this->usuario;
+    }
+
+    function setEvento($evento) {
+        $this->evento = $evento;
+    }
+
+    function setUsuario($usuario) {
+        $this->usuario = $usuario;
     }
 }

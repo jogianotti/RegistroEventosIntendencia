@@ -1,6 +1,7 @@
 <div class="row">
     <div class="col-sm-6">
-        <form role="form" id="formularioAgregarDetalle">
+        <form role="form" id="formularioAgregarDetalle" name="formularioAgregarDetalle">
+            {{ form_errors(form)}}
             <div class="form-group">
                 {{ form_label(form.fechaDetalle, 'Fecha del Detalle: ') }}<br>
                 <span>{{ form_errors(form.fechaDetalle) }}</span>
@@ -14,20 +15,23 @@
                 {{form_label(form.observaciones)}}
                 {{form_widget(form.observaciones,{attr:{class:'form-control'}})}}
             </div>
-            <input type="hidden" name="evenyoId" value="{{ evento.id }}"></form>
+            <input type="hidden" name="eventoId" value="{{ evento.id }}">
+            {{ form_row(form._token) }}
             <button id="botonAgregarDetalle" type="button" class="btn btn-primary">Agregar</button>
         </form>
     </div>
     <div class="col-sm-6">
         <table class="table">
             <thead>
-                <th>Fecha detalle</th>
-                <th>Observaciones</th>
+            <th>Fecha detalle</th>
+            <th>Observaciones</th>
             </thead>
             <tbody>
                 {% for detalle in detalles %}
-                <td>{{ detalles.fechaDetalle }}</td>
-                <td>{{ detalle.observaciones }}</td>
+                    <tr>
+                        <td>{{ detalle.fechaDetalle | date('Y-m-d H-i')}}</td>
+                        <td>{{ detalle.observaciones }}</td>
+                    </tr>
                 {% endfor %}
             </tbody>
         </table>

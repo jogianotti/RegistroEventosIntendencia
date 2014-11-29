@@ -60,7 +60,7 @@ eventos_detalle:
         expose: true
         
 eventos_detalle_crear:
-    path:     /{id}/detalle_crear
+    path:     /detalle_crear
     defaults: { _controller: "RegistroEventosCoreBundle:Evento:crearDetalleEvento" }
     options:
         expose: true

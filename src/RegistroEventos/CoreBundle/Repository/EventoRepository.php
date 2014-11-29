@@ -31,18 +31,27 @@ class EventoRepository extends EntityRepository
     }
     
     public function listarDetallesPara($evento){
-        $qb = $this->createQueryBuilder('e');
         
-        $eventoAnterior = $qb->select('e')->where('e.rectificacion = :id')->setParameter('id', $evento->getId());
-        $detalles = $this->getEntityManager()->getRepository('RegistroEventosCoreBundle:Detalle')->listarPara($eventoAnterior);
-        while($eventoAnterior !== NULL){
+        $detalles = $this->getEntityManager()->getRepository('RegistroEventosCoreBundle:Detalle')->listarPara($evento);
+        
+        $eventoAnterior = $this->buscarEventoRectificadoPara($evento);
+        while(!is_null($eventoAnterior)){
             $arrayDetalles = $this->getEntityManager()->getRepository('RegistroEventosCoreBundle:Detalle')->listarPara($eventoAnterior);
-            if($arrayDetalles !== NULL && $detlles !== NULL){
+            if(!is_null($arrayDetalles)){
                 $detalles = array_merge($detalles,$arrayDetalles);
             }
-            $eventoAnterior = $qb->select('e')->where('e.rectificacion = :id')->setParameter('id', $eventoAnterior->getId());
+            $eventoAnterior = $this->buscarEventoRectificadoPara($eventoAnterior);
         }
         
         return $detalles;
+    }
+    
+    public function buscarEventoRectificadoPara($evento){
+        return $this->createQueryBuilder('e')
+                ->select('e')
+                ->where('e.rectificacion = :evento')
+                ->setParameter('evento', $evento)
+                ->getQuery()
+                ->getOneOrNullResult();
     }
 }

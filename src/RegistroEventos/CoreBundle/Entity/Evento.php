@@ -13,10 +13,8 @@ use Doctrine\ORM\Mapping as ORM;
 class Evento
 {
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="id_evento", type="integer")
      * @ORM\Id
+     * @ORM\Column(name="id_evento", type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
@@ -52,7 +50,7 @@ class Evento
 
     /**
      * @ORM\ManyToOne(targetEntity="Usuario", inversedBy="eventos")
-     * @ORM\JoinColumn(name="id_usuario", referencedColumnName="id",nullable=false)
+     * @ORM\JoinColumn(name="id_usuario", referencedColumnName="id_usuario",nullable=false)
      **/
     private $usuario;
 
@@ -63,7 +61,7 @@ class Evento
     private $tipoEvento;
 
     /**
-     * @ORM\OneToMany(targetEntity="Evento", mappedBy="detalle")
+     * @ORM\OneToMany(targetEntity="Detalle", mappedBy="evento")
      **/
     private $detalles;
     
@@ -251,6 +249,13 @@ class Evento
     function setRectificacion($rectificacion) {
         $this->rectificacion = $rectificacion;
     }
+    
+    function getDetalles() {
+        return $this->detalles;
+    }
 
+    function setDetalles($detalles) {
+        $this->detalles = $detalles;
+    }
 
 }

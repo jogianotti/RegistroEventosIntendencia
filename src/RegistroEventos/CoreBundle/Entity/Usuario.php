@@ -13,11 +13,9 @@ use FOS\UserBundle\Model\User as UsuarioBase;
 class Usuario extends UsuarioBase
 {
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Column(name="id_usuario", type="integer")
      */
     protected $id;
 
@@ -42,11 +40,6 @@ class Usuario extends UsuarioBase
      * @ORM\OneToMany(targetEntity="Evento", mappedBy="usuario")
      **/
     protected $eventos;
-
-    /**
-     * @ORM\OneToMany(targetEntity="Detalle", mappedBy="usuario")
-     **/
-    protected $detalles;
 
     /**
      * Get id
