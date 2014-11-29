@@ -15,3 +15,7 @@ table.eventos {
 	height:2em;
 	width:100%;
 }
+#listado-detalles {
+    max-height: 300px;
+    overflow-y: auto;
+}

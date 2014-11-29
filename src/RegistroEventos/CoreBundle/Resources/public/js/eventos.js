@@ -63,6 +63,7 @@ $(document).ready(function () {
             $('.modal-dialog').addClass('modal-lg');
             $('#ventanaPopUp').modal('show');
         });
+        
     });
 
     $("#botonGuardarPopUp").on("click", function () {
@@ -101,17 +102,17 @@ $(document).ready(function () {
             success: function(datos)
             {
                 $("#contenidoPopUp").html(datos.html);
-//                if(datos.agregado){
-//                    $('#ventanaPopUp').modal('hide');
-//                    $( location ).attr("href", Routing.generate('eventos',null,true));
-//                } else {
-//                    $("#contenidoPopUp").html(datos.html);
-//                }
             },
             error: function() {
                 alert('error');
             }
         });
         return false;
+    });
+    
+    $('#ventanaPopUp').one('mouseover','#dp-detalle',function(){
+        $('#dp-detalle').datetimepicker({
+            format: 'DD/MM/YYYY HH:mm'
+        });
     });
 });

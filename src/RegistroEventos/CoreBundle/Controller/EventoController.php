@@ -42,7 +42,6 @@ class EventoController extends Controller
             'form'   => $form->createView(),
             'evento' => $evento
         ));
-        print_r('LLEGUE'); die();
     }
     /**
      * Creates a new Evento entity.
@@ -224,22 +223,22 @@ class EventoController extends Controller
 //
 //        return $this->redirect($this->generateUrl('eventos'));
 //    }
-
-    /**
-     * Creates a form to delete a Evento entity by id.
-     *
-     * @param mixed $id The entity id
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createDeleteForm($id)
-    {
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl('eventos_delete', array('id' => $id)))
-            ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Delete'))
-            ->getForm();
-    }
+//
+//    /**
+//     * Creates a form to delete a Evento entity by id.
+//     *
+//     * @param mixed $id The entity id
+//     *
+//     * @return \Symfony\Component\Form\Form The form
+//     */
+//    private function createDeleteForm($id)
+//    {
+//        return $this->createFormBuilder()
+//            ->setAction($this->generateUrl('eventos_delete', array('id' => $id)))
+//            ->setMethod('DELETE')
+//            ->add('submit', 'submit', array('label' => 'Delete'))
+//            ->getForm();
+//    }
 
     public function nuevaRectificacionAction(Request $request){
         $id = $request->request->get('id',NULL);
@@ -347,15 +346,18 @@ class EventoController extends Controller
         $detallesActuales = $em->getRepository('RegistroEventosCoreBundle:Evento')->listarDetallesPara($evento);
         
         $detalle = new Detalle();
-        $detalle->setFechaDetalle(new \DateTime());
+        $datetimeActual = new \DateTime();
+        $detalle->setFechaDetalle($datetimeActual);
         $form = $this->createForm(new DetalleType(), $detalle);
         
         return $this->render('RegistroEventosCoreBundle:Evento:detalle.html.twig',
-                array(
-                    'form' => $form->createView(),
-                    'detalles'=>$detallesActuales,
-                    'evento'=>$evento)
-                );
+            array(
+                'form' => $form->createView(),
+                'detalles'=>$detallesActuales,
+                'evento'=>$evento,
+                'datetimeActual' => $datetimeActual->format('d/m/Y H:i')
+            )
+        );
     }
     
     public function crearDetalleEventoAction(Request $request){
@@ -367,9 +369,13 @@ class EventoController extends Controller
         $form = $this->createForm(new DetalleType(), $detalle);
         $form->handleRequest($request);
         
-        $detalle->setFechaSistema(new \DateTime());
+        $datetimeActual = new \DateTime();
+        
+        $detalle->setFechaSistema($datetimeActual);
         $detalle->setUsuario($this->get('security.context')->getToken()->getUser());
         $detalle->setEvento($evento);
+        $fechaDetalle = \DateTime::createFromFormat('d/m/Y H:i', $request->request->get('fechaDetalle'));
+        $detalle->setFechaDetalle($fechaDetalle);
         
         if ($form->isValid()) {
             $em->persist($detalle);
@@ -377,9 +383,10 @@ class EventoController extends Controller
             
             $detalles = $this->getDoctrine()->getManager()->getRepository('RegistroEventosCoreBundle:Evento')->listarDetallesPara($evento);
             $vista = $this->renderView('RegistroEventosCoreBundle:Evento:detalle.html.twig', array(
-                'form' => $form->createView(),
+                'form' => $form->initialize()->createView(),
                 'detalles' => $detalles,
-                'evento' => $evento
+                'evento' => $evento,
+                'datetimeActual' => $datetimeActual->format('d/m/Y H:i')
             ));
             return new JsonResponse(array('agregado' => TRUE,'html'=> $vista));
         }
@@ -387,7 +394,8 @@ class EventoController extends Controller
         $vista = $this->renderView('RegistroEventosCoreBundle:Evento:detalle.html.twig', array(
             'form' => $form->createView(),
             'detalles' => $detalles,
-            'evento' => $evento
+            'evento' => $evento,
+            'datetimeActual' => $datetimeActual->format('d/m/Y H:i')
         ));
         return new JsonResponse(array('agregado' => FALSE, 'html' => $vista));
     }

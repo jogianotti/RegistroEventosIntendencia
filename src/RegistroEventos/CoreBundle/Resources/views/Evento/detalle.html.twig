@@ -1,13 +1,27 @@
 <div class="row">
-    <div class="col-sm-6">
+    <div class="col-sm-4">
         <form role="form" id="formularioAgregarDetalle" name="formularioAgregarDetalle">
             {{ form_errors(form)}}
             <div class="form-group">
                 {{ form_label(form.fechaDetalle, 'Fecha del Detalle: ') }}<br>
                 <span>{{ form_errors(form.fechaDetalle) }}</span>
                 {# Agregar DateTimePiker #}
-                <span>Fecha: {{ form_widget(form.fechaDetalle.date) }}</span>
+                {#<span>Fecha: {{ form_widget(form.fechaDetalle.date) }}</span>
                 <span>Hora: {{ form_widget(form.fechaDetalle.time) }}</span>
+                #}
+                <div class="row padding-5">
+                    <div class="col-sm-12">
+                        <div class="input-group date" id="dp-detalle">
+                            <input id="{{ form.fechaDetalle.vars.id }}" 
+                                   name="{{ form.fechaDetalle.vars.name }}" 
+                                   type="datetime" class="form-control" 
+                                   value="{{ datetimeActual }}" readonly/>
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
 
             </div>
             <div class="form-group">
@@ -20,17 +34,19 @@
             <button id="botonAgregarDetalle" type="button" class="btn btn-primary">Agregar</button>
         </form>
     </div>
-    <div class="col-sm-6">
+    <div id="listado-detalles" class="col-sm-8">
         <table class="table">
             <thead>
             <th>Fecha detalle</th>
             <th>Observaciones</th>
+            <th>Usuario</th>
             </thead>
             <tbody>
                 {% for detalle in detalles %}
                     <tr>
                         <td>{{ detalle.fechaDetalle | date('Y-m-d H-i')}}</td>
                         <td>{{ detalle.observaciones }}</td>
+                        <td>{{ detalle.usuario.nombre }}</td>
                     </tr>
                 {% endfor %}
             </tbody>
