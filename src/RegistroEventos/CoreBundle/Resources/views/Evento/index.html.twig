@@ -20,7 +20,7 @@
                 <div class="row">
                     <div class="form-group col-sm-4 {% if not form.tipoEvento.vars.valid %}has-error{% endif %}">
                         {{ form_label(form.tipoEvento, 'Tipo de Evento',{ 'attr': {'for': form.tipoEvento.vars.id} }) }}
-                        {{ form_widget(form.tipoEvento, { 'attr': {'class': 'form-control'} }) }}
+                        {{ form_widget(form.tipoEvento, { 'attr': {'class': 'form-control','required':'required'} }) }}
                         {% if not form.tipoEvento.vars.valid %}
                             <div class="alert alert-danger">{{ form_errors(form.tipoEvento) }}</div>
                         {% endif %}
@@ -94,8 +94,10 @@
                     <td>{{ evento.tipoEvento }}</td>
                     <td>{{ evento.observaciones }}</td>
                     <td class="accion"><button type="button" class="btn btn-success botonMostrarDetallesEvento" data-id="{{ evento.id }}">Detalles</button></td>
-                    <td class="accion"><button type="button" class="btn btn-primary botonRectificarEvento" data-id="{{ evento.id }}">Rectificar</button></td>
                     <td class="accion"><a href="{{ path('eventos_cerrar',{'id': evento.id}) }}" type="button" class="btn btn-default botonCerrarEvento" data-id="{{ evento.id }}">Cerrar</a></td>
+                    {% if usuario == evento.usuario %}
+                    <td class="accion"><button type="button" class="btn btn-primary botonRectificarEvento" data-id="{{ evento.id }}">Rectificar</button></td>
+                    {% endif %}
                 </tr>
             {% endfor %}
         </tbody>
@@ -122,8 +124,10 @@
                     <td>{{ evento.tipoEvento }}</td>
                     <td>{{ evento.observaciones }}</td>
                     <td class="accion"><button type="button" class="btn btn-success botonMostrarDetallesEvento" data-id="{{ evento.id }}">Detalles</button></td>
-                    <td class="accion"><button type="button" class="btn btn-primary botonRectificarEvento" data-id="{{ evento.id }}">Rectificar</button></td>
                     <td class="accion"><a href="{{ path('eventos_abrir', {'id': evento.id} ) }}" type="button" class="btn btn-default botonAbrirEvento" data-id="{{ evento.id }}">Abrir</a></td>
+                    {% if usuario == evento.usuario %}
+                    <td class="accion"><button type="button" class="btn btn-primary botonRectificarEvento" data-id="{{ evento.id }}">Rectificar</button></td>
+                    {% endif %}
                 </tr>
             {% endfor %}
         </tbody>

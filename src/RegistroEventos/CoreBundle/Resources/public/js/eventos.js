@@ -15,25 +15,11 @@ function openClose(id){
         openObject(id);
     }
 }
+
 $(document).ready(function () {
     $('#datetimepicker1').datetimepicker({
         format: 'DD/MM/YYYY HH:mm'
-    }); 
-
-//    $('#botonCrearEvento').on("click", function () {
-//        $.ajax({
-//            type: 'GET',
-//            url: Routing.generate('eventos_new',null,true),
-//            context: document.body
-//        })
-//        .done(function (respuesta) {
-//            $('#tituloPopUp').html('Registrar Evento');
-//            $('#contenidoPopUp').html(respuesta.contenido);
-//            $('#ventanaPopUp').modal('show');
-//        }).error(function(respuesta) {
-//            console.log(respuesta.contenido);
-//        });
-//    });
+    });
     
     $(".botonRectificarEvento").on("click", function () {
         $.ajax({
@@ -42,13 +28,41 @@ $(document).ready(function () {
             url: Routing.generate('eventos_rectificacion_nueva',null,true),
             context: document.body
         })
-        .done(function (html) {
-            $('#tituloPopUp').html('Rectificar Evento');
-            $("#contenidoPopUp").html(html);
-                        $('.modal-dialog').removeClass('modal-lg');
-            $('#ventanaPopUp').modal('show');
+        .done(function (datos) {
+            if(datos.estado) {
+                $('#tituloPopUp').html('Rectificar Evento');
+                $("#contenidoPopUp").html(datos.vista);
+                $('.modal-dialog').removeClass('modal-lg');
+                $('#ventanaPopUp').modal('show');
+            }
         });
     });
+    
+    $("#botonGuardarPopUp").on("click", function () {
+            var datosFormulario = $("#formularioRectificarEvento").serializeArray();
+            var urlFormulario = Routing.generate('eventos_rectificacion_crear',null,true);
+            $.ajax(
+            {
+                url : urlFormulario,
+                type: "POST",
+                data : datosFormulario,
+                success: function(datos)
+                {
+                    if(datos.estado){
+                        if(datos.rectificado){
+                            $('#ventanaPopUp').modal('hide');
+                            $( location ).attr("href", Routing.generate('eventos',null,true));
+                        } else {
+                            $("#contenidoPopUp").html(datos.html);
+                        }
+                    }
+                },
+                error: function() {
+                    alert('error');
+                }
+            });
+            return false;
+        });
    
     // Visualizar detalles
     $('.botonMostrarDetallesEvento').on('click',function(){
@@ -65,30 +79,6 @@ $(document).ready(function () {
         });
         
     });
-
-    $("#botonGuardarPopUp").on("click", function () {
-            var datosFormulario = $("#formularioRectificarEvento").serializeArray();
-            var urlFormulario = Routing.generate('eventos_rectificacion_crear',null,true);
-            $.ajax(
-            {
-                url : urlFormulario,
-                type: "POST",
-                data : datosFormulario,
-                success: function(datos)
-                {
-                    if(datos.rectificado){
-                        $('#ventanaPopUp').modal('hide');
-                        $( location ).attr("href", Routing.generate('eventos',null,true));
-                    } else {
-                        $("#contenidoPopUp").html(datos.html);
-                    }
-                },
-                error: function() {
-                    alert('error');
-                }
-            });
-            return false;
-        });
     
     //Agregar nuevo detalle
     $('#ventanaPopUp').on("click",'#botonAgregarDetalle',function(){
