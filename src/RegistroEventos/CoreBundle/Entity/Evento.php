@@ -23,21 +23,21 @@ class Evento
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="fecha_sistema", type="datetime")
+     * @ORM\Column(name="fecha_sistema", type="datetime",nullable=false)
      */
     private $fechaSistema;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="fecha_evento", type="datetime")
+     * @ORM\Column(name="fecha_evento", type="datetime",nullable=false)
      */
     private $fechaEvento;
 
     /**
-     * @var string
+     * @var text
      *
-     * @ORM\Column(name="observaciones", type="text")
+     * @ORM\Column(name="observaciones", type="text",nullable=false)
      */
     private $observaciones;
     

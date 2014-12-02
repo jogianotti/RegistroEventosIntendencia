@@ -10,31 +10,30 @@
 #                max: 80
 #                minMessage: 'El nombre debe tener al menos {{ limit }} caractres.'
 #                maxMessage: 'El nombre debe tener a lo sumo {{ limit }} caractres.'
-##        baja:
-##            Type:
-##                type: boolean
-##                message: 'Baja debe ser un booleano'
+#        baja:
+#            Type:
+#                type: boolean
+#                message: 'Baja debe ser un booleano'
 #
-#RegistroEventos\CoreBundle\Entity\Evento:
-#    properties:
-#        fechaSistema:
-#            - DateTime:
-#                message: 'La fecha de sistema no es una fecha valida.'
+RegistroEventos\CoreBundle\Entity\Evento:
+    properties:
+        fechaSistema:
+            - DateTime:
+                message: 'La fecha de sistema no es una fecha valida.'
 #        fechaEvento:
 #            - DateTime:
 #                message: 'La fecha del evento no es una fecha valida.'
-#        observaciones:
-#            - Type:
-#                type: string
-#                message: 'Las observaciones deben ser de tipo texto'
-#            - Length:
-#                min: 6
-#                max: 255
-#                minMessage: 'Las observaciones deben tener al menos {{ limit }} caractres.'
-#                maxMessage: 'Las observaciones deben tener a lo sumo {{ limit }} caractres.'
-#            - NotBlank: 
-#                message: 'Las obserbaciones no deben quedar en blanco.'
-#
+        observaciones:
+            - Type:
+                type: string
+                message: 'Las observaciones deben ser de tipo texto'
+            - NotBlank: 
+                message: 'Las obserbaciones no deben quedar en blanco.'
+        tipoEvento:
+            - NotNull: 
+                message: 'Se debe seleccionar un tipo de evento'
+
+
 #RegistroEventos\CoreBundle\Entity\TipoEvento:
 #    properties:
 #        nombre:
@@ -116,4 +115,4 @@
 #                max: 40
 #                maxMessage: 'El telefono movil debe tener a lo sumo {{limit}} caracteres.'
 #                
-
+#

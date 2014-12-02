@@ -49,16 +49,23 @@ class EventoController extends Controller
      */
     public function crearAction(Request $request)
     {
+        $em = $this->getDoctrine()->getManager();
+        
         $evento = new Evento();
         $form = $this->createCreateForm($evento);
         $form->handleRequest($request);
         
         $date = \DateTime::createFromFormat('d/m/Y H:i', $request->request->get('fechaEvento'));
         $evento->setFechaEvento($date);
-
+        
+        $evento->setFechaSistema(new \DateTime());
+        $evento->setUsuario($this->get('security.context')->getToken()->getUser());        
+        
+        $eventosAbiertos = $em->getRepository('RegistroEventosCoreBundle:Evento')->buscarEventosAbiertos();
+        $eventosCerrados = $em->getRepository('RegistroEventosCoreBundle:Evento')->buscarEventosCerrados();
+        
+        
         if ($form->isValid()) {
-            $evento->setFechaSistema(new \DateTime());
-            $evento->setUsuario($this->get('security.context')->getToken()->getUser());
             $em = $this->getDoctrine()->getManager();
             $em->persist($evento);
             $em->flush();
@@ -69,6 +76,8 @@ class EventoController extends Controller
         return $this->render('RegistroEventosCoreBundle:Evento:index.html.twig', array(
             'evento' => $evento,
             'form'   => $form->createView(),
+            'eventosAbiertos' => $eventosAbiertos,
+            'eventosCerrados' => $eventosCerrados
         ));
     }
 

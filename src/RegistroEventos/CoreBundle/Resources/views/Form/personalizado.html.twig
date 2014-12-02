@@ -1,0 +1,14 @@
+{% block choice_widget_expanded %}
+    {% spaceless %}
+        <div {{ block('widget_container_attributes') }} class="form-group">
+            {% for child in form %}
+                  <label class="radio-inline">
+                    {{ form_widget(child,{attr:{style:'width:25px;height:25px;'}}) }}
+                    <span style="font-size: 25px">{{ child.vars.label }}</span>
+                  </label>
+                
+{#                {{ form_label(child) }}#}
+            {% endfor %}
+        </div>
+    {% endspaceless %}
+{% endblock choice_widget_expanded %}

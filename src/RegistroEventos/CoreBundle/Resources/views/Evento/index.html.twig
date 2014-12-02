@@ -10,20 +10,23 @@
     <link type="text/css" rel="stylesheet" href="{{ asset('bundles/registroeventoscore/css/eventos.css') }}" />
 {% endblock %}
 
+{% form_theme form 'RegistroEventosCoreBundle:Form:personalizado.html.twig' %}
+
 {% block body -%}
     <div class="row">
         <div class="col-sm-10 col-sm-offset-1">
             <form role="form" name="formularioAltaEvento" action="{{ path('eventos_crear') }}" method="post" {{ form_enctype(form) }}>
                 {{ form_errors(form) }}
                 <div class="row">
-                    <div class="form-group col-sm-4">
+                    <div class="form-group col-sm-4 {% if not form.tipoEvento.vars.valid %}has-error{% endif %}">
                         {{ form_label(form.tipoEvento, 'Tipo de Evento',{ 'attr': {'for': form.tipoEvento.vars.id} }) }}
-                        {{ form_errors(form.tipoEvento) }}
                         {{ form_widget(form.tipoEvento, { 'attr': {'class': 'form-control'} }) }}
+                        {% if not form.tipoEvento.vars.valid %}
+                            <div class="alert alert-danger">{{ form_errors(form.tipoEvento) }}</div>
+                        {% endif %}
                     </div>
-                    <div class="form-group col-sm-4">
+                    <div class="form-group col-sm-4 {% if not form.fechaEvento.vars.valid %}has-error{% endif %}">
                         {{ form_label(form.fechaEvento, 'Fecha del Evento') }}
-                        {{ form_errors(form.fechaEvento) }}
                         <div class="row padding-5">
                             <div class="col-sm-10">
 
@@ -34,6 +37,9 @@
                                 </div>
                             </div>
                         </div>
+                        {% if not form.fechaEvento.vars.valid %}
+                            <div class="alert alert-danger">{{ form_errors(form.fechaEvento) }}</div>
+                        {% endif %}
                     </div>
                     <div class="form-group col-sm-4">
                         {{ form_label(form.estado, 'Estado del Evento') }}
@@ -53,10 +59,12 @@
                         </div>#}
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group {% if not form.observaciones.vars.valid %}has-error{% endif %}">
                     {{ form_label(form.observaciones) }}
-                    {{ form_errors(form.observaciones) }}
                     {{ form_widget(form.observaciones, { 'attr': {'class': 'form-control'} }) }}
+                    {% if not form.observaciones.vars.valid %}
+                        <div class="alert alert-danger">{{ form_errors(form.observaciones) }}</div>
+                    {% endif %}
                 </div>
 
                 {{ form_row(form._token) }}
@@ -64,7 +72,8 @@
             </form>
         </div>
     </div>
-
+    
+    {% if eventosAbiertos is not empty %}
     <table id="tablaEventosAbiertos" class="table table-hover">
         <h2>Eventos abiertos</h2>
         <thead>
@@ -91,8 +100,8 @@
             {% endfor %}
         </tbody>
     </table>
-        
-        
+    {% endif %}
+    {% if eventosCerrados is not empty %}
     <table id="tablaEventosCerrados" class="table table-hover">
         <h2>Eventos cerrados</h2>
         <thead>
@@ -119,8 +128,11 @@
             {% endfor %}
         </tbody>
     </table>
-    
-        
+    {% endif %}
+    {% if eventosCerrados is empty and eventosAbiertos is empty %}
+        <h2 class="text-center">No hay eventos registrados</h2>
+    {% endif %}
+
     <!-- Ventana emergente -->
     <div id="ventanaPopUp" class="modal">
         <div class="modal-dialog">
