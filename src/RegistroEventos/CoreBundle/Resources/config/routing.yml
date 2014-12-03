@@ -22,9 +22,13 @@
 #    path:     /administracion/usuarios/modificar
 #    defaults: { _controller: RegistroEventosCoreBundle:Administracion:modificarUsuario }
 
+registro_eventos_core_administracion:
+    path:     /administracion
+    defaults: { _controller: RegistroEventosCoreBundle:Administracion:index }
+
 registro_eventos_core_supervision:
     path:     /supervision
-    defaults: { _controller: RegistroEventosCoreBundle:Supervision:index }
+    defaults: { _controller: RegistroEventosCoreBundle:Administracion:supervision }
 
 RegistroEventosCoreBundle_agenda:
     resource: "@RegistroEventosCoreBundle/Resources/config/routing/contacto.yml"

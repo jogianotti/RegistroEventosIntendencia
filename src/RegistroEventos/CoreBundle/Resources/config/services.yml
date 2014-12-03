@@ -1,12 +1,14 @@
 parameters:
-#    registro_eventos_core.example.class: RegistroEventos\CoreBundle\Example
+    registro_eventos_core.success_handler.class: RegistroEventos\CoreBundle\Handler\LoginSuccessHandler
+    
 
 services:
-#    registro_eventos_core.example:
-#        class: %registro_eventos_core.example.class%
-#        arguments: [@service_id, "plain_value", %parameter%]
-
     registro_eventos_core.registration.form.type:
         class: RegistroEventos\CoreBundle\Form\Type\RegistrationFormType
         tags:
             - { name: form.type, alias: registro_eventos_core_registration }
+            
+    registro_eventos_core.success_handler:
+        class: %registro_eventos_core.success_handler.class%
+        public: false
+        arguments:  [@router, @security.context]

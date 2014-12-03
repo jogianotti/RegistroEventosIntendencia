@@ -9,10 +9,7 @@ security:
         ROLE_ADMINISTRADOR: [ROLE_SUPERVISOR, ROLE_INTENDENTE]
 
     providers:
-#        in_memory:
-#            memory:
-#                users:
-#                    administrador: { password: 123456, roles: [ 'ROLE_ADMINISTRADOR' ] }
+        
         fos_userbundle:
             id: fos_user.user_provider.username
     
@@ -21,44 +18,27 @@ security:
 #                algorithm:   sha1
 #                iterations: 1
 #                encode_as_base64: false
+
     firewalls:
         dev:
             pattern:  ^/(_(profiler|wdt)|css|images|js)/
             security: false
 
-#        login:
-#            pattern:  ^/login$
-#            security: false
-#
-#        secured_area:
-#            pattern:    ^/
-#            form_login:
-#                check_path: _security_check
-#                login_path: _demo_login
-#            logout:
-#                path:   _demo_logout
-#                target: _demo
-            #anonymous: ~
-            #http_basic:
-            #    realm: "Secured Demo Area"
         main:
             pattern: ^/
             form_login:
                 provider: fos_userbundle
                 csrf_provider: form.csrf_provider
+                success_handler: registro_eventos_core.success_handler
             logout:       true
             anonymous:    true
-
+            
+    
+    
     access_control:
         - { path: ^/login, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/administracion, roles: ROLE_ADMINISTRADOR }
         - { path: ^/supervision, roles: ROLE_SUPERVISOR }
         - { path: ^/, roles: ROLE_INTENDENTE }
-
-        #- { path: ^/demo/secured/hello/admin/, roles: ROLE_ADMIN }
-        #- { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
-        #- { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        #- { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        #- { path: ^/admin/, role: ROLE_ADMIN }
 
