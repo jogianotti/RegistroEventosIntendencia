@@ -44,7 +44,7 @@ class TipoEventoController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('tipos_eventos_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('tipos_eventos'));
         }
 
         return $this->render('RegistroEventosCoreBundle:TipoEvento:new.html.twig', array(
