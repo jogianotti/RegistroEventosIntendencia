@@ -1,13 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.2.7.1
+-- version 3.4.11.1deb2+deb7u1
 -- http://www.phpmyadmin.net
 --
--- Servidor: 127.0.0.1
--- Tiempo de generación: 14-11-2014 a las 19:43:04
--- Versión del servidor: 5.6.20
--- Versión de PHP: 5.5.15
+-- Servidor: localhost
+-- Tiempo de generación: 04-12-2014 a las 02:04:23
+-- Versión del servidor: 5.5.40
+-- Versión de PHP: 5.4.35-0+deb7u2
 
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
 
@@ -26,24 +26,16 @@ SET time_zone = "+00:00";
 -- Estructura de tabla para la tabla `contactos`
 --
 
-CREATE TABLE IF NOT EXISTS `contactos` (
-`id_contacto` int(11) NOT NULL,
+CREATE TABLE `contactos` (
+  `id_contacto` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(60) COLLATE utf8_unicode_ci NOT NULL,
   `apellido` varchar(60) COLLATE utf8_unicode_ci NOT NULL,
   `telefonoFijo` varchar(40) COLLATE utf8_unicode_ci NOT NULL,
   `telefonoMovil` varchar(40) COLLATE utf8_unicode_ci NOT NULL,
   `cargo_empresa` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `observaciones` varchar(255) COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=5 ;
-
---
--- Volcado de datos para la tabla `contactos`
---
-
-INSERT INTO `contactos` (`id_contacto`, `nombre`, `apellido`, `telefonoFijo`, `telefonoMovil`, `cargo_empresa`, `observaciones`) VALUES
-(2, 'Juan', 'Perez', '221-4211515', '221-462989', 'Electricista', 'Encargado de camaras'),
-(3, 'Esteban', 'Echeverria', '221-4831233', '221-5053324', 'OMS', 'Secretario adjunto'),
-(4, 'Ezequiel Bernardo', 'Torrez', '221-4211514', '221-5053456', 'Gasista', 'llamar despues de las 17hs');
+  `observaciones` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`id_contacto`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -51,14 +43,17 @@ INSERT INTO `contactos` (`id_contacto`, `nombre`, `apellido`, `telefonoFijo`, `t
 -- Estructura de tabla para la tabla `detalles`
 --
 
-CREATE TABLE IF NOT EXISTS `detalles` (
-`id` int(11) NOT NULL,
+CREATE TABLE `detalles` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_evento` int(11) NOT NULL,
   `id_usuario` int(11) NOT NULL,
-  `fechaDetalle` int(11) NOT NULL,
-  `fechaSistema` int(11) NOT NULL,
-  `observaciones` varchar(255) COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+  `fechaDetalle` datetime NOT NULL,
+  `fechaSistema` datetime NOT NULL,
+  `observaciones` longtext COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `IDX_3D57C6DB61B1BEE8` (`id_evento`),
+  KEY `IDX_3D57C6DBFCF8192D` (`id_usuario`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -66,25 +61,20 @@ CREATE TABLE IF NOT EXISTS `detalles` (
 -- Estructura de tabla para la tabla `eventos`
 --
 
-CREATE TABLE IF NOT EXISTS `eventos` (
-`id_evento` int(11) NOT NULL,
+CREATE TABLE `eventos` (
+  `id_evento` int(11) NOT NULL AUTO_INCREMENT,
   `id_usuario` int(11) NOT NULL,
   `id_tipo_evento` int(11) NOT NULL,
+  `rectificacion_id` int(11) DEFAULT NULL,
   `fecha_sistema` datetime NOT NULL,
   `fecha_evento` datetime NOT NULL,
-  `observacones` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `estado` tinyint(1) NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=6 ;
-
---
--- Volcado de datos para la tabla `eventos`
---
-
-INSERT INTO `eventos` (`id_evento`, `id_usuario`, `id_tipo_evento`, `fecha_sistema`, `fecha_evento`, `observacones`, `estado`) VALUES
-(2, 1, 2, '2009-01-01 02:02:00', '2009-01-01 06:05:00', 'Ingreso de Dr. Pablo', 1),
-(3, 2, 2, '2009-01-01 18:12:00', '2009-01-01 18:53:00', 'Salida Dr. Pablo', 1),
-(4, 1, 3, '2009-02-04 04:05:00', '2009-02-04 05:05:00', 'Rotura de vidrio, oficina de alumos.', 1),
-(5, 1, 1, '2009-04-01 14:03:00', '2009-04-01 15:04:00', 'Perdida de gas', 1);
+  `observaciones` longtext COLLATE utf8_unicode_ci NOT NULL,
+  `estado` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id_evento`),
+  UNIQUE KEY `UNIQ_6B23BD8FDACCD6DF` (`rectificacion_id`),
+  KEY `IDX_6B23BD8FFCF8192D` (`id_usuario`),
+  KEY `IDX_6B23BD8FCA2D30EA` (`id_tipo_evento`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -92,22 +82,22 @@ INSERT INTO `eventos` (`id_evento`, `id_usuario`, `id_tipo_evento`, `fecha_siste
 -- Estructura de tabla para la tabla `tipos_eventos`
 --
 
-CREATE TABLE IF NOT EXISTS `tipos_eventos` (
-`id` int(11) NOT NULL,
+CREATE TABLE `tipos_eventos` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
-  `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `prioridad` int(11) NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=6 ;
+  `baja` tinyint(1) NOT NULL,
+  `email` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `prioridad` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `tipos_eventos`
 --
 
-INSERT INTO `tipos_eventos` (`id`, `nombre`, `email`, `prioridad`) VALUES
-(1, 'Alarma', 'carlossabena@gmail.com', 1),
-(2, 'Persona en transito', 'carlossabena@gmail.com', 2),
-(3, 'Infraestructura', 'carlossabena@gmail.com', 3),
-(5, 'Camaras', 'carlossabena@gmail.com', 4);
+INSERT INTO `tipos_eventos` (`id`, `nombre`, `baja`, `email`, `prioridad`) VALUES
+(1, 'TipoEvento_1', 0, NULL, 1),
+(2, 'TipoEvento_2', 0, NULL, 2);
 
 -- --------------------------------------------------------
 
@@ -115,8 +105,8 @@ INSERT INTO `tipos_eventos` (`id`, `nombre`, `email`, `prioridad`) VALUES
 -- Estructura de tabla para la tabla `usuarios`
 --
 
-CREATE TABLE IF NOT EXISTS `usuarios` (
-`id` int(11) NOT NULL,
+CREATE TABLE `usuarios` (
+  `id_usuario` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `username_canonical` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -134,81 +124,20 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
   `credentials_expired` tinyint(1) NOT NULL,
   `credentials_expire_at` datetime DEFAULT NULL,
   `nombre` varchar(80) COLLATE utf8_unicode_ci NOT NULL,
-  `baja` tinyint(1) NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=4 ;
+  `baja` tinyint(1) DEFAULT '0',
+  PRIMARY KEY (`id_usuario`),
+  UNIQUE KEY `UNIQ_EF687F292FC23A8` (`username_canonical`),
+  UNIQUE KEY `UNIQ_EF687F2A0D96FBF` (`email_canonical`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `usuarios`
 --
 
-INSERT INTO `usuarios` (`id`, `username`, `username_canonical`, `email`, `email_canonical`, `enabled`, `salt`, `password`, `last_login`, `locked`, `expired`, `expires_at`, `confirmation_token`, `password_requested_at`, `roles`, `credentials_expired`, `credentials_expire_at`, `nombre`, `baja`) VALUES
-(1, 'ale', 'ale', 'r11_alex@hotmail.com', 'r11_alex@hotmail.com', 1, 'iabgyejtiu8g48c4ws008s0sgs4ws88', '41g5Ohj9MVCU1G+g/KM1/MeOrsrnley00JqjlnJMf1AUgiSLiQP5RTi1y5VUZQnwqFYOtYSUaq5IwTP0cuEuGg==', '2014-11-13 18:19:31', 0, 0, NULL, NULL, NULL, 'a:1:{i:0;s:18:"ROLE_ADMINISTRADOR";}', 0, NULL, 'Ale', 0),
-(2, 'jogianotti', 'jogianotti', 'jorge.oscar.gianotti@gmail.com', 'jorge.oscar.gianotti@gmail.com', 1, 's22zsoenfwg44cwoo0ccko88cc08ooo', 'ud4KTOiRxrMHcbc7/Jdab2/6E6Ch0i+h5GFAkve52D1DDYqpXVW3ldtN0K9WxwO2JMGLjehmidSzsrl4yKCHug==', '2014-11-14 19:22:38', 0, 0, NULL, NULL, NULL, 'a:1:{i:0;s:18:"ROLE_ADMINISTRADOR";}', 0, NULL, 'Oscar', 1),
-(3, 'Admin', 'admin', 'admin@admin.com', 'admin@admin.com', 0, 'chrfj8c7czcwc0c8k0csg4ws88k4gko', '123456', NULL, 0, 0, NULL, NULL, NULL, 'a:1:{i:0;s:18:"ROLE_ADMINISTRADOR";}', 0, NULL, 'Juanita', 0);
+INSERT INTO `usuarios` (`id_usuario`, `username`, `username_canonical`, `email`, `email_canonical`, `enabled`, `salt`, `password`, `last_login`, `locked`, `expired`, `expires_at`, `confirmation_token`, `password_requested_at`, `roles`, `credentials_expired`, `credentials_expire_at`, `nombre`, `baja`) VALUES
+(1, 'administrador', 'administrador', 'administrador@registroeventos.com.ar', 'administrador@registroeventos.com.ar', 1, 'f8i6fn3e9h4wkgsw8soww8sscwwkc40', '+0NeK39QnJRsyYGPeSuAQY/cuyao8h2PfNlDMWc3aCPrutwFIEJLl8Bu8jSu3KfmBDhKK782f9W7aMILek1/FQ==', '2014-12-04 01:54:30', 0, 0, NULL, NULL, NULL, 'a:1:{i:0;s:18:"ROLE_ADMINISTRADOR";}', 0, NULL, 'Nombre Administrador', 0),
+(2, 'intendente', 'intendente', 'intendente@registroeventos.com.ar', 'intendente@registroeventos.com.ar', 0, 'ilxi1ynhjlwkwo4cggsg0ggwwgw48cg', 'hCpMKKG4YsdRDgpo9gHknSEBrKyQivwCrThqKrc1JiEC2sJTm0/OG/R57Ly9aT05KIih28w6P79tYEJcQGGNHQ==', NULL, 0, 0, NULL, NULL, NULL, 'a:1:{i:0;s:15:"ROLE_INTENDENTE";}', 0, NULL, 'Nombre Intendente', 0);
 
---
--- Índices para tablas volcadas
---
-
---
--- Indices de la tabla `contactos`
---
-ALTER TABLE `contactos`
- ADD PRIMARY KEY (`id_contacto`);
-
---
--- Indices de la tabla `detalles`
---
-ALTER TABLE `detalles`
- ADD PRIMARY KEY (`id`), ADD KEY `IDX_3D57C6DB61B1BEE8` (`id_evento`), ADD KEY `IDX_3D57C6DBFCF8192D` (`id_usuario`);
-
---
--- Indices de la tabla `eventos`
---
-ALTER TABLE `eventos`
- ADD PRIMARY KEY (`id_evento`), ADD KEY `IDX_6B23BD8FFCF8192D` (`id_usuario`), ADD KEY `IDX_6B23BD8FCA2D30EA` (`id_tipo_evento`);
-
---
--- Indices de la tabla `tipos_eventos`
---
-ALTER TABLE `tipos_eventos`
- ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `usuarios`
---
-ALTER TABLE `usuarios`
- ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `UNIQ_F780E5A492FC23A8` (`username_canonical`), ADD UNIQUE KEY `UNIQ_F780E5A4A0D96FBF` (`email_canonical`);
-
---
--- AUTO_INCREMENT de las tablas volcadas
---
-
---
--- AUTO_INCREMENT de la tabla `contactos`
---
-ALTER TABLE `contactos`
-MODIFY `id_contacto` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
---
--- AUTO_INCREMENT de la tabla `detalles`
---
-ALTER TABLE `detalles`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT de la tabla `eventos`
---
-ALTER TABLE `eventos`
-MODIFY `id_evento` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
---
--- AUTO_INCREMENT de la tabla `tipos_eventos`
---
-ALTER TABLE `tipos_eventos`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
---
--- AUTO_INCREMENT de la tabla `usuarios`
---
-ALTER TABLE `usuarios`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
 -- Restricciones para tablas volcadas
 --
@@ -217,15 +146,16 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 -- Filtros para la tabla `detalles`
 --
 ALTER TABLE `detalles`
-ADD CONSTRAINT `FK_3D57C6DB61B1BEE8` FOREIGN KEY (`id_evento`) REFERENCES `detalles` (`id`),
-ADD CONSTRAINT `FK_3D57C6DBFCF8192D` FOREIGN KEY (`id_usuario`) REFERENCES `detalles` (`id`);
+  ADD CONSTRAINT `FK_3D57C6DBFCF8192D` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id_usuario`),
+  ADD CONSTRAINT `FK_3D57C6DB61B1BEE8` FOREIGN KEY (`id_evento`) REFERENCES `eventos` (`id_evento`);
 
 --
 -- Filtros para la tabla `eventos`
 --
 ALTER TABLE `eventos`
-ADD CONSTRAINT `FK_6B23BD8FCA2D30EA` FOREIGN KEY (`id_tipo_evento`) REFERENCES `tipos_eventos` (`id`),
-ADD CONSTRAINT `FK_6B23BD8FFCF8192D` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id`);
+  ADD CONSTRAINT `FK_6B23BD8FDACCD6DF` FOREIGN KEY (`rectificacion_id`) REFERENCES `eventos` (`id_evento`),
+  ADD CONSTRAINT `FK_6B23BD8FCA2D30EA` FOREIGN KEY (`id_tipo_evento`) REFERENCES `tipos_eventos` (`id`),
+  ADD CONSTRAINT `FK_6B23BD8FFCF8192D` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id_usuario`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
