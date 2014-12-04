@@ -7,13 +7,11 @@
 
 {% block body -%}
 
-
     <h2>Tipos de Eventos</h2>
 
-<a href="{{ path('tipos_eventos_new') }}" role="button" class="btn btn-success btn-large">
-<span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
-Crear un tipo de evento nuevo</a>
-
+    <a href="{{ path('tipos_eventos_new') }}" role="button" class="btn btn-success btn-large">
+    <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+    Crear un tipo de evento nuevo</a>
 
     <table class="table table-hover">
         <thead>
@@ -22,7 +20,7 @@ Crear un tipo de evento nuevo</a>
                 <th>Nombre</th>
                 <th>Email</th>
                 <th>Prioridad</th>
-                <th>Actions</th>
+                <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
@@ -48,4 +46,4 @@ Crear un tipo de evento nuevo</a>
         </tbody>
     </table>
 
-    {% endblock %}
+{% endblock %}
