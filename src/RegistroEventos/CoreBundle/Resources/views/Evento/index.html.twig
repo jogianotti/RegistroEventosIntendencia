@@ -27,16 +27,15 @@
                     </div>
                     <div class="form-group col-sm-4 {% if not form.fechaEvento.vars.valid %}has-error{% endif %}">
                         {{ form_label(form.fechaEvento, 'Fecha del Evento') }}
-                        <div class="row padding-5">
-                            <div class="col-sm-10">
-
+                        {#<div class="row padding-5">#}
+                            <div class="col-sm-20">
                                 <div class="input-group date" id="datetimepicker1">
                                     <input id="{{ form.fechaEvento.vars.id }}" name="{{ form.fechaEvento.vars.name }}" type="datetime" class="form-control" value="{{ evento.getFechaEvento().format('d/m/Y H:i') }}" readonly/>
                                     <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
                                     </span>
                                 </div>
                             </div>
-                        </div>
+                        {#</div>#}
                         {% if not form.fechaEvento.vars.valid %}
                             <div class="alert alert-danger">{{ form_errors(form.fechaEvento) }}</div>
                         {% endif %}
@@ -44,7 +43,10 @@
                     <div class="form-group col-sm-4">
                         {{ form_label(form.estado, 'Estado del Evento') }}
                         {{ form_errors(form.estado) }}
-                        {{ form_widget(form.estado, { 'attr': {'class': 'estado-switch'} }) }}
+                        <div>
+                            {{ form_widget(form.estado, { 'attr': {'class': 'estado-switch', 
+                            'data-size': 'large', 'data-on-text': 'Abierto', 'data-off-text': 'Cerrado'} }) }}
+                        </div>
                         {#<div class="radio">
                           <label>
                               <input type="radio" name="{{ form.estado.vars.name }}" value="true">
@@ -61,14 +63,17 @@
                 </div>
                 <div class="form-group {% if not form.observaciones.vars.valid %}has-error{% endif %}">
                     {{ form_label(form.observaciones) }}
-                    {{ form_widget(form.observaciones, { 'attr': {'class': 'form-control'} }) }}
+                    {{ form_widget(form.observaciones, { 'attr': {'class': 'textarea-fijo'} }) }}
+                     
+                    <input type="submit" id="botonRegistrarEvento" class="btn btn-default pull-right" value="Registrar" />
+                    
                     {% if not form.observaciones.vars.valid %}
                         <div class="alert alert-danger">{{ form_errors(form.observaciones) }}</div>
                     {% endif %}
                 </div>
 
                 {{ form_row(form._token) }}
-                <input type="submit" class="btn btn-default pull-right" value="Registrar" />
+                
             </form>
         </div>
     </div>

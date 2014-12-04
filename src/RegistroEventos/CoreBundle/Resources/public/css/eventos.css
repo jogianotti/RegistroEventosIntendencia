@@ -22,8 +22,16 @@ table td{
 }
 
 .textarea-fijo{
-    height: 90px;
-}#listado-detalles {
+    margin: 0px;
+    min-width: 847px;
+    min-height: 90px;
+}
+
+#listado-detalles {
     max-height: 300px;
     overflow-y: auto;
+}
+
+#botonRegistrarEvento{
+    margin-right: 7em;
 }

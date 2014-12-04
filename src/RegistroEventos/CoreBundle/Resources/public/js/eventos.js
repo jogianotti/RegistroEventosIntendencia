@@ -110,4 +110,6 @@ $(document).ready(function () {
             format: 'DD/MM/YYYY HH:mm'
         });
     });
+    
+    $(".estado-switch").bootstrapSwitch();
 });

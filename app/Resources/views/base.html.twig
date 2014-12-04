@@ -9,6 +9,8 @@
         <link rel="stylesheet" href="{{ asset('bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css') }}" />
         
         <link rel="stylesheet" type="text/css" href="{{ asset('bundles/registroeventoscore/css/base.css') }}">
+        <link rel="stylesheet" href="{{ asset('bundles/registroeventoscore/bootstrap-switch/bootstrap-switch.min.css') }}">
+
         {% endblock %}
     </head>
     <body>
@@ -26,5 +28,6 @@
 
     <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
     <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+    <script src="{{ asset('bundles/registroeventoscore/bootstrap-switch/bootstrap-switch.min.js') }}"></script>
     {% endblock %}
 </html>
