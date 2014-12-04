@@ -10,36 +10,36 @@
 	<span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
 	Regresar al listado de usuarios</a>
 
-    <h2>Crear un Tipo de Evento</h2>
 <div class="row">
 <div class="col-sm-6 col-sm-offset-3">
-	{{ form_start(form, {attr:{role:'form'}}) }}
-	<div class="form-group">
-		{{ form_errors(form.nombre) }}
-		{{ form_label(form.nombre, 'Nombre: ')}}
-		{{ form_widget(form.nombre, { 'attr': {'class': 'form-control'} }) }}
-	</div>
-	<div class="form-group">
-		{{ form_errors(form.email) }}
-		{{ form_label(form.email, 'Email: ')}}
-		{{ form_widget(form.email, { 'attr': {'class': 'form-control'} }) }}
-	</div>
-	<div class="form-group">
-		{{ form_errors(form.prioridad) }}
-		{{ form_label(form.prioridad, 'Prioridad: ')}}
-		{{ form_widget(form.prioridad, { 'attr': {'class': 'form-control'} }) }}
-	</div>
-	<div class="form-group">
-		{{ form_widget(form.baja, { 'attr': {'class': 'oculto'} }) }}
-	</div>
-	
-	{{ form_rest(form) }}
+    <h2>Crear un Tipo de Evento</h2>
+    {{ form_start(form, {attr:{role:'form'}}) }}
+    <div class="form-group">
+            {{ form_errors(form.nombre) }}
+            {{ form_label(form.nombre, 'Nombre: ')}}
+            {{ form_widget(form.nombre, { 'attr': {'class': 'form-control'} }) }}
+    </div>
+    <div class="form-group">
+            {{ form_errors(form.email) }}
+            {{ form_label(form.email, 'Email: ')}}
+            {{ form_widget(form.email, { 'attr': {'class': 'form-control'} }) }}
+    </div>
+    <div class="form-group">
+            {{ form_errors(form.prioridad) }}
+            {{ form_label(form.prioridad, 'Prioridad: ')}}
+            {{ form_widget(form.prioridad, { 'attr': {'class': 'form-control'} }) }}
+    </div>
+    <div class="form-group">
+            {{ form_widget(form.baja, { 'attr': {'class': 'oculto'} }) }}
+    </div>
 
-	<div class="space"></div>
-	{{form_widget(form.submit)}}
+    {{ form_rest(form) }}
 
-	{{ form_end(form) }}
-   
+    <div class="space"></div>
+    {{form_widget(form.submit)}}
+
+    {{ form_end(form) }}
+
 </div>
 </div>
 

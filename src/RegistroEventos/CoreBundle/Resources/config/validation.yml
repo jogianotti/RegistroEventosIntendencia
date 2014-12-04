@@ -34,8 +34,8 @@ RegistroEventos\CoreBundle\Entity\Evento:
                 message: 'Se debe seleccionar un tipo de evento'
 
 
-#RegistroEventos\CoreBundle\Entity\TipoEvento:
-#    properties:
+RegistroEventos\CoreBundle\Entity\TipoEvento:
+    properties:
 #        nombre:
 #            - Type:
 #                type: string
@@ -47,9 +47,9 @@ RegistroEventos\CoreBundle\Entity\Evento:
 #                maxMessage: 'El nombre debe tener a lo sumo {{ limit }} caractres.'
 #            - NotBlank:
 #                message: 'El nombre no debe quedar en blanco.'
-#        email:
-#            - Email:
-#                message: 'El email no es un email válido'
+        email:
+            - Email:
+                message: 'El email no es un email válido'
 #        prioridad:
 #            - Type:
 #                type: integer
