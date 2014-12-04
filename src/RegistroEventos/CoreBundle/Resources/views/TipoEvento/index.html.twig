@@ -18,7 +18,7 @@ Crear un tipo de evento nuevo</a>
     <table class="table table-hover">
         <thead>
             <tr>
-                <th>Id</th>
+               {# <th>Id</th>#}
                 <th>Nombre</th>
                 <th>Email</th>
                 <th>Prioridad</th>
@@ -28,7 +28,7 @@ Crear un tipo de evento nuevo</a>
         <tbody>
         {% for entity in entities %}
             <tr>
-                <td><a href="{{ path('tipos_eventos_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                {#<td><a href="{{ path('tipos_eventos_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>#}
                 <td>{{ entity.nombre }}</td>
                 <td>{{ entity.email }}</td>
                 <td>{{ entity.prioridad }}</td>
