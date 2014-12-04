@@ -15,7 +15,15 @@ table.eventos {
 	height:2em;
 	width:100%;
 }
-#listado-detalles {
+
+table td{
+    white-space: pre-wrap;
+    max-width: 200px;
+}
+
+.textarea-fijo{
+    height: 90px;
+}#listado-detalles {
     max-height: 300px;
     overflow-y: auto;
 }
