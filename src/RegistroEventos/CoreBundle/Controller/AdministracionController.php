@@ -12,13 +12,10 @@ class AdministracionController extends Controller
     public function indexAction()
     {
     	//aca pedir estadisticas... y renderizar
-    	$eventosUsuarios = $this->getDoctrine()->getManager()->getRepository('RegistroEventosCoreBundle:Usuario')->eventosDelUsuario();
-    	foreach ($eventosUsuarios as $key => $value) {
-    		echo $value["nombre"].' - '.$value["eventos"].'<br>';
-    	}
-
-    	
-        return $this->render('RegistroEventosCoreBundle:Administracion:administracion.html.twig');
+    	$eventosUsuarios = $this->getDoctrine()->getManager()->getRepository('RegistroEventosCoreBundle:Usuario')->estadisticaEventosDelUsuario();
+    	$eventosTipos = $this->getDoctrine()->getManager()->getRepository('RegistroEventosCoreBundle:TipoEvento')->estadisticaTiposDeEventos();
+    	$rectificacionesUsuarios = $this->getDoctrine()->getManager()->getRepository('RegistroEventosCoreBundle:Usuario')->estadisticaRectificacionesDelUsuario();
+        return $this->render('RegistroEventosCoreBundle:Administracion:administracion.html.twig', array('eventosUsuarios'=>$eventosUsuarios, 'rectificaciones'=>$rectificacionesUsuarios, 'tipos'=>$eventosTipos));
     }
     
     public function supervisionAction()
