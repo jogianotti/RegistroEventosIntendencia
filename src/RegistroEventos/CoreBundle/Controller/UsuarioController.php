@@ -40,7 +40,9 @@ class UsuarioController extends Controller
         $form->handleRequest($request);
         
         $usuario->setRoles(array($form->get('role')->getData()));
-        
+        $usuario->setEnabled(true);
+        $usuario->setBaja(false);
+
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($usuario);
