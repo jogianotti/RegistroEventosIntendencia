@@ -25,12 +25,24 @@
         <div class="form-group">
             {{ form_label(form.fechaEvento, 'Fecha del Evento: ') }}
             <span>{{ form_errors(form.fechaEvento) }}</span>
-            <span>{{ form_widget(form.fechaEvento.date.year) }}</span>
+            {#<span>{{ form_widget(form.fechaEvento.date.year) }}</span>
             <span>{{ form_widget(form.fechaEvento.date.month) }}</span>
             <span>{{ form_widget(form.fechaEvento.date.day) }}</span>
             <span>{{ form_widget(form.fechaEvento.time.hour) }}</span>
-            <span>{{ form_widget(form.fechaEvento.time.minute) }}</span>
-
+            <span>{{ form_widget(form.fechaEvento.time.minute) }}</span>#}
+            <div class="row padding-5">
+                    <div class="col-sm-12">
+                        <div class="input-group date" id="dp-rectificar">
+                            <input id="{{ form.fechaEvento.vars.id }}" 
+                                   name="{{ form.fechaEvento.vars.name }}" 
+                                   type="datetime" class="form-control" 
+                                   value="{{ datetimeEvento }}" readonly/>
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
         </div>
         <div class="form-group">
             {{ form_label(form.observaciones, 'Observaciones: ') }} 

@@ -11,11 +11,11 @@ class AdministracionController extends Controller
 {
     public function indexAction()
     {
-        return new Response('ADMINISTRACION');
+        return $this->render('RegistroEventosCoreBundle:Administracion:administracion.html.twig');
     }
     
     public function supervisionAction()
     {
-        return new Response('SUPERVISION');
+        return $this->render('RegistroEventosCoreBundle:Administracion:supervision.html.twig');
     }
 }

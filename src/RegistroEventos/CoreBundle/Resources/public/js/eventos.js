@@ -33,6 +33,7 @@ $(document).ready(function () {
                 $('#tituloPopUp').html('Rectificar Evento');
                 $("#contenidoPopUp").html(datos.vista);
                 $('.modal-dialog').removeClass('modal-lg');
+                $('#piePopUp').addClass('show');
                 $('#ventanaPopUp').modal('show');
             }
         });
@@ -75,6 +76,7 @@ $(document).ready(function () {
             $('#tituloPopUp').html('Detalle eventos');
             $("#contenidoPopUp").html(html);
             $('.modal-dialog').addClass('modal-lg');
+            $('#piePopUp').addClass('hide');
             $('#ventanaPopUp').modal('show');
         });
         
@@ -92,9 +94,6 @@ $(document).ready(function () {
             success: function(datos)
             {
                 $("#contenidoPopUp").html(datos.html);
-            },
-            error: function() {
-                alert('error');
             }
         });
         return false;
@@ -102,6 +101,12 @@ $(document).ready(function () {
     
     $('#ventanaPopUp').one('mouseover','#dp-detalle',function(){
         $('#dp-detalle').datetimepicker({
+            format: 'DD/MM/YYYY HH:mm'
+        });
+    });
+    
+    $('#ventanaPopUp').one('mouseover','#dp-rectificar',function(){
+        $('#dp-rectificar').datetimepicker({
             format: 'DD/MM/YYYY HH:mm'
         });
     });

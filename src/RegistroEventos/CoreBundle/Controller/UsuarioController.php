@@ -23,10 +23,10 @@ class UsuarioController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('RegistroEventosCoreBundle:Usuario')->findAll();
+        $usuarios = $em->getRepository('RegistroEventosCoreBundle:Usuario')->findAll();
 
         return $this->render('RegistroEventosCoreBundle:Usuario:index.html.twig', array(
-            'entities' => $entities,
+            'usuarios' => $usuarios,
         ));
     }
     /**
@@ -35,21 +35,22 @@ class UsuarioController extends Controller
      */
     public function createAction(Request $request)
     {
-        $entity = new Usuario();
-        $form = $this->createCreateForm($entity);
+        $usuario = new Usuario();
+        $form = $this->createCreateForm($usuario);
         $form->handleRequest($request);
-
+        
+        $usuario->setRoles(array($form->get('role')->getData()));
         
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
+            $em->persist($usuario);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('usuarios_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('usuarios'));
         }
 
         return $this->render('RegistroEventosCoreBundle:Usuario:new.html.twig', array(
-            'entity' => $entity,
+            'usuario' => $usuario,
             'form'   => $form->createView(),
         ));
     }
@@ -89,29 +90,6 @@ class UsuarioController extends Controller
     }
 
     /**
-     * Finds and displays a Usuario entity.
-     *
-     */
-    public function showAction($id)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('RegistroEventosCoreBundle:Usuario')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Usuario entity.');
-        }
-
-        $deleteForm = $this->createDeleteForm($id);
-        //$deleteForm->add('submit', 'submit', array('label' => 'Eliminar usuario', 'attr' => array('class' => 'btn btn-danger btn-large pull-right')));
-        
-        return $this->render('RegistroEventosCoreBundle:Usuario:show.html.twig', array(
-            'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),
-        ));
-    }
-
-    /**
      * Displays a form to edit an existing Usuario entity.
      *
      */
@@ -126,14 +104,13 @@ class UsuarioController extends Controller
         }
 
         $editForm = $this->createEditForm($entity);
-//        $deleteForm = $this->createDeleteForm($id);
-
-        $editForm->add('submit', 'submit', array('label' => 'Guardar cambios', 'attr' => array('class' => 'btn btn-primary btn-large')));
-        //$deleteForm->add('submit', 'submit', array('label' => 'Eliminar usuario', 'attr' => array('class' => 'btn btn-danger btn-large pull-right')));
+        
+        $role = $entity->getRoles();
+        $editForm->get('role')->setData($role[0]);
+        
         return $this->render('RegistroEventosCoreBundle:Usuario:edit.html.twig', array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
-//            'delete_form' => $deleteForm->createView(),
         ));
     }
 
@@ -148,10 +125,10 @@ class UsuarioController extends Controller
     {
         $form = $this->createForm(new UsuarioType(), $entity, array(
             'action' => $this->generateUrl('usuarios_update', array('id' => $entity->getId())),
-            'method' => 'PUT',
+            'method' => 'POST',
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Update'));
+        $form->add('submit', 'submit', array('label' => 'Guardar cambios', 'attr' => array('class' => 'btn btn-primary btn-large')));
 
         return $form;
     }
@@ -167,10 +144,11 @@ class UsuarioController extends Controller
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Usuario entity.');
         }
-
+        
         $editForm = $this->createEditForm($entity);
         $editForm->handleRequest($request);
-
+        $entity->setRoles(array($editForm->get('role')->getData()));
+        
         if ($editForm->isValid()) {
             $em->persist($entity);
             $em->flush();
@@ -227,22 +205,5 @@ class UsuarioController extends Controller
         //}
 
         return $this->redirect($this->generateUrl('usuarios'));
-    }
-
-    /**
-     * Creates a form to delete a Usuario entity by id.
-     *
-     * @param mixed $id The entity id
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createDeleteForm($id)
-    {
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl('usuarios_delete', array('id' => $id)))
-            ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Delete'))
-            ->getForm()
-        ;
     }
 }

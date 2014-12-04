@@ -85,23 +85,23 @@ class EventoController extends Controller
         return $form;
     }
 
-    public function showAction($id)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('RegistroEventosCoreBundle:Evento')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Evento entity.');
-        }
-
-        $deleteForm = $this->createDeleteForm($id);
-
-        return $this->render('RegistroEventosCoreBundle:Evento:show.html.twig', array(
-                    'entity' => $entity,
-                    'delete_form' => $deleteForm->createView(),
-        ));
-    }
+//    public function showAction($id)
+//    {
+//        $em = $this->getDoctrine()->getManager();
+//
+//        $entity = $em->getRepository('RegistroEventosCoreBundle:Evento')->find($id);
+//
+//        if (!$entity) {
+//            throw $this->createNotFoundException('Unable to find Evento entity.');
+//        }
+//
+//        $deleteForm = $this->createDeleteForm($id);
+//
+//        return $this->render('RegistroEventosCoreBundle:Evento:show.html.twig', array(
+//                    'entity' => $entity,
+//                    'delete_form' => $deleteForm->createView(),
+//        ));
+//    }
 
     public function nuevaRectificacionAction(Request $request)
     {
@@ -124,10 +124,10 @@ class EventoController extends Controller
         $evento->setTipoEvento($eventoRectificado->getTipoEvento());
         $evento->setObservaciones($eventoRectificado->getObservaciones());
         $evento->setEstado($eventoRectificado->getEstado());
-
+        
         $form = $this->createForm(new EventoType(), $evento, array(
             'action' => $this->generateUrl('eventos_rectificacion_crear'),
-            'method' => 'POST'
+            'method' => 'POST',
         ));
 
         if (is_null($id)) {
@@ -140,7 +140,8 @@ class EventoController extends Controller
                 'form' => $form->createView(),
                 'eventoRectificado' => $eventoRectificado,
                 'rectificaciones' => $rectificaciones,
-                'error' => false
+                'error' => false,
+                'datetimeEvento' => $evento->getFechaEvento()->format('d/m/Y H:i')
             ));
 
             return new JsonResponse(array('estado' => TRUE, 'vista' => $vista));
@@ -161,7 +162,10 @@ class EventoController extends Controller
         $form->handleRequest($request);
         $evento->setFechaSistema(new \DateTime());
         $evento->setUsuario($this->get('security.context')->getToken()->getUser());
-
+        
+        $fechaEvento = \DateTime::createFromFormat('d/m/Y H:i', $request->request->get('fechaEvento'));
+        $evento->setFechaDetalle($fechaEvento);
+        
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
 
