@@ -9,9 +9,10 @@
 <a href="{{ path('agenda') }}" role="button" class="btn btn-default btn-large">
 <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
 Regresar al listado de contactos</a>
-<h2>Nuevo Contacto</h2>
+
 <div class="row">
 <div class="col-sm-6 col-sm-offset-3">
+        <h2>Nuevo Contacto</h2>
 	{{ form_start(form, {attr:{role:'form'}}) }}
 	<div class="form-group">
 		{{ form_errors(form.nombre) }}
