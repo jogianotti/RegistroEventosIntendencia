@@ -17,7 +17,7 @@ Crear un usuario nuevo</a>
     <table class="table table-hover">
         <thead>
             <tr>
-                {#<th>Id</th>#}
+                <th>Foto</th>
                 <th>Nombre</th>
                 <th>Usuario</th>
                 <th>Correo</th>
@@ -30,7 +30,7 @@ Crear un usuario nuevo</a>
         
         {% for usuario in usuarios %}
             <tr>
-                {#<td><a href="{{ path('usuarios_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>#}
+                <td><img src="{{ asset('fotos/imagen.php') }}?id={{ usuario.id }}"></td>
                 <td>{{ usuario.nombre }}</td>
                 <td>{{ usuario.username }}</td>
                 <td>{{ usuario.email }}</td>

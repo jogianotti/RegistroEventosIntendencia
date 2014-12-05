@@ -1,6 +1,6 @@
 parameters:
     registro_eventos_core.success_handler.class: RegistroEventos\CoreBundle\Handler\LoginSuccessHandler
-    
+    registro_eventos_core.subir_imagen.class: RegistroEventos\CoreBundle\Helper\SubirImagen
 
 services:
     registro_eventos_core.registration.form.type:
@@ -12,3 +12,6 @@ services:
         class: %registro_eventos_core.success_handler.class%
         public: false
         arguments:  [@router, @security.context]
+
+    registro_eventos_core.subir_imagen:
+        class: %registro_eventos_core.subir_imagen.class%

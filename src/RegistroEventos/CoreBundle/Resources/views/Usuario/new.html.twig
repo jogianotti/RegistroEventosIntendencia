@@ -43,6 +43,14 @@ Regresar al listado de usuarios</a>
 		{{ form_label(form.role, 'Rol de usuario: ')}}
 		{{ form_widget(form.role, { 'attr': {'class': 'form-control'} }) }}
 	</div>
+		<div class="form-group">
+		{{ form_errors(form.file) }}
+		{{ form_label(form.file, 'Foto del usuario (opcional): ')}}
+		{{ form_widget(form.file, { 'attr': {'class': ''} }) }}
+	</div>	
+	{% if error %}
+		<div class="alert alert-danger alert-dismissible fade in" role="alert">{{ error }}</div>
+	{% endif %}
 	<div class="form-group">
 		{{ form_widget(form.baja, { 'attr': {'class': 'oculto'} }) }}
 	</div>

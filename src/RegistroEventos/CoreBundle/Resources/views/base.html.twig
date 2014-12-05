@@ -22,6 +22,7 @@
 
     <ul class="nav navbar-nav navbar-right">
       {% if usuario is not null %}
+          <li><p class="navbar-text"><img src="{{ asset('fotos/imagen.php') }}?id={{ usuario.id }}"></p></li>
           <li><p class="navbar-text">{{ usuario.username }}</p></li>
           <li><a href="{{ path('fos_user_security_logout') }}">Salir</a></li>
       {% endif %}

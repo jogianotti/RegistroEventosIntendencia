@@ -37,6 +37,14 @@
 		{{ form_label(edit_form.role, 'Rol de usuario: ')}}
 		{{ form_widget(edit_form.role, { 'attr': {'class': 'form-control'} }) }}
 	</div>
+		<div class="form-group">
+		{{ form_errors(edit_form.file) }}
+		{{ form_label(edit_form.file, 'Foto del usuario (opcional): ')}}
+		{{ form_widget(edit_form.file, { 'attr': {'class': ''} }) }}
+	</div>
+	{% if error %}
+		<div class="alert alert-danger alert-dismissible fade in" role="alert">{{ error }}</div>
+	{% endif %}
 	<div class="space"></div>
         {{ form_widget(edit_form._token) }}
 	{{ form_widget(edit_form.submit) }}
