@@ -61,7 +61,9 @@ class EventoController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($evento);
             $em->flush();
-
+            
+            $this->informar($evento);
+            
             return $this->redirect($this->generateUrl('eventos'));
         }
 
@@ -84,24 +86,6 @@ class EventoController extends Controller
 
         return $form;
     }
-
-//    public function showAction($id)
-//    {
-//        $em = $this->getDoctrine()->getManager();
-//
-//        $entity = $em->getRepository('RegistroEventosCoreBundle:Evento')->find($id);
-//
-//        if (!$entity) {
-//            throw $this->createNotFoundException('Unable to find Evento entity.');
-//        }
-//
-//        $deleteForm = $this->createDeleteForm($id);
-//
-//        return $this->render('RegistroEventosCoreBundle:Evento:show.html.twig', array(
-//                    'entity' => $entity,
-//                    'delete_form' => $deleteForm->createView(),
-//        ));
-//    }
 
     public function nuevaRectificacionAction(Request $request)
     {
@@ -164,7 +148,7 @@ class EventoController extends Controller
         $evento->setUsuario($this->get('security.context')->getToken()->getUser());
         
         $fechaEvento = \DateTime::createFromFormat('d/m/Y H:i', $request->request->get('fechaEvento'));
-        $evento->setFechaDetalle($fechaEvento);
+        $evento->setFechaEvento($fechaEvento);
         
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
@@ -268,7 +252,7 @@ class EventoController extends Controller
 
             $detalles = $this->getDoctrine()->getManager()->getRepository('RegistroEventosCoreBundle:Evento')->listarDetallesPara($evento);
             $vista = $this->renderView('RegistroEventosCoreBundle:Evento:detalle.html.twig', array(
-                'form' => $form->initialize()->createView(),
+                'form' => $this->createForm(new DetalleType(), new Detalle())->createView(),
                 'detalles' => $detalles,
                 'evento' => $evento,
                 'datetimeActual' => $datetimeActual->format('d/m/Y H:i')
@@ -285,4 +269,26 @@ class EventoController extends Controller
         return new JsonResponse(array('agregado' => FALSE, 'html' => $vista));
     }
 
+    private function informar($evento){
+        $email = $evento->getTipoEvento()->getEmail();
+        if(!is_null($email)){
+            $mensaje = \Swift_Message::newInstance()
+            ->setSubject('Alerta de evento')
+            ->setFrom('r11alex.nestor@gmail.com')
+            ->setTo($email)
+            ->setBody(
+                $this->renderView(
+                    'RegistroEventosCoreBundle:Evento:email.txt.twig',array(
+                        'tipo' => $evento->getTipoEvento()->getNombre(),
+                        'usuario' => $evento->getUsuario()->getNombre(),
+                        'observaciones' => $evento->getObservaciones(),
+                        'fechaEvento' => $evento->getFechaEvento()->format('d/m/Y H:i'),
+                        'fechaRegistro' => $evento->getFechaSistema()->format('d/m/Y H:i')
+                    )
+                )
+            );
+        
+            $this->get('mailer')->send($mensaje);
+        }
+    }
 }
