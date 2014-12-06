@@ -36,17 +36,18 @@
     </div>
     <div id="listado-detalles" class="col-sm-8">
         <table class="table">
-            <thead>
-            <th>Fecha detalle</th>
-            <th>Observaciones</th>
-            <th>Usuario</th>
+            <thead id="thead">
+            <th class="thead-th">Fecha detalle</th>
+            <th class="thead-th">Observaciones</th>
+            <th class="thead-th">Usuario</th>
+            <th class="thead-th-last"></th>
             </thead>
-            <tbody>
+            <tbody id="tbody">
                 {% for detalle in detalles %}
                     <tr>
-                        <td>{{ detalle.fechaDetalle | date('Y-m-d H-i')}}</td>
-                        <td>{{ detalle.observaciones }}</td>
-                        <td>{{ detalle.usuario.nombre }}</td>
+                        <td class="thead-td">{{ detalle.fechaDetalle | date('Y-m-d H-i')}}</td>
+                        <td class="thead-td">{{ detalle.observaciones }}</td>
+                        <td class="thead-td">{{ detalle.usuario.nombre }}</td>
                     </tr>
                 {% endfor %}
             </tbody>

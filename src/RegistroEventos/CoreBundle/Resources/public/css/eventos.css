@@ -32,7 +32,29 @@ table td{
     overflow-y: auto;
 }
 
-/*#botonRegistrarEvento{
-    margin-right: 7em;
-}*/
+#thead{
+    position:fixed;
+    z-index:1;
+    width:62%!important;
+}
 
+.thead-th{
+    width:200px;
+    background-color:#FFFFFF;
+}
+
+.thead-th-last{
+    width:10px;
+    background-color:#FFFFFF;
+}
+
+#tbody{
+    position:relative; 
+    padding-top:40px; 
+    display:block;
+}
+
+.thead-td{
+    width:300px; 
+    max-width:300px;
+}
