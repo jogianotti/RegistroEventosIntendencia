@@ -2,7 +2,9 @@
 
 namespace RegistroEventos\CoreBundle\Entity;
 
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Detalle
@@ -12,6 +14,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Detalle
 {
+    use TimestampableEntity;
+    
     /**
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")

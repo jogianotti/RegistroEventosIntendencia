@@ -2,8 +2,10 @@
 
 namespace RegistroEventos\CoreBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Model\User as UsuarioBase;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 /**
  * Usuario
  *
@@ -12,6 +14,8 @@ use FOS\UserBundle\Model\User as UsuarioBase;
  */
 class Usuario extends UsuarioBase
 {
+    use TimestampableEntity;
+    
     /**
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
