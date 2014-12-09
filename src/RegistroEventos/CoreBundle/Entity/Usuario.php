@@ -102,4 +102,8 @@ class Usuario extends UsuarioBase
     {
         return $this->baja;
     }
+    
+    function __toString() {
+        return $this->getNombre();
+    }
 }

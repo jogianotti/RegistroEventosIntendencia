@@ -55,6 +55,11 @@ table td{
 }
 
 .thead-td{
-    width:300px; 
-    max-width:300px;
+    width:310px; 
+    max-width:310px;
+}
+
+.div-formulario {
+    padding: 30px;
+    min-height: 270px;
 }

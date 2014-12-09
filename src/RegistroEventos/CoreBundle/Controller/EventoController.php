@@ -31,14 +31,43 @@ class EventoController extends Controller
         $eventosAbiertos = $em->getRepository('RegistroEventosCoreBundle:Evento')->buscarEventosAbiertos();
         $eventosCerrados = $em->getRepository('RegistroEventosCoreBundle:Evento')->buscarEventosCerrados();
 
+        $formularioBusqueda = $this->crearFormularioBusqueda();
         return $this->render('RegistroEventosCoreBundle:Evento:index.html.twig', array(
                     'eventosAbiertos' => $eventosAbiertos,
                     'eventosCerrados' => $eventosCerrados,
                     'form' => $form->createView(),
-                    'evento' => $evento
+                    'evento' => $evento,
+                    'seccion' => 'registro',
+                    'formularioBusqueda' => $formularioBusqueda->createView()
         ));
     }
+    
+    public function busquedaAction(Request $request)
+    {
+        $datosIniciales = array('observaciones' => 'Busqueda por texto');
+        $form = $this->createFormBuilder($datosIniciales)
+            ->add('tipoEvento', 'choice', array(
+                'choices'   => array('m' => 'Male', 'f' => 'Female'),
+                'required'  => false,
+                'expanded' => true,
+                'multiple' => false
+            ))
+            ->add('observaciones', 'text')
+            ->add('send', 'submit')
+            ->getForm();
+        
+        $form->handleRequest($request);
+ 
+        if ($form->isValid()) {
+            // data es un array con claves 'name', 'email', y 'message'
+            $datos = $form->getData();
+        }
 
+        return $this->render('RegistroEventosCoreBundle:Evento:busqueda.html.twig',array(
+            'form' => $form->createView()
+        ));
+    }
+    
     public function crearAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -67,14 +96,47 @@ class EventoController extends Controller
             return $this->redirect($this->generateUrl('eventos'));
         }
 
+
         return $this->render('RegistroEventosCoreBundle:Evento:index.html.twig', array(
                     'evento' => $evento,
                     'form' => $form->createView(),
                     'eventosAbiertos' => $eventosAbiertos,
-                    'eventosCerrados' => $eventosCerrados
+                    'eventosCerrados' => $eventosCerrados,
+                    'seccion' => 'registro'
         ));
     }
-
+    
+    private function crearFormularioBusqueda() {
+        $tiposEventos = $this->getDoctrine()->getManager()->getRepository('RegistroEventosCoreBundle:TipoEvento')->listarTiposEventosActivos();
+        $opcionesTipoEvento = array();
+        foreach($tiposEventos as $te){
+            $opcionesTipoEvento[$te->getId()] = $te->getNombre();
+        }
+        
+        $usuarios = $this->getDoctrine()->getManager()->getRepository('RegistroEventosCoreBundle:Usuario')->findAll();
+        $opcionesUsuarios = array();
+        foreach($usuarios as $u){
+            $opcionesUsuarios[$te->getId()] = $te->getNombre();
+        }
+        
+        return $this->createFormBuilder()
+            ->add('tipoEvento', 'choice', array(
+                'choices' => $opcionesTipoEvento,
+                'required' => false,
+                'expanded' => false,
+                'multiple' => false
+            ))
+            ->add('usuario', 'choice', array(
+                'choices' => $opcionesUsuarios,
+                'required' => false,
+                'expanded' => false,
+                'multiple' => false
+            ))
+            ->add('observaciones', 'text')
+            ->add('send', 'submit')
+            ->getForm();
+    }
+    
     private function createCreateForm(Evento $entity)
     {
         $form = $this->createForm(new EventoType(), $entity, array(

@@ -1,0 +1,83 @@
+{% extends 'RegistroEventosCoreBundle::base.html.twig' %}
+
+{% block javascript %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('bundles/registroeventoscore/js/eventos.js') }}"></script>
+{% endblock %}
+
+{% block styles %}
+    {{ parent() }}
+    <link type="text/css" rel="stylesheet" href="{{ asset('bundles/registroeventoscore/css/eventos.css') }}" />
+{% endblock %}
+
+
+{% block body -%}
+    <div class="row">
+    <div class="col-sm-10 col-sm-offset-1">
+        <div class="row">
+        <div class="col-sm-10 col-sm-offset-1">
+            <ul class="nav nav-tabs">
+              <li><a href="{{ path('eventos') }}">Registro</a></li>
+              <li class="active"><a href="{{ path('eventos_busqueda') }}">Busqueda</a></li>
+            </ul>
+        </div>
+        </div>
+        <div class="row">
+        <div class="col-sm-10 col-sm-offset-1 div-formulario">
+            {#<form role="form" name="formularioAltaEvento" action="{{ path('eventos_crear') }}" method="post" {{ form_enctype(form) }}>
+                {{ form_errors(form) }}
+                <div class="row">
+                    <div class="form-group col-sm-4 {% if not form.tipoEvento.vars.valid %}has-error{% endif %}">
+                        {{ form_label(form.tipoEvento, 'Tipo de Evento',{ 'attr': {'for': form.tipoEvento.vars.id} }) }}
+                        {{ form_widget(form.tipoEvento, { 'attr': {'class': 'form-control','required':'required'} }) }}
+                        {% if not form.tipoEvento.vars.valid %}
+                            <div class="alert alert-danger">{{ form_errors(form.tipoEvento) }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="form-group col-sm-4 {% if not form.fechaEvento.vars.valid %}has-error{% endif %}">
+                        {{ form_label(form.fechaEvento, 'Fecha del Evento') }}
+                        <div class="row padding-5">
+                            <div class="col-sm-12">
+                                <div class="input-group date" id="datetimepicker1">
+                                    <input id="{{ form.fechaEvento.vars.id }}" name="{{ form.fechaEvento.vars.name }}" type="datetime" class="form-control" value="{{ evento.getFechaEvento().format('d/m/Y H:i') }}" readonly/>
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        {% if not form.fechaEvento.vars.valid %}
+                            <div class="alert alert-danger">{{ form_errors(form.fechaEvento) }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="form-group col-sm-4">
+                        {{ form_label(form.estado, 'Estado del Evento') }}
+                        {{ form_errors(form.estado) }}
+                        <div class="row padding-5">
+                            <div class="col-sm-10 col-sm-offset-1">
+                            {{ form_widget(form.estado, { 'attr': {'class': 'form-control estado-switch', 
+                            'data-on-text': 'Abierto', 'data-size':'large', 'data-off-text': 'Cerrado'} }) }}
+                            </div></div>
+                    </div>
+                </div>
+                <div class="form-group {% if not form.observaciones.vars.valid %}has-error{% endif %}">
+                    {{ form_label(form.observaciones) }}
+                    {{ form_widget(form.observaciones, { 'attr': {'class': 'form-control'} }) }}
+                     
+                    <input type="submit" id="botonRegistrarEvento" class="btn btn-default pull-right" value="Registrar" />
+                    
+                    {% if not form.observaciones.vars.valid %}
+                        <div class="alert alert-danger">{{ form_errors(form.observaciones) }}</div>
+                    {% endif %}
+                </div>
+
+                {{ form_row(form._token) }}
+                
+            </form>#}
+                {{form(form)}}
+
+        </div>
+        </div>
+    </div>
+    </div>
+    {{form(form)}}
+{% endblock %}

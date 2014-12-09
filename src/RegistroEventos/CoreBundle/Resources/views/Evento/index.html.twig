@@ -10,13 +10,21 @@
     <link type="text/css" rel="stylesheet" href="{{ asset('bundles/registroeventoscore/css/eventos.css') }}" />
 {% endblock %}
 
-{#{% form_theme form 'RegistroEventosCoreBundle:Form:personalizado.html.twig' %}
-#}
+
 {% block body -%}
     <div class="row">
     <div class="col-sm-10 col-sm-offset-1">
         <div class="row">
         <div class="col-sm-10 col-sm-offset-1">
+            <ul class="nav nav-tabs">
+              <li id="botonFormularioRegistro" class="{% if seccion == "registro" %} active {% endif %}"><a href="#">Registro</a></li>
+              <li id="botonFormularioBusqueda" class="{% if seccion == "busqueda" %} active {% endif %}"><a href="#">Busqueda</a></li>
+            </ul>
+        </div>
+        </div>
+        <div class="row">
+        <div class="col-sm-10 col-sm-offset-1 div-formulario">
+            <div id="divFormularioRegistro" class="{% if seccion == "registro" %} show {% else %} hide {% endif %}">
             <form role="form" name="formularioAltaEvento" action="{{ path('eventos_crear') }}" method="post" {{ form_enctype(form) }}>
                 {{ form_errors(form) }}
                 <div class="row">
@@ -78,6 +86,13 @@
                 {{ form_row(form._token) }}
                 
             </form>
+            </div>
+            <div id="divFormularioBusqueda" class="{% if seccion == "busqueda" %} show {% else %} hide {% endif %}">
+                <form>
+                    <h1>busqueda</h1>
+                    {{ form(formularioBusqueda) }}
+                </form>
+            </div>
         </div>
         </div>
     </div>

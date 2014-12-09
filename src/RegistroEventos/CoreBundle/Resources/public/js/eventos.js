@@ -112,4 +112,22 @@ $(document).ready(function () {
     });
     
     $(".estado-switch").bootstrapSwitch();
+    
+    $('#botonFormularioRegistro').on('click',function(){
+        $('#botonFormularioBusqueda').removeClass('active');
+        $(this).addClass('active');
+        $('#divFormularioRegistro').removeClass('hide');
+        $('#divFormularioRegistro').addClass('show');
+        $('#divFormularioBusqueda').removeClass('show');
+        $('#divFormularioBusqueda').addClass('hide');
+    });
+    
+    $('#botonFormularioBusqueda').on('click',function(){
+        $('#botonFormularioRegistro').removeClass('active');
+        $(this).addClass('active');
+        $('#divFormularioBusqueda').removeClass('hide');
+        $('#divFormularioBusqueda').addClass('show');
+        $('#divFormularioRegistro').removeClass('show');
+        $('#divFormularioRegistro').addClass('hide');
+    });
 });
