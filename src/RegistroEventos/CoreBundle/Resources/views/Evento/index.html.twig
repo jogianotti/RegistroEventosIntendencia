@@ -30,7 +30,12 @@
                 <div class="row">
                     <div class="form-group col-sm-4 {% if not form.tipoEvento.vars.valid %}has-error{% endif %}">
                         {{ form_label(form.tipoEvento, 'Tipo de Evento',{ 'attr': {'for': form.tipoEvento.vars.id} }) }}
-                        {{ form_widget(form.tipoEvento, { 'attr': {'class': 'form-control','required':'required'} }) }}
+{#                        {{ form_widget(form.tipoEvento, { 'attr': {'class': 'form-control','required':'required'} }) }}#}
+                        <select name="{{form.tipoEvento.vars.name}}" id="{{form.tipoEvento.vars.id}}" required="required" class="form-control" >
+                            {% for tipo in tiposEvento %}
+                                <option value="{{tipo.id}}">{{tipo}}</option>
+                            {% endfor %}
+                        </select>
                         {% if not form.tipoEvento.vars.valid %}
                             <div class="alert alert-danger">{{ form_errors(form.tipoEvento) }}</div>
                         {% endif %}
@@ -58,18 +63,6 @@
                             {{ form_widget(form.estado, { 'attr': {'class': 'form-control estado-switch', 
                             'data-on-text': 'Abierto', 'data-size':'large', 'data-off-text': 'Cerrado'} }) }}
                             </div></div>
-                        {#<div class="radio">
-                          <label>
-                              <input type="radio" name="{{ form.estado.vars.name }}" value="true">
-                            Abierto
-                          </label>
-                        </div>
-                        <div class="radio">
-                          <label>
-                            <input type="radio" name="{{ form.estado.vars.name }}" value="false">
-                            Cerrado
-                          </label>
-                        </div>#}
                     </div>
                 </div>
                 <div class="form-group {% if not form.observaciones.vars.valid %}has-error{% endif %}">
@@ -89,7 +82,6 @@
             </div>
             <div id="divFormularioBusqueda" class="{% if seccion == "busqueda" %} show {% else %} hide {% endif %}">
                 <form>
-                    <h1>busqueda</h1>
                     {{ form(formularioBusqueda) }}
                 </form>
             </div>
