@@ -27,7 +27,7 @@
     <div class="form-group">
             {{ form_errors(form.prioridad) }}
             {{ form_label(form.prioridad, 'Prioridad: ')}}
-            {{ form_widget(form.prioridad, { 'attr': {'class': 'form-control'} }) }}
+            {{ form_widget(form.prioridad, { 'attr': {'class': 'form-control', 'min': '1', 'max': '99' } }) }}
     </div>
     <div class="form-group">
             {{ form_widget(form.baja, { 'attr': {'class': 'oculto'} }) }}
