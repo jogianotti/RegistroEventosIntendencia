@@ -17,11 +17,11 @@
             {{ form_errors(form.tipoEvento) }}
             {{ form_widget(form.tipoEvento) }}
         </div>
-        <div class="form-group">
+       {# <div class="form-group">
             {{ form_label(form.estado, 'Estado del evento: ',{ 'attr': {'for': form.estado.vars.id} }) }}
             {{ form_errors(form.estado) }}
             {{ form_widget(form.estado) }}
-        </div>
+        </div>#}
         <div class="form-group">
             {{ form_label(form.fechaEvento, 'Fecha del Evento: ') }}
             <span>{{ form_errors(form.fechaEvento) }}</span>
