@@ -81,15 +81,13 @@ class EventoController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $evento = new Evento();
+        
         $form = $this->createCreateForm($evento);
         $form->handleRequest($request);
         
         $date = \DateTime::createFromFormat('d/m/Y H:i', $request->request->get('fechaEvento'));
         $evento->setFechaEvento($date);
-        
-//        $tipoEvento = $em->getRepository('RegistroEventosCoreBundle:TipoEvento')->find($form->get('tipoEvento')->);
-//        $evento->setTipoEvento($tipoEvento);
-        
+       
         $evento->setFechaSistema(new \DateTime());
         $evento->setUsuario($this->get('security.context')->getToken()->getUser());
 
@@ -100,7 +98,6 @@ class EventoController extends Controller
 
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
             $em->persist($evento);
             $em->flush();
             
