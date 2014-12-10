@@ -1,20 +1,26 @@
-#RegistroEventos\CoreBundle\Entity\Usuario:
-#    properties:
-#        nombre:
-#            - NotBlank: ~
-#            - Type:
-#                type: string
-#                message: 'El nombre debe ser de tipo texto.'
-#            - Length:
-#                min: 3
-#                max: 80
-#                minMessage: 'El nombre debe tener al menos {{ limit }} caractres.'
-#                maxMessage: 'El nombre debe tener a lo sumo {{ limit }} caractres.'
-#        baja:
-#            Type:
-#                type: boolean
-#                message: 'Baja debe ser un booleano'
-#
+RegistroEventos\CoreBundle\Entity\Usuario:
+    constraints:
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:
+            fields: [username]
+            message: 'El nombre de usuario ya se encuentra en uso.'
+            
+    properties:
+        nombre:
+            - NotBlank: ~
+            - Type:
+                type: string
+                message: 'El nombre debe ser de tipo texto.'
+            - Length:
+                min: 3
+                max: 80
+                minMessage: 'El nombre debe tener al menos {{ limit }} caractres.'
+                maxMessage: 'El nombre debe tener a lo sumo {{ limit }} caractres.'
+        baja:
+            - Type:
+                type: boolean
+                message: 'Baja debe ser un booleano'
+
+
 RegistroEventos\CoreBundle\Entity\Evento:
     properties:
         fechaSistema:

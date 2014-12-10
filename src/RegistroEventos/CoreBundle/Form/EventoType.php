@@ -18,7 +18,9 @@ class EventoType extends AbstractType
             ->add('fechaSistema')
             ->add('fechaEvento')
             ->add('observaciones')
-            ->add('estado')
+            ->add('estado','checkbox',array(
+                'required' => false
+            ))
             ->add('usuario')
             ->add('tipoEvento')
         ;
