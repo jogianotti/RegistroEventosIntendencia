@@ -45,12 +45,16 @@ class UsuarioController extends Controller
 
         $error = null;
         if ($form->isValid()) {
-            $error = $this->get('registro_eventos_core.subir_imagen')->ValidarImagen($form['file']->getData());
+            if ($form['file']->getData()){
+                $error = $this->get('registro_eventos_core.subir_imagen')->ValidarImagen($form['file']->getData());
+            }
             if ($error == NULL){                
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($usuario);
                 $em->flush();
-                $this->get('registro_eventos_core.subir_imagen')->SubirImagen($form['file']->getData(), $usuario->getId());
+                if ($form['file']->getData()){
+                    $this->get('registro_eventos_core.subir_imagen')->SubirImagen($form['file']->getData(), $usuario->getId());
+                }
                 return $this->redirect($this->generateUrl('usuarios'));
             }
             
@@ -165,7 +169,9 @@ class UsuarioController extends Controller
         $entity->setRoles(array($editForm->get('role')->getData($request)));
         $error = null;
         if ($editForm->isValid()) {
-            $error = $this->get('registro_eventos_core.subir_imagen')->SubirImagen($editForm['file']->getData(), $id);
+            if ($form['file']->getData()){
+                $error = $this->get('registro_eventos_core.subir_imagen')->SubirImagen($editForm['file']->getData(), $id);
+            }
             $em->persist($entity);
             $em->flush();
 
