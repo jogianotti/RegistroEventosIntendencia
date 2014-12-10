@@ -107,7 +107,7 @@
 
                 <tr data-id="{{ evento.id }}">
                     <td>{{ evento.usuario.nombre }}</td>
-                    <td>{{ evento.fechaEvento|date('Y-m-d H:i') }}</td>
+                    <td>{{ evento.fechaEvento|date('d-m-Y H:i') }}</td>
                     <td>{{ evento.tipoEvento }}</td>
                     <td>{{ evento.observaciones }}</td>
                     <td class="accion"><button type="button" class="btn btn-success botonMostrarDetallesEvento" data-id="{{ evento.id }}">Detalles</button></td>
@@ -137,7 +137,7 @@
 
                 <tr data-id="{{ evento.id }}">
                     <td>{{ evento.usuario.nombre }}</td>
-                    <td>{{ evento.fechaEvento|date('Y-m-d H:i') }}</td>
+                    <td>{{ evento.fechaEvento|date('d-m-Y H:i') }}</td>
                     <td>{{ evento.tipoEvento }}</td>
                     <td>{{ evento.observaciones }}</td>
                     <td class="accion"><button type="button" class="btn btn-success botonMostrarDetallesEvento" data-id="{{ evento.id }}">Detalles</button></td>

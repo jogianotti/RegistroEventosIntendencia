@@ -45,7 +45,7 @@
             <tbody id="tbody">
                 {% for detalle in detalles %}
                     <tr>
-                        <td class="thead-td">{{ detalle.fechaDetalle | date('Y-m-d H-i')}}</td>
+                        <td class="thead-td">{{ detalle.fechaDetalle | date('d-m-Y H-i')}}</td>
                         <td class="thead-td">{{ detalle.observaciones }}</td>
                         <td class="thead-td">{{ detalle.usuario.nombre }}</td>
                     </tr>
