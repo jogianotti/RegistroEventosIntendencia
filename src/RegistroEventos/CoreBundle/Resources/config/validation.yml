@@ -82,19 +82,19 @@ RegistroEventos\CoreBundle\Entity\TipoEvento:
 #            - NotBlank:
 #                message: 'Las observaciones no deben quedar en blanco.'
 #        
-#RegistroEventos\CoreBundle\Entity\Contacto:
-#    properties:
-#        nombre:
-#            - Type:
-#                type: string
-#                message: 'El nombre debe ser de tipo texto'
+RegistroEventos\CoreBundle\Entity\Contacto:
+    properties:
+        nombre:
+            - Type:
+                type: string
+                message: 'El nombre debe ser de tipo texto'
 #            - Length:
 #                min: 6
 #                max: 60
 #                minMessage: 'El nombre debe tener al menos {{ limit }} caractres.'
 #                maxMessage: 'El nombre debe tener a lo sumo {{ limit }} caractres.'
-#            - NotBlank:
-#                message: 'El nombre no debe quedar en blanco.'
+            - NotBlank:
+                message: 'El nombre no debe quedar en blanco.'
 #        apellido:
 #            - Type:
 #                type: string
@@ -106,13 +106,17 @@ RegistroEventos\CoreBundle\Entity\TipoEvento:
 #                maxMessage: 'El apellido debe tener a lo sumo {{ limit }} caractres.'
 #            - NotBlank:
 #                message: 'El apellido no debe quedar en blanco.'
-#        telefonoFijo:
-#            - Type:
-#                type: string
-#                message: 'El telefono fijo debe ser de tipo texto.'
-#            - Length:
-#                max: 40
-#                maxMessage: 'El telefono fijo debe tener a lo sumo {{limit}} caracteres.'
+        telefonoFijo:
+            - Type:
+                type: string
+                message: 'El telefono fijo debe ser de tipo texto.'
+            - Length:
+                max: 40
+                maxMessage: 'El telefono fijo debe tener a lo sumo {{limit}} caracteres.'
+            - Regex:
+                pattern: '/\d/'
+                match:   true
+                message: Your name cannot contain a number
 #        telefonoMovil:
 #            - Type:
 #                type: string

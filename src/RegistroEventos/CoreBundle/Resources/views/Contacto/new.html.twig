@@ -15,10 +15,13 @@ Regresar al listado de contactos</a>
         <h2>Nuevo Contacto</h2>
 	{{ form_start(form, {attr:{role:'form'}}) }}
 	<div class="form-group">
-		{{ form_errors(form.nombre) }}
+		{#{{ form_errors(form.nombre) }}#}
 		{{ form_label(form.nombre, 'Nombre: ')}}
 		{{ form_widget(form.nombre, { 'attr': {'class': 'form-control'} }) }}
 	</div>
+        {% if form_errors(form.nombre) %}
+                <div class="alert alert-danger alert-dismissible fade in" role="alert">{{ form_errors(form.nombre) }}</div>
+        {% endif %}
 	<div class="form-group">
 		{{ form_errors(form.apellido) }}
 		{{ form_label(form.apellido, 'Apellido: ')}}
