@@ -99,13 +99,13 @@ $(document).ready(function () {
         return false;
     });
     
-    $('#ventanaPopUp').one('mouseover','#dp-detalle',function(){
+    $('#ventanaPopUp').on('mouseover','#dp-detalle',function(){
         $('#dp-detalle').datetimepicker({
             format: 'DD/MM/YYYY HH:mm'
         });
     });
     
-    $('#ventanaPopUp').one('mouseover','#dp-rectificar',function(){
+    $('#ventanaPopUp').on('mouseover','#dp-rectificar',function(){
         $('#dp-rectificar').datetimepicker({
             format: 'DD/MM/YYYY HH:mm'
         });

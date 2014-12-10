@@ -16,7 +16,6 @@
     <table class="table table-hover">
         <thead>
             <tr>
-               {# <th>Id</th>#}
                 <th>Nombre</th>
                 <th>Email</th>
                 <th>Prioridad</th>
@@ -26,7 +25,6 @@
         <tbody>
         {% for entity in entities %}
             <tr>
-                {#<td><a href="{{ path('tipos_eventos_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>#}
                 <td>{{ entity.nombre }}</td>
                 <td>{{ entity.email }}</td>
                 <td>{{ entity.prioridad }}</td>
@@ -36,7 +34,7 @@
                 <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
                 Editar</a>     
                 
-                <a href="{{ path('tipos_eventos_delete', { 'id': entity.id }) }}" role="button" class="btn btn-danger">
+                <a href="#" role="button" class="btn btn-danger boton-eliminar-tipo-evento" data-id="{{entity.id}}">
                 <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                 Eliminar</a>           
 
@@ -46,4 +44,31 @@
         </tbody>
     </table>
 
+    <!-- Ventana emergente -->
+    <div id="ventanaPopUp" class="modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Cerrar</span>
+                    </button>
+                    <h3 id="tituloPopUp" class="modal-title">Confirmar eliminar Tipo de Evento</h3>
+                </div>
+                <div id="contenidoPopUp" class="modal-body">
+                    <p>Esta acción deshabilitará permanentemente el Tipo de Evento para el registro de eventos. No obstante se visualizará en los formularios de búsqueda si existen eventos asociados.</p>
+                </div>            
+                <div class="modal-footer" id="piePopUp">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                    <button id="botonGuardarPopUp" type="button" class="btn btn-danger">Eliminar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ----------------- -->
+{% endblock %}
+
+{% block javascript %}
+    {{parent()}}
+    <script type="text/javascript" src="{{asset('bundles/registroeventoscore/js/tipo_evento.js')}}"></script>
 {% endblock %}

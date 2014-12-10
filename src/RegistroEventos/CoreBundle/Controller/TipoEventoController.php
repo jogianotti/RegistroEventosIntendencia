@@ -4,7 +4,6 @@ namespace RegistroEventos\CoreBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
 use RegistroEventos\CoreBundle\Entity\TipoEvento;
 use RegistroEventos\CoreBundle\Form\TipoEventoType;
 
@@ -12,29 +11,27 @@ use RegistroEventos\CoreBundle\Form\TipoEventoType;
  * TipoEvento controller.
  *
  */
-class TipoEventoController extends Controller
-{
+class TipoEventoController extends Controller {
 
     /**
      * Lists all TipoEvento entities.
      *
      */
-    public function indexAction()
-    {
+    public function indexAction() {
         $em = $this->getDoctrine()->getManager();
 
         $entities = $em->getRepository('RegistroEventosCoreBundle:TipoEvento')->listarTiposEventosActivos();
 
         return $this->render('RegistroEventosCoreBundle:TipoEvento:index.html.twig', array(
-            'entities' => $entities,
+                    'entities' => $entities,
         ));
     }
+
     /**
      * Creates a new TipoEvento entity.
      *
      */
-    public function createAction(Request $request)
-    {
+    public function createAction(Request $request) {
         $entity = new TipoEvento();
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
@@ -48,8 +45,8 @@ class TipoEventoController extends Controller
         }
 
         return $this->render('RegistroEventosCoreBundle:TipoEvento:new.html.twig', array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
+                    'entity' => $entity,
+                    'form' => $form->createView(),
         ));
     }
 
@@ -60,8 +57,7 @@ class TipoEventoController extends Controller
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createCreateForm(TipoEvento $entity)
-    {
+    private function createCreateForm(TipoEvento $entity) {
         $form = $this->createForm(new TipoEventoType(), $entity, array(
             'action' => $this->generateUrl('tipos_eventos_create'),
             'method' => 'POST',
@@ -76,14 +72,13 @@ class TipoEventoController extends Controller
      * Displays a form to create a new TipoEvento entity.
      *
      */
-    public function newAction()
-    {
+    public function newAction() {
         $entity = new TipoEvento();
-        $form   = $this->createCreateForm($entity);
+        $form = $this->createCreateForm($entity);
 
         return $this->render('RegistroEventosCoreBundle:TipoEvento:new.html.twig', array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
+                    'entity' => $entity,
+                    'form' => $form->createView(),
         ));
     }
 
@@ -91,8 +86,7 @@ class TipoEventoController extends Controller
      * Finds and displays a TipoEvento entity.
      *
      */
-    public function showAction($id)
-    {
+    public function showAction($id) {
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('RegistroEventosCoreBundle:TipoEvento')->find($id);
@@ -104,8 +98,8 @@ class TipoEventoController extends Controller
         $deleteForm = $this->createDeleteForm($id);
         //$deleteForm->add('submit', 'submit', array('label' => 'Eliminar tipo de evento', 'attr' => array('class' => 'btn btn-danger btn-large pull-right')));
         return $this->render('RegistroEventosCoreBundle:TipoEvento:show.html.twig', array(
-            'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),
+                    'entity' => $entity,
+                    'delete_form' => $deleteForm->createView(),
         ));
     }
 
@@ -113,8 +107,7 @@ class TipoEventoController extends Controller
      * Displays a form to edit an existing TipoEvento entity.
      *
      */
-    public function editAction($id)
-    {
+    public function editAction($id) {
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('RegistroEventosCoreBundle:TipoEvento')->find($id);
@@ -125,20 +118,19 @@ class TipoEventoController extends Controller
 
         $editForm = $this->createEditForm($entity);
         return $this->render('RegistroEventosCoreBundle:TipoEvento:edit.html.twig', array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
+                    'entity' => $entity,
+                    'edit_form' => $editForm->createView(),
         ));
     }
 
     /**
-    * Creates a form to edit a TipoEvento entity.
-    *
-    * @param TipoEvento $entity The entity
-    *
-    * @return \Symfony\Component\Form\Form The form
-    */
-    private function createEditForm(TipoEvento $entity)
-    {
+     * Creates a form to edit a TipoEvento entity.
+     *
+     * @param TipoEvento $entity The entity
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createEditForm(TipoEvento $entity) {
         $form = $this->createForm(new TipoEventoType(), $entity, array(
             'action' => $this->generateUrl('tipos_eventos_update', array('id' => $entity->getId())),
             'method' => 'POST',
@@ -148,12 +140,12 @@ class TipoEventoController extends Controller
 
         return $form;
     }
+
     /**
      * Edits an existing TipoEvento entity.
      *
      */
-    public function updateAction(Request $request, $id)
-    {
+    public function updateAction(Request $request, $id) {
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('RegistroEventosCoreBundle:TipoEvento')->find($id);
@@ -168,34 +160,34 @@ class TipoEventoController extends Controller
         if ($editForm->isValid()) {
             $em->persist($entity);
             $em->flush();
-            
+
             return $this->redirect($this->generateUrl('tipos_eventos'));
         }
 
         return $this->render('RegistroEventosCoreBundle:TipoEvento:edit.html.twig', array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
+                    'entity' => $entity,
+                    'edit_form' => $editForm->createView(),
         ));
     }
+
     /**
      * Deletes a TipoEvento entity.
      *
      */
-//    public function deleteAction(Request $request, $id)
-//    {
-//            $em = $this->getDoctrine()->getManager();
-//            $entity = $em->getRepository('RegistroEventosCoreBundle:TipoEvento')->find($id);
-//
-//            if (!$entity) {
-//                throw $this->createNotFoundException('Unable to find TipoEvento entity.');
-//            }
-//            $entity->setBaja(TRUE);
-//            $em->persist($entity);
-//            $em->flush();
-//       
-//
-//        return $this->redirect($this->generateUrl('tipos_eventos'));
-//    }
+    public function deleteAction(Request $request, $id) {
+        $em = $this->getDoctrine()->getManager();
+        $entity = $em->getRepository('RegistroEventosCoreBundle:TipoEvento')->find($id);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find TipoEvento entity.');
+        }
+        
+        $entity->setBaja(TRUE);
+        $em->persist($entity);
+        $em->flush();
+
+        return $this->redirect($this->generateUrl('tipos_eventos'));
+    }
 
     /**
      * Creates a form to delete a TipoEvento entity by id.

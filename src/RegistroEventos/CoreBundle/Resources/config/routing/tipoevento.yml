@@ -28,3 +28,5 @@ tipos_eventos_delete:
     path:     /{id}/delete
     defaults: { _controller: "RegistroEventosCoreBundle:TipoEvento:delete" }
     requirements: { _method: post|delete|get }
+    options:
+        expose: true
