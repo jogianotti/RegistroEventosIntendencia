@@ -169,7 +169,7 @@ class UsuarioController extends Controller
         $entity->setRoles(array($editForm->get('role')->getData($request)));
         $error = null;
         if ($editForm->isValid()) {
-            if ($form['file']->getData()){
+            if ($editForm['file']->getData()){
                 $error = $this->get('registro_eventos_core.subir_imagen')->SubirImagen($editForm['file']->getData(), $id);
             }
             $em->persist($entity);

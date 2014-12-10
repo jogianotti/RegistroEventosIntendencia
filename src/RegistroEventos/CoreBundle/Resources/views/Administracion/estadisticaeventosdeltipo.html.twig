@@ -16,13 +16,13 @@
       data: [
 
       {        
-        type: "column",  
+        type: "pie",  
         showInLegend: true, 
-        legendMarkerColor: "grey",
-        legendText: "Tipos",
+        toolTipContent: "{legendText}: <strong>{y}%</strong>",
+        indexLabel: "{label} {y}%",
         dataPoints: [      
         {% for tipo in tipos %}
-        {y: {{ tipo.eventos }}, label: "{{ tipo.nombre }}"},
+        {y: {{ tipo.eventos }}, legendText: "{{ tipo.nombre }}", label: "{{ tipo.nombre }}"},
         {% endfor %}
         ]
       }   
