@@ -6,7 +6,8 @@ RegistroEventos\CoreBundle\Entity\Usuario:
             
     properties:
         nombre:
-            - NotBlank: ~
+            - NotBlank:
+                message: 'El nombre no debe quedar en blanco.'
             - Type:
                 type: string
                 message: 'El nombre debe ser de tipo texto.'
@@ -15,10 +16,23 @@ RegistroEventos\CoreBundle\Entity\Usuario:
                 max: 80
                 minMessage: 'El nombre debe tener al menos {{ limit }} caractres.'
                 maxMessage: 'El nombre debe tener a lo sumo {{ limit }} caractres.'
+            - Regex:
+                pattern: '/\D/'
+                match:   true
+                message: 'El nombre no es valido'
         baja:
             - Type:
                 type: boolean
                 message: 'Baja debe ser un booleano'
+        username:
+            - NotBlank:
+                message: 'El nombre de usuario no debe quedar en blanco.'
+            - Type:
+                type: string
+                message: 'El nombre debe ser de tipo texto.'         
+#        plainPassword:
+#            - NotBlank:
+#                message: 'La clave no debe quedar en blanco.'
 
 
 RegistroEventos\CoreBundle\Entity\Evento:
@@ -42,25 +56,35 @@ RegistroEventos\CoreBundle\Entity\Evento:
 
 RegistroEventos\CoreBundle\Entity\TipoEvento:
     properties:
-#        nombre:
-#            - Type:
-#                type: string
-#                message: 'El nombre debe ser de tipo texto'
+        nombre:
+            - Type:
+                type: string
+                message: 'El nombre debe ser de tipo texto'
 #            - Length:
 #                min: 6
 #                max: 50
 #                minMessage: 'El nombre debe tener al menos {{ limit }} caractres.'
 #                maxMessage: 'El nombre debe tener a lo sumo {{ limit }} caractres.'
-#            - NotBlank:
-#                message: 'El nombre no debe quedar en blanco.'
+            - NotBlank:
+                message: 'El nombre no debe quedar en blanco.'
         email:
             - Email:
                 message: 'El email no es un email válido'
-#        prioridad:
-#            - Type:
-#                type: integer
-#                message: 'La prioridad debe ser de tipo entera.'
-#            - NotNull: ~
+        prioridad:
+            - Type:
+                type: integer
+                message: 'La prioridad debe ser de tipo entera.'
+            - NotBlank:
+                message: 'La prioridad no debe quedar en blanco.'
+            - Regex:
+                pattern: '/\d/'
+                match:   true
+                message: 'La prioridad no es valida'
+            - Range:    
+                min: 1
+                max: 99
+                minMessage: Debe ser como minimo {{ limit }}
+                maxMessage: Debe ser como maximo {{ limit }}
 #
 #RegistroEventos\CoreBundle\Entity\Detalle:
 #    properties:
@@ -107,22 +131,26 @@ RegistroEventos\CoreBundle\Entity\Contacto:
 #            - NotBlank:
 #                message: 'El apellido no debe quedar en blanco.'
         telefonoFijo:
-            - Type:
-                type: string
-                message: 'El telefono fijo debe ser de tipo texto.'
+#            - Type:
+#                type: string
+#                message: 'El telefono fijo debe ser de tipo texto.'
             - Length:
                 max: 40
                 maxMessage: 'El telefono fijo debe tener a lo sumo {{limit}} caracteres.'
             - Regex:
                 pattern: '/\d/'
                 match:   true
-                message: Your name cannot contain a number
-#        telefonoMovil:
+                message: 'El telefono no es valido'
+        telefonoMovil:
 #            - Type:
 #                type: string
 #                message: 'El telefono movil debe ser de tipo texto.'
-#            - Length:
-#                max: 40
-#                maxMessage: 'El telefono movil debe tener a lo sumo {{limit}} caracteres.'
-#                
-#
+            - Length:
+                max: 40
+                maxMessage: 'El telefono movil debe tener a lo sumo {{limit}} caracteres.'
+            - Regex:
+                pattern: '/\d/'
+                match:   true
+                message: 'El telefono no es valido'
+                
+

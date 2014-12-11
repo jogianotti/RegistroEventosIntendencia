@@ -15,25 +15,37 @@
             <h2>Nuevo Usuario</h2>
             {{ form_start(form, {attr:{role:'form'}}) }}
             <div class="form-group">
-                {{ form_errors(form.nombre) }}
+                {#{{ form_errors(form.nombre) }}#}
                 {{ form_label(form.nombre, 'Nombre y Apellido: ')}}
                 {{ form_widget(form.nombre, { 'attr': {'class': 'form-control'} }) }}
             </div>
+            {% if form_errors(form.nombre) %}
+                <div class="alert alert-danger alert-dismissible fade in" role="alert">{{ form_errors(form.nombre) }}</div>
+            {% endif %}
             <div class="form-group">
-                {{ form_errors(form.username) }}
+                {#{{ form_errors(form.username) }}#}
                 {{ form_label(form.username, 'Nombre de Usuario: ')}}
                 {{ form_widget(form.username, { 'attr': {'class': 'form-control'} }) }}
             </div>
+            {% if form_errors(form.username) %}
+                <div class="alert alert-danger alert-dismissible fade in" role="alert">{{ form_errors(form.username) }}</div>
+            {% endif %}
             <div class="form-group">
-                {{ form_errors(form.plainPassword.first) }}
+                {#{{ form_errors(form.plainPassword.first) }}#}
                 {{ form_label(form.plainPassword.first, 'Clave: ')}}
                 {{ form_widget(form.plainPassword.first, { 'attr': {'class': 'form-control'} }) }}
             </div>
+            {% if form_errors(form.plainPassword.first) %}
+                <div class="alert alert-danger alert-dismissible fade in" role="alert">{{ form_errors(form.plainPassword.first) }}</div>
+            {% endif %}
             <div class="form-group">
-                {{ form_errors(form.plainPassword.second) }}
+                {#{{ form_errors(form.plainPassword.second) }}#}
                 {{ form_label(form.plainPassword.second, 'Confirmacion Clave: ')}}
                 {{ form_widget(form.plainPassword.second, { 'attr': {'class': 'form-control'} }) }}
             </div>
+            {% if form_errors(form.plainPassword.second) %}
+                <div class="alert alert-danger alert-dismissible fade in" role="alert">{{ form_errors(form.plainPassword.second) }}</div>
+            {% endif %}
             <div class="form-group">
                 {{ form_errors(form.role) }}
                 {{ form_label(form.role, 'Rol de usuario: ')}}
