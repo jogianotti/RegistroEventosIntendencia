@@ -36,7 +36,8 @@
             {{ form_widget(form.prioridad, { 'attr': {'class': 'form-control', 'min': '1', 'max': '99' } }) }}
     </div>
     {% if form_errors(form.prioridad) %}
-        <div class="alert alert-danger alert-dismissible fade in" role="alert">{{ form_errors(form.prioridad) }}</div>
+        {#<div class="alert alert-danger alert-dismissible fade in" role="alert">{{ form_errors(form.prioridad) }}</div>#}
+        <div class="alert alert-danger alert-dismissible fade in" role="alert">Ingrese una prioridad valida</div>
     {% endif %}
     <div class="form-group">
             {{ form_widget(form.baja, { 'attr': {'class': 'oculto'} }) }}

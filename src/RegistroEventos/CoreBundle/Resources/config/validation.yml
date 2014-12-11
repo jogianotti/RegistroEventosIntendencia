@@ -16,6 +16,10 @@ RegistroEventos\CoreBundle\Entity\Usuario:
                 max: 80
                 minMessage: 'El nombre debe tener al menos {{ limit }} caractres.'
                 maxMessage: 'El nombre debe tener a lo sumo {{ limit }} caractres.'
+            - Regex:
+                pattern: '/\D/'
+                match:   true
+                message: 'El nombre no es valido'
         baja:
             - Type:
                 type: boolean
@@ -26,9 +30,9 @@ RegistroEventos\CoreBundle\Entity\Usuario:
             - Type:
                 type: string
                 message: 'El nombre debe ser de tipo texto.'         
-        plainPassword:
-            - NotBlank:
-                message: 'La clave no debe quedar en blanco.'
+#        plainPassword:
+#            - NotBlank:
+#                message: 'La clave no debe quedar en blanco.'
 
 
 RegistroEventos\CoreBundle\Entity\Evento:
@@ -72,6 +76,15 @@ RegistroEventos\CoreBundle\Entity\TipoEvento:
                 message: 'La prioridad debe ser de tipo entera.'
             - NotBlank:
                 message: 'La prioridad no debe quedar en blanco.'
+            - Regex:
+                pattern: '/\d/'
+                match:   true
+                message: 'La prioridad no es valida'
+            - Range:    
+                min: 1
+                max: 99
+                minMessage: Debe ser como minimo {{ limit }}
+                maxMessage: Debe ser como maximo {{ limit }}
 #
 #RegistroEventos\CoreBundle\Entity\Detalle:
 #    properties:
