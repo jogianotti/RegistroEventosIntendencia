@@ -15,20 +15,29 @@
     <h2>Crear un Tipo de Evento</h2>
     {{ form_start(form, {attr:{role:'form'}}) }}
     <div class="form-group">
-            {{ form_errors(form.nombre) }}
+            {#{{ form_errors(form.nombre) }}#}
             {{ form_label(form.nombre, 'Nombre: ')}}
             {{ form_widget(form.nombre, { 'attr': {'class': 'form-control'} }) }}
     </div>
+    {% if form_errors(form.nombre) %}
+        <div class="alert alert-danger alert-dismissible fade in" role="alert">{{ form_errors(form.nombre) }}</div>
+    {% endif %}
     <div class="form-group">
-            {{ form_errors(form.email) }}
+            {#{{ form_errors(form.email) }}#}
             {{ form_label(form.email, 'Email: ')}}
             {{ form_widget(form.email, { 'attr': {'class': 'form-control'} }) }}
     </div>
+    {% if form_errors(form.email) %}
+        <div class="alert alert-danger alert-dismissible fade in" role="alert">{{ form_errors(form.email) }}</div>
+    {% endif %}
     <div class="form-group">
-            {{ form_errors(form.prioridad) }}
+            {#{{ form_errors(form.prioridad) }}#}
             {{ form_label(form.prioridad, 'Prioridad: ')}}
             {{ form_widget(form.prioridad, { 'attr': {'class': 'form-control', 'min': '1', 'max': '99' } }) }}
     </div>
+    {% if form_errors(form.prioridad) %}
+        <div class="alert alert-danger alert-dismissible fade in" role="alert">{{ form_errors(form.prioridad) }}</div>
+    {% endif %}
     <div class="form-group">
             {{ form_widget(form.baja, { 'attr': {'class': 'oculto'} }) }}
     </div>

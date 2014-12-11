@@ -42,28 +42,28 @@ class Contacto
     /**
      * @var string
      *
-     * @ORM\Column(name="telefonoFijo", type="string", length=40)
+     * @ORM\Column(name="telefonoFijo", type="string", length=40, nullable=true)
      */
     private $telefonoFijo;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="telefonoMovil", type="string", length=40)
+     * @ORM\Column(name="telefonoMovil", type="string", length=40, nullable=true)
      */
     private $telefonoMovil;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="cargo_empresa", type="string", length=255)
+     * @ORM\Column(name="cargo_empresa", type="string", length=255, nullable=true)
      */
     private $cargoEmpresa;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="observaciones", type="string", length=255)
+     * @ORM\Column(name="observaciones", type="string", length=255, nullable=true)
      */
     private $observaciones;
 

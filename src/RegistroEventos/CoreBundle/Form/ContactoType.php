@@ -19,7 +19,9 @@ class ContactoType extends AbstractType
             ->add('apellido', 'text', array(
                 'required' => false, 
             ))
-            ->add('telefonoFijo', 'text')
+            ->add('telefonoFijo', 'text', array(
+                'required' => false
+            ))
             ->add('telefonoMovil', 'text', array(
                 'required' => false
             ))
