@@ -19,15 +19,16 @@
         <div class="container">
     	{% block body %}{% endblock %}
         </div>
-    </body>
-    {% block javascript %}
-    <script type="text/javascript" src="{{ asset('bower_components/jquery/dist/jquery.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('bower_components/moment/min/moment.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('bower_components/bootstrap/dist/js/bootstrap.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js') }}"></script>
+        {% block javascript %}
+        <script src="{{ asset('bower_components/jquery/dist/jquery.min.js') }}" > </script>
+        <script type="text/javascript" src="{{ asset('bower_components/moment/min/moment.min.js') }}"> </script>
+        <script type="text/javascript" src="{{ asset('bower_components/bootstrap/dist/js/bootstrap.min.js') }}"> </script>
+        <script type="text/javascript" src="{{ asset('bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js') }}"> </script>
 
-    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
-    <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
-    <script src="{{ asset('bundles/registroeventoscore/bootstrap-switch/bootstrap-switch.min.js') }}"></script>
-    {% endblock %}
+        <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"> </script>
+        <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"> </script>
+        <script src="{{ asset('bundles/registroeventoscore/bootstrap-switch/bootstrap-switch.min.js') }}"> </script>
+        {% endblock %}
+    </body>
+    
 </html>

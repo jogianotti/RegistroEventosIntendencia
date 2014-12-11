@@ -4,9 +4,9 @@ namespace RegistroEventos\CoreBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
 use RegistroEventos\CoreBundle\Entity\Usuario;
 use RegistroEventos\CoreBundle\Form\UsuarioType;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * Usuario controller.
@@ -26,9 +26,10 @@ class UsuarioController extends Controller
         $usuarios = $em->getRepository('RegistroEventosCoreBundle:Usuario')->findAll();
 
         return $this->render('RegistroEventosCoreBundle:Usuario:index.html.twig', array(
-            'usuarios' => $usuarios,
+                    'usuarios' => $usuarios,
         ));
     }
+
     /**
      * Creates a new Usuario entity.
      *
@@ -38,34 +39,31 @@ class UsuarioController extends Controller
         $usuario = new Usuario();
         $form = $this->createCreateForm($usuario);
         $form->handleRequest($request);
-        
+
         $usuario->setRoles(array($form->get('role')->getData()));
         $usuario->setEnabled(true);
         $usuario->setBaja(false);
 
         $error = null;
         if ($form->isValid()) {
-            if ($form['file']->getData()){
+            if ($form['file']->getData()) {
                 $error = $this->get('registro_eventos_core.subir_imagen')->ValidarImagen($form['file']->getData());
             }
-            if ($error == NULL){                
+            if ($error == NULL) {
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($usuario);
                 $em->flush();
-                if ($form['file']->getData()){
+                if ($form['file']->getData()) {
                     $this->get('registro_eventos_core.subir_imagen')->SubirImagen($form['file']->getData(), $usuario->getId());
                 }
                 return $this->redirect($this->generateUrl('usuarios'));
             }
-            
-            
-            
         }
 
         return $this->render('RegistroEventosCoreBundle:Usuario:new.html.twig', array(
-            'usuario' => $usuario,
-            'form'   => $form->createView(),
-            'error' => $error,
+                    'usuario' => $usuario,
+                    'form' => $form->createView(),
+                    'error' => $error,
         ));
     }
 
@@ -96,12 +94,12 @@ class UsuarioController extends Controller
     public function newAction()
     {
         $entity = new Usuario();
-        $form   = $this->createCreateForm($entity);
+        $form = $this->createCreateForm($entity);
 
         return $this->render('RegistroEventosCoreBundle:Usuario:new.html.twig', array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-            'error' => '',
+                    'entity' => $entity,
+                    'form' => $form->createView(),
+                    'error' => '',
         ));
     }
 
@@ -120,24 +118,24 @@ class UsuarioController extends Controller
         }
 
         $editForm = $this->createEditForm($entity);
-        
+
         $role = $entity->getRoles();
         $editForm->get('role')->setData($role[0]);
-        
+
         return $this->render('RegistroEventosCoreBundle:Usuario:edit.html.twig', array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'error' => '',
+                    'entity' => $entity,
+                    'edit_form' => $editForm->createView(),
+                    'error' => '',
         ));
     }
 
     /**
-    * Creates a form to edit a Usuario entity.
-    *
-    * @param Usuario $entity The entity
-    *
-    * @return \Symfony\Component\Form\Form The form
-    */
+     * Creates a form to edit a Usuario entity.
+     *
+     * @param Usuario $entity The entity
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
     private function createEditForm(Usuario $entity)
     {
         $form = $this->createForm(new UsuarioType(), $entity, array(
@@ -151,6 +149,7 @@ class UsuarioController extends Controller
 
         return $form;
     }
+
     /**
      * Edits an existing Usuario entity.
      *
@@ -169,23 +168,24 @@ class UsuarioController extends Controller
         $entity->setRoles(array($editForm->get('role')->getData($request)));
         $error = null;
         if ($editForm->isValid()) {
-            if ($editForm['file']->getData()){
+            if ($editForm['file']->getData()) {
                 $error = $this->get('registro_eventos_core.subir_imagen')->SubirImagen($editForm['file']->getData(), $id);
             }
             $em->persist($entity);
             $em->flush();
 
-            if ($error == null){
+            if ($error == null) {
                 return $this->redirect($this->generateUrl('usuarios'));
             }
         }
 
         return $this->render('RegistroEventosCoreBundle:Usuario:edit.html.twig', array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'error' => $error,
+                    'entity' => $entity,
+                    'edit_form' => $editForm->createView(),
+                    'error' => $error,
         ));
     }
+
     /**
      * Deletes a Usuario entity.
      *
@@ -194,18 +194,17 @@ class UsuarioController extends Controller
     {
         //$form = $this->createDeleteForm($id);
         //$form->handleRequest($request);
-
         //if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('RegistroEventosCoreBundle:Usuario')->find($id);
+        $em = $this->getDoctrine()->getManager();
+        $entity = $em->getRepository('RegistroEventosCoreBundle:Usuario')->find($id);
 
-            if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Usuario entity.');
-            }
-            $entity->setBaja(TRUE);
-            $entity->setEnabled(FALSE);
-            $em->persist($entity);
-            $em->flush();
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Usuario entity.');
+        }
+        $entity->setBaja(TRUE);
+        $entity->setEnabled(FALSE);
+        $em->persist($entity);
+        $em->flush();
         //}
 
         return $this->redirect($this->generateUrl('usuarios'));
@@ -215,20 +214,51 @@ class UsuarioController extends Controller
     {
         //$form = $this->createDeleteForm($id);
         //$form->handleRequest($request);
-
         //if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('RegistroEventosCoreBundle:Usuario')->find($id);
+        $em = $this->getDoctrine()->getManager();
+        $entity = $em->getRepository('RegistroEventosCoreBundle:Usuario')->find($id);
 
-            if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Usuario entity.');
-            }
-            $entity->setBaja(FALSE);
-            $entity->setEnabled(TRUE);
-            $em->persist($entity);
-            $em->flush();
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Usuario entity.');
+        }
+        $entity->setBaja(FALSE);
+        $entity->setEnabled(TRUE);
+        $em->persist($entity);
+        $em->flush();
         //}
 
         return $this->redirect($this->generateUrl('usuarios'));
     }
+
+    public function cambiarClaveFormAction($id)
+    {
+        $usuario = $this->getDoctrine()->getManager()->getRepository('RegistroEventosCoreBundle:Usuario')->find($id);
+        $form = $this->createCreateForm($usuario);
+        
+        $vista = $this->renderView('RegistroEventosCoreBundle:Usuario:cambiar_clave.html.twig',array(
+            'form' => $form->createView()
+        ));
+        return new JsonResponse(array('vista' => $vista ));
+    }
+
+    public function cambiarClaveAction(Request $request, $id)
+    {
+        $usuario = new Usuario();
+        $form = $this->createCreateForm($usuario);
+        $form->handleRequest($request);
+        
+        $error = null;
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($usuario);
+            $em->flush();
+            
+            return new JsonResponse(array('actualizada' => true));
+        }
+        $vista = $this->renderView('RegistroEventosCoreBundle:Usuario:cambiar_clave.html.twig',array(
+            'form' => $form
+        ));
+        return new JsonResponse(array('actualizada' => false, 'vista' => $vista));
+    }
+
 }

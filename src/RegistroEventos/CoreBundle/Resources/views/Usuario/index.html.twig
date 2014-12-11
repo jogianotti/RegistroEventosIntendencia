@@ -51,7 +51,7 @@ Crear un usuario nuevo</a>
                     <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                     Dar de baja</a>
                 {% endif %}
-                <button type="button" class="btn btn-default" data-id="{{ usuario.id }}">
+                <button type="button" class="btn btn-default botonCambiarClave" data-id="{{ usuario.id }}">
                     <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
                     Cambiar clave
                 </button>
@@ -60,4 +60,32 @@ Crear un usuario nuevo</a>
         {% endfor %}
         </tbody>
     </table>
+        
+        
+    <!-- Ventana emergente -->
+    <div id="ventanaPopUp" class="modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Cerrar</span>
+                    </button>
+                    <h4 id="tituloPopUp" class="modal-title">Cambiar clave</h4>
+                </div>
+                <div id="contenidoPopUp" class="modal-body">
+                </div>            
+                <div class="modal-footer" id="piePopUp">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                    <button id="botonGuardarPopUp" type="button" class="btn btn-primary">Cambiar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- -+-+-+-+-+-+-+-+- -->
+    {% endblock %}
+
+    {% block javascript %}
+        {{ parent() }}
+        <script type="text/javascript" src="{{ asset('bundles/registroeventoscore/js/usuarios.js') }}"></scrip>
     {% endblock %}
