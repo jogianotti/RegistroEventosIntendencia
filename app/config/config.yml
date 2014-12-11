@@ -69,6 +69,7 @@ swiftmailer:
     username:  "%mailer_user%"
     password:  "%mailer_password%"
     spool:     { type: memory }
+    auth_mode: login
 
 fos_user:
     db_driver: orm
@@ -77,3 +78,9 @@ fos_user:
     registration:
         form:
             type: registro_eventos_core_registration
+            
+stof_doctrine_extensions:
+    default_locale: %locale%
+    orm:
+        default:
+            timestampable: true

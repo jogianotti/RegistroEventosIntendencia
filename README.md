@@ -60,3 +60,8 @@ PROCESO DE INSTALACIÓN
 
     {dominio o path}/app_dev.php/login
 
+9) 
+php app/console assets:install --symlink web
+
+10)
+php app/console registroeventoscore:crear:datos_prueba

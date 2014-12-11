@@ -15,7 +15,51 @@ table.eventos {
 	height:2em;
 	width:100%;
 }
+
+table td{
+    white-space: pre-wrap;
+    max-width: 200px;
+}
+
+.textarea-fijo{
+    margin: 0px;
+    min-width: 847px;
+    min-height: 90px;
+}
+
 #listado-detalles {
     max-height: 300px;
     overflow-y: auto;
+}
+
+#thead{
+    position:fixed;
+    z-index:1;
+    width:62%!important;
+}
+
+.thead-th{
+    width:200px;
+    background-color:#FFFFFF;
+}
+
+.thead-th-last{
+    width:10px;
+    background-color:#FFFFFF;
+}
+
+#tbody{
+    position:relative; 
+    padding-top:40px; 
+    display:block;
+}
+
+.thead-td{
+    width:310px; 
+    max-width:310px;
+}
+
+.div-formulario {
+    padding: 30px;
+    min-height: 270px;
 }

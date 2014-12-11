@@ -19,4 +19,23 @@ class UsuarioRepository extends EntityRepository
             ->getQuery()
             ->getResult();
 	}
+	public function estadisticaEventosDelUsuario(){
+            return $this->createQueryBuilder('u')
+            ->addSelect('u.id, u.nombre')
+            ->addSelect('count(e) as eventos')
+            ->leftJoin('u.eventos', 'e')
+            ->groupBy('u.id')
+            ->getQuery()
+            ->getResult();			
+	}
+	public function estadisticaRectificacionesDelUsuario(){
+            return $this->createQueryBuilder('u')
+            ->addSelect('u.id, u.nombre')
+            ->addSelect('count(e) as eventos')
+            ->leftJoin('u.eventos', 'e')
+            ->where('e.rectificacion is not null')
+            ->groupBy('u.id')
+            ->getQuery()
+            ->getResult();			
+	}	
 }

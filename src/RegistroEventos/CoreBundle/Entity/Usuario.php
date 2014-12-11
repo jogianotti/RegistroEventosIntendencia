@@ -2,16 +2,44 @@
 
 namespace RegistroEventos\CoreBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Model\User as UsuarioBase;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Doctrine\ORM\Mapping\AttributeOverrides;
+use Doctrine\ORM\Mapping\AttributeOverride;
+use Doctrine\ORM\Mapping\Column;
+
 /**
  * Usuario
  *
  * @ORM\Table(name="usuarios")
  * @ORM\Entity(repositoryClass="RegistroEventos\CoreBundle\Repository\UsuarioRepository")
+ * 
+ * @AttributeOverrides({
+ *      @AttributeOverride(name="email",
+ *          column=@Column(
+ *              name     = "email",
+ *              type     = "string",
+                length   = 255,
+ *              nullable = true
+ *          )
+ *      ),
+ *      @AttributeOverride(name="emailCanonical",
+ *          column=@Column(
+ *              name="email_canonical",
+ *              type="string",
+ *              length=255,
+ *              unique=true,
+ *              nullable = true
+ *          )
+ *      )
+ * })
  */
 class Usuario extends UsuarioBase
 {
+    use TimestampableEntity;
+    
     /**
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -97,5 +125,9 @@ class Usuario extends UsuarioBase
     public function getBaja()
     {
         return $this->baja;
+    }
+    
+    function __toString() {
+        return $this->getNombre();
     }
 }

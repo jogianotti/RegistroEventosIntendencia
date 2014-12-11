@@ -9,22 +9,33 @@
 	<a href="{{ path('tipos_eventos') }}" role="button" class="btn btn-default btn-large">
 	<span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
 	Regresar al listado de tipos de eventos</a>
-
+        
+<div class="row">
+<div class="col-sm-6 col-sm-offset-3">
     <h2>Editar un tipo de evento</h2>
+    {{ form_start(edit_form) }}
+    {{ form_errors(edit_form) }}
+        <div class="form-group">
+            {{ form_label(edit_form.nombre ) }}
+            {{ form_widget(edit_form.nombre, { 'attr': {'class': 'form-control'} }) }}
+            {{ form_errors(edit_form.nombre) }}
+        </div>
+        
+        <div class="form-group">
+            <label for="exampleInputEmail">Email</label>
+            {{ form_widget(edit_form.email, { 'attr': {'class': 'form-control'} }) }}
+            {{ form_errors(edit_form.email) }}
+        </div>
 
-	<label for="exampleInputNombre">Nombre</label>
-	{{ form_widget(edit_form.nombre, { 'attr': {'class': 'form-control'} }) }}
-
-	<label for="exampleInputEmail">Email</label>
-	{{ form_widget(edit_form.email, { 'attr': {'class': 'form-control'} }) }}
-
-	<label for="exampleInputPrioridad">Prioridad</label>
-	{{ form_widget(edit_form.prioridad, { 'attr': {'class': 'form-control'} }) }}
-
-	<div class="space"></div>
-
-    {{ form(edit_form) }}
-
-    {{ form(delete_form) }}
-
+        <div class="form-group">
+            <label for="exampleInputPrioridad">Prioridad</label>
+            {{ form_widget(edit_form.prioridad, { 'attr': {'class': 'form-control'} }) }}
+            {{ form_errors(edit_form.prioridad) }}
+        </div>
+        {{ form_row(edit_form._token) }}
+        {{ form_widget(edit_form.submit) }}
+    </form>
+</div>
+</div>
+    
 {% endblock %}

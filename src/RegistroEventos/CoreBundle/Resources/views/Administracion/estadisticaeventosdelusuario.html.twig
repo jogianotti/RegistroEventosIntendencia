@@ -1,0 +1,36 @@
+  <script type="text/javascript">
+  function estadisticaEventosDelUsuario(){ 
+    var estadisticaEventosDelUsuario = new CanvasJS.Chart("estadisticaEventosDelUsuario",
+    {
+      title:{
+        text: "Cantidad de Eventos que registraron los usuarios"    
+      },
+      axisY: {
+        title: "Eventos"
+      },
+      legend: {
+        verticalAlign: "bottom",
+        horizontalAlign: "center"
+      },
+      theme: "theme2",
+      data: [
+
+      {        
+        type: "bar",  
+        showInLegend: true, 
+        legendMarkerColor: "grey",
+        legendText: "Usuarios",
+        dataPoints: [      
+        {% for usuario in eventosUsuarios %}
+        {y: {{ usuario.eventos }}, label: "{{ usuario.nombre }}"},
+        {% endfor %}
+        ]
+      }   
+      ]
+    });
+    estadisticaEventosDelUsuario.render();
+  }
+  </script>
+  
+<div id="estadisticaEventosDelUsuario" style="height: 300px; width: 100%;">
+</div>

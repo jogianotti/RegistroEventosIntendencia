@@ -18,3 +18,11 @@ body{
 #mostrarRectificaciones{
 	cursor:pointer;
 }
+
+.navbar-nav li{
+	font-size:1.3em;
+}
+
+.navbar-nav a.active{
+	color: #337AB7!important;
+}

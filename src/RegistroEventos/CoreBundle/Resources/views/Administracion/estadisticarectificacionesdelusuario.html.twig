@@ -1,0 +1,37 @@
+  <script type="text/javascript">
+  function estadisticaRectificacionesDelUsuario(){ 
+
+	var estadisticaRectificacionesDelUsuario = new CanvasJS.Chart("estadisticaRectificacionesDelUsuario",
+    {
+      title:{
+        text: "Cantidad de Rectificaciones que registraron los usuarios"    
+      },
+      axisY: {
+        title: "Rectificaciones"
+      },
+      legend: {
+        verticalAlign: "bottom",
+        horizontalAlign: "center"
+      },
+      theme: "theme2",
+      data: [
+
+      {        
+        type: "bar",  
+        showInLegend: true, 
+        legendMarkerColor: "grey",
+        legendText: "Usuarios",
+        dataPoints: [      
+        {% for usuario in eventosUsuarios %}
+        {y: {{ usuario.eventos }}, label: "{{ usuario.nombre }}"},
+        {% endfor %}
+        ]
+      }   
+      ]
+    });
+    estadisticaRectificacionesDelUsuario.render();    
+  }
+  </script>
+  
+<div id="estadisticaRectificacionesDelUsuario" style="height: 300px; width: 100%;">
+</div>

@@ -1,0 +1,36 @@
+  <script type="text/javascript">
+  function estadisticaEventosDelTipo(){ 
+    var estadisticaEventosDelTipo = new CanvasJS.Chart("estadisticaEventosDelTipo",
+    {
+      title:{
+        text: "Cantidad de Eventos por Tipo"    
+      },
+      axisY: {
+        title: "Tipos"
+      },
+      legend: {
+        verticalAlign: "bottom",
+        horizontalAlign: "center"
+      },
+      theme: "theme2",
+      data: [
+
+      {        
+        type: "pie",  
+        showInLegend: true, 
+        toolTipContent: "{legendText}: <strong>{y}%</strong>",
+        indexLabel: "{label} {y}%",
+        dataPoints: [      
+        {% for tipo in tipos %}
+        {y: {{ tipo.eventos }}, legendText: "{{ tipo.nombre }}", label: "{{ tipo.nombre }}"},
+        {% endfor %}
+        ]
+      }   
+      ]
+    });
+    estadisticaEventosDelTipo.render();
+  }
+  </script>
+  
+<div id="estadisticaEventosDelTipo" style="height: 300px; width: 100%;">
+</div>

@@ -1,16 +1,59 @@
 {% extends 'RegistroEventosCoreBundle::base.html.twig' %}
 
+{% block styles %}
+    {{ parent() }}
+    <link type="text/css" rel="stylesheet" href="{{ asset('bundles/registroeventoscore/css/contacto.css') }}" />
+{% endblock %}
+
 {% block body -%}
-    <h1>Contacto edit</h1>
+	<a href="{{ path('agenda') }}" role="button" class="btn btn-default btn-large">
+	<span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+	Regresar al listado de contactos</a>
 
-    {{ form(edit_form) }}
+    <h2>Editar un contacto</h2>
+<div class="row">
+<div class="col-sm-6 col-sm-offset-3">
+	{{ form_start(edit_form, {attr:{role:'form'} }) }}
 
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('agenda') }}">
-            Back to the list
-        </a>
-    </li>
-    <li>{{ form(delete_form) }}</li>
-</ul>
+        {{ form_errors(edit_form) }}
+	<div class="form-group">
+		{{ form_errors(edit_form.nombre) }}
+		{{ form_label(edit_form.nombre, 'Nombre: ')}}
+		{{ form_widget(edit_form.nombre, { 'attr': {'class': 'form-control'} }) }}
+	</div>
+	<div class="form-group">
+		{{ form_errors(edit_form.apellido) }}
+		{{ form_label(edit_form.apellido, 'Apellido: ')}}
+		{{ form_widget(edit_form.apellido, { 'attr': {'class': 'form-control'} }) }}
+	</div>
+	<div class="form-group">
+		{{ form_errors(edit_form.telefonoFijo) }}
+		{{ form_label(edit_form.telefonoFijo, 'Telefono Fijo: ')}}
+		{{ form_widget(edit_form.telefonoFijo, { 'attr': {'class': 'form-control'} }) }}
+	</div>
+	<div class="form-group">
+		{{ form_errors(edit_form.telefonoMovil) }}
+		{{ form_label(edit_form.telefonoMovil, 'Telefono Movil: ')}}
+		{{ form_widget(edit_form.telefonoMovil, { 'attr': {'class': 'form-control'} }) }}
+	</div>
+	<div class="form-group">
+		{{ form_errors(edit_form.cargoEmpresa) }}
+		{{ form_label(edit_form.cargoEmpresa, 'Cargo Empresa: ')}}
+		{{ form_widget(edit_form.cargoEmpresa, { 'attr': {'class': 'form-control'} }) }}
+	</div>
+	<div class="form-group">
+		{{ form_errors(edit_form.observaciones) }}
+		{{ form_label(edit_form.observaciones, 'Observaciones: ')}}
+		{{ form_widget(edit_form.observaciones, { 'attr': {'class': 'form-control'} }) }}
+	</div>
+
+
+	<div class="space"></div>
+        {{ form_widget(edit_form._token) }}
+	{{ form_widget(edit_form.submit) }}
+
+        </form>
+</div>
+</div>
+
 {% endblock %}

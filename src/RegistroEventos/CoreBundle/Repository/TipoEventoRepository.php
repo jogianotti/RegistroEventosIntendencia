@@ -18,4 +18,13 @@ class TipoEventoRepository extends EntityRepository
 			->where('t.baja = :baja')->setParameter('baja',FALSE)
 			->getQuery()->getResult();
 	}
+	public function estadisticaTiposDeEventos(){
+		return $this->createQueryBuilder('t')
+			->addSelect('t.nombre')
+			->addSelect('count(e) as eventos')
+			->leftJoin('t.eventos', 'e')
+			->groupBy('t.id')
+			->where('t.baja = :baja')->setParameter('baja',FALSE)
+			->getQuery()->getResult();		
+	}	
 }

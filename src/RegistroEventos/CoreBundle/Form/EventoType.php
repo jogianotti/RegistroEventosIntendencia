@@ -12,18 +12,14 @@ class EventoType extends AbstractType
      * @param FormBuilderInterface $builder
      * @param array $options
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $opciones)
     {
         $builder
             ->add('fechaSistema')
             ->add('fechaEvento')
             ->add('observaciones')
-            ->add('estado','choice', array(
-                'choices'   => array(true => 'Abierto', false => 'Cerrado'),
-                'expanded' => true,
-                'multiple' => false,
-                'required' => true,
-                'label' => true,
+            ->add('estado','checkbox',array(
+                'required' => false
             ))
             ->add('usuario')
             ->add('tipoEvento')

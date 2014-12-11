@@ -40,18 +40,32 @@ class UsuarioController extends Controller
         $form->handleRequest($request);
         
         $usuario->setRoles(array($form->get('role')->getData()));
-        
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($usuario);
-            $em->flush();
+        $usuario->setEnabled(true);
+        $usuario->setBaja(false);
 
-            return $this->redirect($this->generateUrl('usuarios'));
+        $error = null;
+        if ($form->isValid()) {
+            if ($form['file']->getData()){
+                $error = $this->get('registro_eventos_core.subir_imagen')->ValidarImagen($form['file']->getData());
+            }
+            if ($error == NULL){                
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($usuario);
+                $em->flush();
+                if ($form['file']->getData()){
+                    $this->get('registro_eventos_core.subir_imagen')->SubirImagen($form['file']->getData(), $usuario->getId());
+                }
+                return $this->redirect($this->generateUrl('usuarios'));
+            }
+            
+            
+            
         }
 
         return $this->render('RegistroEventosCoreBundle:Usuario:new.html.twig', array(
             'usuario' => $usuario,
             'form'   => $form->createView(),
+            'error' => $error,
         ));
     }
 
@@ -67,6 +81,7 @@ class UsuarioController extends Controller
         $form = $this->createForm(new UsuarioType(), $entity, array(
             'action' => $this->generateUrl('usuarios_create'),
             'method' => 'POST',
+            'attr' => array('enctype' => 'multipart/form-data'),
         ));
 
         $form->add('submit', 'submit', array('label' => 'Crear usuario', 'attr' => array('class' => 'btn btn-success btn-large')));
@@ -86,6 +101,7 @@ class UsuarioController extends Controller
         return $this->render('RegistroEventosCoreBundle:Usuario:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
+            'error' => '',
         ));
     }
 
@@ -111,6 +127,7 @@ class UsuarioController extends Controller
         return $this->render('RegistroEventosCoreBundle:Usuario:edit.html.twig', array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
+            'error' => '',
         ));
     }
 
@@ -126,7 +143,9 @@ class UsuarioController extends Controller
         $form = $this->createForm(new UsuarioType(), $entity, array(
             'action' => $this->generateUrl('usuarios_update', array('id' => $entity->getId())),
             'method' => 'POST',
+            'attr' => array('enctype' => 'multipart/form-data'),
         ));
+
 
         $form->add('submit', 'submit', array('label' => 'Guardar cambios', 'attr' => array('class' => 'btn btn-primary btn-large')));
 
@@ -144,21 +163,27 @@ class UsuarioController extends Controller
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Usuario entity.');
         }
-        
+
         $editForm = $this->createEditForm($entity);
         $editForm->handleRequest($request);
-        $entity->setRoles(array($editForm->get('role')->getData()));
-        
+        $entity->setRoles(array($editForm->get('role')->getData($request)));
+        $error = null;
         if ($editForm->isValid()) {
+            if ($editForm['file']->getData()){
+                $error = $this->get('registro_eventos_core.subir_imagen')->SubirImagen($editForm['file']->getData(), $id);
+            }
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('usuarios'));
+            if ($error == null){
+                return $this->redirect($this->generateUrl('usuarios'));
+            }
         }
 
         return $this->render('RegistroEventosCoreBundle:Usuario:edit.html.twig', array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
+            'error' => $error,
         ));
     }
     /**

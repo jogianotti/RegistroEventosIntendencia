@@ -16,11 +16,19 @@ class ContactoType extends AbstractType
     {
         $builder
             ->add('nombre')
-            ->add('apellido')
-            ->add('telefonoFijo')
-            ->add('telefonoMovil')
-            ->add('cargoEmpresa')
-            ->add('observaciones')
+            ->add('apellido', 'text', array(
+                'required' => false, 
+            ))
+            ->add('telefonoFijo', 'text')
+            ->add('telefonoMovil', 'text', array(
+                'required' => false
+            ))
+            ->add('cargoEmpresa', 'text', array(
+                'required' => false
+            ))
+            ->add('observaciones', 'text', array(
+                'required' => false
+            ))
         ;
     }
     

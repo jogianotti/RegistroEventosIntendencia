@@ -17,6 +17,7 @@ class UsuarioType extends AbstractType
         $builder
             ->add('nombre')
             ->add('baja')
+            ->add('file', 'file', array('mapped' => false, 'required' => false))
             ->add('role','choice', array(
                 'choices'   => array('ROLE_INTENDENTE' => 'Intendente','ROLE_SUPERVISOR' => 'Supervisor','ROLE_ADMINISTRADOR' => 'Administrador'),
                 'expanded' => false,

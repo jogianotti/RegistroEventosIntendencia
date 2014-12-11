@@ -44,7 +44,7 @@ class ContactoController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('agenda_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('agenda'));
         }
 
         return $this->render('RegistroEventosCoreBundle:Contacto:new.html.twig', array(
@@ -67,7 +67,7 @@ class ContactoController extends Controller
             'method' => 'POST',
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Create'));
+        $form->add('submit', 'submit', array('label' => 'Crear usuario', 'attr' => array('class' => 'btn btn-success btn-large')));
 
         return $form;
     }
@@ -84,28 +84,6 @@ class ContactoController extends Controller
         return $this->render('RegistroEventosCoreBundle:Contacto:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
-        ));
-    }
-
-    /**
-     * Finds and displays a Contacto entity.
-     *
-     */
-    public function showAction($id)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('RegistroEventosCoreBundle:Contacto')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Contacto entity.');
-        }
-
-        $deleteForm = $this->createDeleteForm($id);
-
-        return $this->render('RegistroEventosCoreBundle:Contacto:show.html.twig', array(
-            'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),
         ));
     }
 
@@ -147,7 +125,7 @@ class ContactoController extends Controller
             'method' => 'PUT',
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Update'));
+        $form->add('submit', 'submit', array('label' => 'Guardar cambios', 'attr' => array('class' => 'btn btn-primary btn-large')));
 
         return $form;
     }
@@ -172,7 +150,7 @@ class ContactoController extends Controller
         if ($editForm->isValid()) {
             $em->flush();
 
-            return $this->redirect($this->generateUrl('agenda_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('agenda'));
         }
 
         return $this->render('RegistroEventosCoreBundle:Contacto:edit.html.twig', array(
@@ -190,7 +168,7 @@ class ContactoController extends Controller
         $form = $this->createDeleteForm($id);
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
+//        if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $entity = $em->getRepository('RegistroEventosCoreBundle:Contacto')->find($id);
 
@@ -200,7 +178,8 @@ class ContactoController extends Controller
 
             $em->remove($entity);
             $em->flush();
-        }
+
+//        }
 
         return $this->redirect($this->generateUrl('agenda'));
     }
@@ -216,7 +195,7 @@ class ContactoController extends Controller
     {
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('agenda_delete', array('id' => $id)))
-            ->setMethod('DELETE')
+            ->setMethod('GET')
             ->add('submit', 'submit', array('label' => 'Delete'))
             ->getForm()
         ;

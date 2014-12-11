@@ -99,15 +99,35 @@ $(document).ready(function () {
         return false;
     });
     
-    $('#ventanaPopUp').one('mouseover','#dp-detalle',function(){
+    $('#ventanaPopUp').on('mouseover','#dp-detalle',function(){
         $('#dp-detalle').datetimepicker({
             format: 'DD/MM/YYYY HH:mm'
         });
     });
     
-    $('#ventanaPopUp').one('mouseover','#dp-rectificar',function(){
+    $('#ventanaPopUp').on('mouseover','#dp-rectificar',function(){
         $('#dp-rectificar').datetimepicker({
             format: 'DD/MM/YYYY HH:mm'
         });
+    });
+    
+    $(".estado-switch").bootstrapSwitch();
+    
+    $('#botonFormularioRegistro').on('click',function(){
+        $('#botonFormularioBusqueda').removeClass('active');
+        $(this).addClass('active');
+        $('#divFormularioRegistro').removeClass('hide');
+        $('#divFormularioRegistro').addClass('show');
+        $('#divFormularioBusqueda').removeClass('show');
+        $('#divFormularioBusqueda').addClass('hide');
+    });
+    
+    $('#botonFormularioBusqueda').on('click',function(){
+        $('#botonFormularioRegistro').removeClass('active');
+        $(this).addClass('active');
+        $('#divFormularioBusqueda').removeClass('hide');
+        $('#divFormularioBusqueda').addClass('show');
+        $('#divFormularioRegistro').removeClass('show');
+        $('#divFormularioRegistro').addClass('hide');
     });
 });

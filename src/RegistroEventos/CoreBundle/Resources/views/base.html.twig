@@ -8,13 +8,13 @@
     {% block menu %}
     {% if usuario is not null %}
         {% if usuario.hasRole('ROLE_ADMINISTRADOR') %}
-        <li><a href="{{ path('usuarios')  }}">Usuarios</a></li>
-        <li><a href="{{ path('tipos_eventos') }}">Tipos de Eventos</a></li>
+        <li><a id="usuarios" href="{{ path('usuarios')  }}">Usuarios</a></li>
+        <li><a id="tipos_eventos" href="{{ path('tipos_eventos') }}">Tipos de Eventos</a></li>
         {% elseif usuario.hasRole('ROLE_SUPERVISOR') %}
-        <li><a href="{{ path('eventos_supervision') }}">Registro</a></li> 
+        <li><a id="eventos_supervisor" href="{{ path('eventos_supervision') }}">Registro</a></li> 
         {% elseif usuario.hasRole('ROLE_INTENDENTE') %}
-        <li><a href="{{ path('eventos')  }}">Registro</a></li>
-        <li><a href="{{ path('agenda') }}">Agenda</a></li>
+        <li><a id="eventos" href="{{ path('eventos')  }}">Registro</a></li>
+        <li><a id="agenda" href="{{ path('agenda') }}">Agenda</a></li>
         {% endif %}
     {% endif %}
     {% endblock menu %}
@@ -22,10 +22,22 @@
 
     <ul class="nav navbar-nav navbar-right">
       {% if usuario is not null %}
-          <li><p class="navbar-text">{{ usuario.username }}</p></li>
+          <li><p class="navbar-text"><img src="{{ asset('fotos/imagen.php') }}?id={{ usuario.id }}"></p></li>
+          <li><a>{{ usuario.username }}</a></li>
           <li><a href="{{ path('fos_user_security_logout') }}">Salir</a></li>
       {% endif %}
     </ul>
   </div>
 </nav>
+{% endblock %}
+
+{% block javascript %}
+{{parent()}}
+<script language="javascript">
+$( document ).ready(function() {
+  $("#{{ app.request.get('_route') }}").addClass("active");
+  console.log("#{{ app.request.get('_route') }}");
+});
+</script>
+
 {% endblock %}

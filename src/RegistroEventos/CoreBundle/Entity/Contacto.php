@@ -2,7 +2,9 @@
 
 namespace RegistroEventos\CoreBundle\Entity;
 
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Contacto
@@ -12,6 +14,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Contacto
 {
+    use TimestampableEntity;
+    
     /**
      * @var integer
      *
