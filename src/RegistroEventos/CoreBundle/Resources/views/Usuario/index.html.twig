@@ -74,6 +74,12 @@ Crear un usuario nuevo</a>
                     <h4 id="tituloPopUp" class="modal-title">Cambiar clave</h4>
                 </div>
                 <div id="contenidoPopUp" class="modal-body">
+                    <form id="formularioCambiarClave" method="post">    
+                        Clave: <input id="plainPassword" type="password" name="plainPassword">
+                        Repetir Clave: <input id="repeatPlainPassword" type="password" name="repeatPlainPassword">
+                        <div class="space"></div>
+                        <div id="error" class="alert alert-danger alert-dismissible fade in oculto" role="alert">El campo Clave es diferente del de repetir clave</div>
+                    </form>                
                 </div>            
                 <div class="modal-footer" id="piePopUp">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
@@ -83,9 +89,10 @@ Crear un usuario nuevo</a>
         </div>
     </div>
     <!-- -+-+-+-+-+-+-+-+- -->
-    {% endblock %}
 
-    {% block javascript %}
+{% endblock %}
+
+{% block javascript %}
         {{ parent() }}
-        <script type="text/javascript" src="{{ asset('bundles/registroeventoscore/js/usuarios.js') }}"></scrip>
-    {% endblock %}
+        <script type="text/javascript" src="{{ asset('bundles/registroeventoscore/js/usuarios.js') }}"></script>
+{% endblock %}    

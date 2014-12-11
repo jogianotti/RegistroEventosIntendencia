@@ -230,35 +230,31 @@ class UsuarioController extends Controller
         return $this->redirect($this->generateUrl('usuarios'));
     }
 
-    public function cambiarClaveFormAction($id)
+    public function cambiarClaveAction(Request $request, $id)
     {
         $usuario = $this->getDoctrine()->getManager()->getRepository('RegistroEventosCoreBundle:Usuario')->find($id);
         $form = $this->createCreateForm($usuario);
-        
-        $vista = $this->renderView('RegistroEventosCoreBundle:Usuario:cambiar_clave.html.twig',array(
-            'form' => $form->createView()
-        ));
-        return new JsonResponse(array('vista' => $vista ));
-    }
-
-    public function cambiarClaveAction(Request $request, $id)
-    {
-        $usuario = new Usuario();
-        $form = $this->createCreateForm($usuario);
         $form->handleRequest($request);
-        
         $error = null;
-        if ($form->isValid()) {
+        
+        //
+        
+        $userManager = $this->container->get('fos_user.user_manager');
+        $usuario->setPlainPassword($request->request->get('plainPassword'));
+        $userManager->updatePassword($usuario);
+
+        //if () { validar que sean iguales...
             $em = $this->getDoctrine()->getManager();
             $em->persist($usuario);
             $em->flush();
             
             return new JsonResponse(array('actualizada' => true));
-        }
+        //}
         $vista = $this->renderView('RegistroEventosCoreBundle:Usuario:cambiar_clave.html.twig',array(
-            'form' => $form
+            'form' => $form->createView()
         ));
-        return new JsonResponse(array('actualizada' => false, 'vista' => $vista));
+        $errors = $form->getErrorsAsString();
+        return new JsonResponse(array('actualizada' => false, 'vista' => $vista,'errors'=>$errors));
     }
 
 }

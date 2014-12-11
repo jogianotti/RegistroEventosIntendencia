@@ -37,13 +37,13 @@ usuarios_enable:
 usuarios_cambiar_clave_form:
     path:     /{id}/cambiar_clave_form
     defaults: { _controller: "RegistroEventosCoreBundle:Usuario:cambiarClaveForm" }
-    requirements: { _method: GET }
+    requirements: { _method: get|post }
     options:
         expose: true
     
 usuarios_cambiar_clave:
-    path:     /{id}/cambiar_clave_form
+    path:     /{id}/cambiar_clave
     defaults: { _controller: "RegistroEventosCoreBundle:Usuario:cambiarClave" }
-    requirements: { _method: POST }
+    requirements: { _method: get|post }
     options:
         expose: true
