@@ -111,6 +111,7 @@
                 <th>Usuario</th>
                 <th>Fecha del Evento</th>
                 <th>Tipo de Evento</th>
+                <th>Estado</th>
                 <th>Observaciones</th>
                 <th>Acciones</th>
             </tr>
@@ -121,6 +122,7 @@
                     <td>{{ evento.usuario.nombre }}</td>
                     <td>{{ evento.fechaEvento|date('d-m-Y H:i') }}</td>
                     <td>{{ evento.tipoEvento }}</td>
+                    <td>{% if evento.estado %}Abierto{% else %}Cerrado{% endif %}</td>
                     <td>{{ evento.observaciones }}</td>
                     <td class="accion"><button type="button" class="btn btn-success botonVerDetallesEvento" data-id="{{ evento.id }}">Ver detalles</button></td>
                 </tr>
