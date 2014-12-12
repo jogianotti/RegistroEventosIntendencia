@@ -39,7 +39,7 @@ class EventoRepository extends EntityRepository
     {
 
         $detalles = $this->getEntityManager()->getRepository('RegistroEventosCoreBundle:Detalle')->listarPara($evento);
-
+        
         $eventoAnterior = $this->buscarEventoRectificadoPara($evento);
         while (!is_null($eventoAnterior)) {
             $arrayDetalles = $this->getEntityManager()->getRepository('RegistroEventosCoreBundle:Detalle')->listarPara($eventoAnterior);
@@ -101,4 +101,36 @@ class EventoRepository extends EntityRepository
         return $this->buscarEventosPor($datos);
     }
 
+    public function listarRectificacionesDetallesPara($evento)
+    {
+//        $eventosActivos = $this->createQueryBuilder('e')
+//                ->select('e')
+//                ->where('e.rectificacion IS NULL')
+//                ->orderBy('e.fechaEvento', 'DESC')
+//                ->getQuery()
+//                ->getResult();
+//                
+//                
+//        foreach($eventosActivos as &$evento) {
+//            $evento->setDetalles(
+//                $this->getEntityManager()->getRepository('RegistroEventosCoreBundle:Detalle')->listarPara($evento)
+//            );
+            $eventos[] = $evento;
+            $eventoActual = $evento;
+            $eventoAnterior = $this->buscarEventoRectificadoPara($evento);
+            while (!is_null($eventoAnterior)) {
+                $eventoAnterior->setRectificacion($eventoActual);
+
+                $eventoAnterior->setDetalles(
+                        $this->getEntityManager()->getRepository('RegistroEventosCoreBundle:Detalle')->listarPara($eventoAnterior)
+                );
+                
+                $eventos[] = $eventoAnterior;
+                $eventoActual = $eventoAnterior;
+                $eventoAnterior = $this->buscarEventoRectificadoPara($eventoAnterior);
+            }
+//        }
+        
+        return $eventos;
+    }
 }

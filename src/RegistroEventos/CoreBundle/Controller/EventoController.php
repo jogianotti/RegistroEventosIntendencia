@@ -404,14 +404,23 @@ class EventoController extends Controller
         $formularioBusqueda->handleRequest($request);
         
         $datosVista['formularioBusqueda'] = $formularioBusqueda->createView();
+        $datosFormulario = $formularioBusqueda->getData();
+        
         if ($formularioBusqueda->isValid()){
-            $datosFormulario = $formularioBusqueda->getData();
-            print_r($datosFormulario);
             $datosVista['eventos'] = $repositorioEventos->buscarEventosPor($datosFormulario);
             return $this->render('RegistroEventosCoreBundle:Evento:supervision.html.twig',$datosVista);
         }
         
-        $datosVista['eventos'] = $repositorioEventos->findAll();
+        $datosVista['eventos'] = $repositorioEventos->buscarEventosPor($datosFormulario);
         return $this->render('RegistroEventosCoreBundle:Evento:supervision.html.twig',$datosVista);
+    }
+    
+    public function supervisionDetalleEventoAction($id) {
+        $repositorioEventos = $this->getDoctrine()->getManager()->getRepository('RegistroEventosCoreBundle:Evento');
+        
+        $evento = $repositorioEventos->find($id);
+        $eventos = $repositorioEventos->listarRectificacionesDetallesPara($evento);
+        
+        return $this->render('RegistroEventosCoreBundle:Evento:detalleEventoSupervision.html.twig',array('eventos' => $eventos));
     }
 }

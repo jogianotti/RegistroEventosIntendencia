@@ -1,0 +1,37 @@
+<div class="row">
+<div class="col-sm-12">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Tipo</th>
+                <th>Usuario</th>
+                <th>Fecha</th>
+                <th>Registro</th>
+                <th>Observaciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            
+            {% for evento in eventos %}
+                <tr class="active">
+                    <td>{% if evento.rectificacion is null %}Evento{% else %}Evento rectificado{% endif %}</td>
+                    <td>{{ evento.usuario }}</td>
+                    <td>{{ evento.fechaEvento | date('d-m-Y H:i') }}</td>
+                    <td>{{ evento.createdAt | date('d-m-Y H:i') }}</td>
+                    <td>{{ evento.observaciones }}</td>
+                </tr>
+                {% for detalle in evento.detalles %}
+                <tr>
+                    <td>Detalle</td>
+                    <td>{{ detalle.usuario }}</td>
+                    <td>{{ detalle.fechaDetalle | date('d-m-Y H:i') }}</td>
+                    <td>{{ detalle.createdAt | date('d-m-Y H:i') }}</td>
+                    <td>{{ detalle.observaciones }}</td>
+                </tr>
+                {% endfor %}
+            {% endfor %}
+            
+        </tbody>
+    </table>
+</div>
+</div>

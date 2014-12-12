@@ -49,3 +49,9 @@ eventos_busqueda:
 eventos_supervision:
     path:     /supervision
     defaults: { _controller: "RegistroEventosCoreBundle:Evento:supervision" }
+    
+eventos_supervision_detalle:
+    path:     /supervision/{id}/detalle
+    defaults: { _controller: "RegistroEventosCoreBundle:Evento:supervisionDetalleEvento" }
+    options:
+        expose: true

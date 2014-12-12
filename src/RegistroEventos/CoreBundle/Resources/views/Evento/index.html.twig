@@ -132,7 +132,6 @@
         </thead>
         <tbody>
             {% for evento in eventosCerrados %}
-
                 <tr data-id="{{ evento.id }}">
                     <td>{{ evento.usuario.nombre }}</td>
                     <td>{{ evento.fechaEvento|date('d-m-Y H:i') }}</td>

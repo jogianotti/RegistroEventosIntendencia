@@ -25,11 +25,11 @@ class LoginSuccessHandler implements AuthenticationSuccessHandlerInterface
         
         if ($this->security->isGranted('ROLE_ADMINISTRADOR'))
         {
-            $response = new RedirectResponse($this->router->generate('registro_eventos_core_administracion'));           
+            $response = new RedirectResponse($this->router->generate('usuarios'));           
         }
         elseif ($this->security->isGranted('ROLE_SUPERVISOR'))
         {
-            $response = new RedirectResponse($this->router->generate('registro_eventos_core_supervision'));
+            $response = new RedirectResponse($this->router->generate('eventos_supervision'));
         }
         elseif ($this->security->isGranted('ROLE_INTENDENTE'))
         {
