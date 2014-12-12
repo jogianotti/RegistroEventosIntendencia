@@ -81,9 +81,7 @@
             </form>
             </div>
             <div id="divFormularioBusqueda" class="{% if seccion == "busqueda" %} show {% else %} hide {% endif %}">
-                <form>
-                    {{ form(formularioBusqueda) }}
-                </form>
+                {{ form(formularioBusqueda) }}
             </div>
         </div>
         </div>
@@ -151,7 +149,7 @@
     </table>
     {% endif %}
     {% if eventosCerrados is empty and eventosAbiertos is empty %}
-        <h2 class="text-center">No hay eventos registrados</h2>
+        <h2 class="text-center">No hay eventos</h2>
     {% endif %}
 
     <!-- Ventana emergente -->

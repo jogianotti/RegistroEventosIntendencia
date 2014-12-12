@@ -13,45 +13,90 @@ use RegistroEventos\CoreBundle\Repository\DetalleRepository;
  */
 class EventoRepository extends EntityRepository
 {
-    private function buscarEventosActivosConEstado($estado){
+
+    private function buscarEventosActivosConEstado($estado)
+    {
         return $this->createQueryBuilder('e')
-                ->select('e')
-                ->where('e.rectificacion IS NULL')
-                ->andWhere('e.estado = :estado')->setParameter('estado', $estado)
-                ->orderBy('e.fechaEvento', 'DESC')
-                ->getQuery()
-                ->getResult();
+                        ->select('e')
+                        ->where('e.rectificacion IS NULL')
+                        ->andWhere('e.estado = :estado')->setParameter('estado', $estado)
+                        ->orderBy('e.fechaEvento', 'DESC')
+                        ->getQuery()
+                        ->getResult();
     }
-    public function buscarEventosAbiertos() {
+
+    public function buscarEventosAbiertos()
+    {
         return $this->buscarEventosActivosConEstado(TRUE);
     }
-    
-    public function buscarEventosCerrados() {
+
+    public function buscarEventosCerrados()
+    {
         return $this->buscarEventosActivosConEstado(FALSE);
     }
-    
-    public function listarDetallesPara($evento){
-        
+
+    public function listarDetallesPara($evento)
+    {
+
         $detalles = $this->getEntityManager()->getRepository('RegistroEventosCoreBundle:Detalle')->listarPara($evento);
-        
+
         $eventoAnterior = $this->buscarEventoRectificadoPara($evento);
-        while(!is_null($eventoAnterior)){
+        while (!is_null($eventoAnterior)) {
             $arrayDetalles = $this->getEntityManager()->getRepository('RegistroEventosCoreBundle:Detalle')->listarPara($eventoAnterior);
-            if(!is_null($arrayDetalles)){
-                $detalles = array_merge($detalles,$arrayDetalles);
+            if (!is_null($arrayDetalles)) {
+                $detalles = array_merge($detalles, $arrayDetalles);
             }
             $eventoAnterior = $this->buscarEventoRectificadoPara($eventoAnterior);
         }
-        
+
         return $detalles;
     }
-    
-    public function buscarEventoRectificadoPara($evento){
+
+    public function buscarEventoRectificadoPara($evento)
+    {
         return $this->createQueryBuilder('e')
-                ->select('e')
-                ->where('e.rectificacion = :evento')
-                ->setParameter('evento', $evento)
-                ->getQuery()
-                ->getOneOrNullResult();
+                        ->select('e')
+                        ->where('e.rectificacion = :evento')
+                        ->setParameter('evento', $evento)
+                        ->getQuery()
+                        ->getOneOrNullResult();
     }
+
+    public function buscarEventosPor($datos)
+    {
+        $qb = $this->createQueryBuilder('e');
+        $qb->select('e')
+            ->where('e.rectificacion IS NULL')
+            ->andWhere('e.estado = :estado')->setParameter('estado', $datos['estado']);
+
+        if (!is_null($datos['usuario']))
+            $qb = $qb->andWhere('e.usuario = :usuario')->setParameter('usuario', $datos['usuario']);
+
+        if (!is_null($datos['tipoEvento']))
+            $qb = $qb->andWhere('e.tipoEvento = :tipoEvento')->setParameter('tipoEvento', $datos['tipoEvento']);
+        
+        if (!is_null($datos['fechaDesde']))
+            $qb = $qb->andWhere('e.fechaDesde = :fechaDesde')->setParameter('fechaDesde', $datos['fechaDesde']);
+        
+        if (!is_null($datos['fechaHasta']))
+            $qb = $qb->andWhere('e.fechaHasta = :fechaHasta')->setParameter('fechaHasta', $datos['fechaHasta']);
+        
+        if (!is_null($datos['observaciones']))
+            $qb = $qb->andWhere ('e.observaciones LIKE :texto')->setParameter('texto', '%'. $datos['observaciones'] .'%');
+            
+        $qb = $qb->orderBy('e.fechaEvento', 'DESC');
+
+        return $qb->getQuery()->getResult();
+    }
+    
+    public function buscarEventosAbiertosPor($datos) {
+        $datos['estado'] = TRUE;
+        return $this->buscarEventosPor($datos);
+    }
+    
+    public function buscarEventosCerradosPor($datos) {
+        $datos['estado'] = FALSE;
+        return $this->buscarEventosPor($datos);
+    }
+
 }

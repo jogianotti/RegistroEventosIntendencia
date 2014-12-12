@@ -31,7 +31,7 @@ class EventoController extends Controller
         $eventosAbiertos = $em->getRepository('RegistroEventosCoreBundle:Evento')->buscarEventosAbiertos();
         $eventosCerrados = $em->getRepository('RegistroEventosCoreBundle:Evento')->buscarEventosCerrados();
         $tiposEvento = $em->getRepository('RegistroEventosCoreBundle:TipoEvento')->listarTiposEventosActivos();
-        
+
         $formularioBusqueda = $this->crearFormularioBusqueda();
         return $this->render('RegistroEventosCoreBundle:Evento:index.html.twig', array(
                     'eventosAbiertos' => $eventosAbiertos,
@@ -43,51 +43,114 @@ class EventoController extends Controller
                     'tiposEvento' => $tiposEvento
         ));
     }
-    
+
     public function busquedaAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        
+        $repositorioEventos = $em->getRepository('RegistroEventosCoreBundle:Evento');
+        $repositorioTiposEvento = $em->getRepository('RegistroEventosCoreBundle:TipoEvento');
+
         $evento = new Evento();
         $evento->setFechaEvento(new \DateTime());
         $evento->setEstado(true);
         $form = $this->createCreateForm($evento);
-        
-        $formBusqueda = $this->crearFormularioBusqueda();
-        $formBusqueda->handleRequest($request);
- 
-        if ($formBusqueda->isValid()) {
-            // data es un array con claves 'name', 'email', y 'message'
-            $datos = $formBusqueda->getData();
-            echo "llegue"; die();
-        }
-
-        $eventosAbiertos = $em->getRepository('RegistroEventosCoreBundle:Evento')->buscarEventosAbiertos();
-        $eventosCerrados = $em->getRepository('RegistroEventosCoreBundle:Evento')->buscarEventosCerrados();
 
         $formularioBusqueda = $this->crearFormularioBusqueda();
+        $formularioBusqueda->handleRequest($request);
+
+        if ($formularioBusqueda->isValid()) {
+            $datos = $formularioBusqueda->getData();
+            print_r($datos);
+            $eventosAbiertos = array();
+            $eventosCerrados = array();
+            if (is_null($datos['estado'])) {
+                $eventosAbiertos = $repositorioEventos->buscarEventosAbiertosPor($datos);
+                $eventosCerrados = $repositorioEventos->buscarEventosCerradosPor($datos);
+            } else {
+                if ($datos['estado']) {
+                    $eventosAbiertos = $repositorioEventos->buscarEventosAbiertosPor($datos);
+                } else {
+                    $eventosCerrados = $repositorioEventos->buscarEventosCerradosPor($datos);
+                }
+            }
+        } else {
+            $eventosAbiertos = $repositorioEventos->buscarEventosAbiertos();
+            $eventosCerrados = $repositorioEventos->buscarEventosCerrados();
+        }
+        $tiposEvento = $repositorioTiposEvento->listarTiposEventosActivos();
+
         return $this->render('RegistroEventosCoreBundle:Evento:index.html.twig', array(
                     'eventosAbiertos' => $eventosAbiertos,
                     'eventosCerrados' => $eventosCerrados,
                     'form' => $form->createView(),
                     'evento' => $evento,
                     'seccion' => 'busqueda',
-                    'formularioBusqueda' => $formularioBusqueda->createView()
+                    'formularioBusqueda' => $formularioBusqueda->createView(),
+                    'tiposEvento' => $tiposEvento
         ));
     }
-    
+
+    private function crearFormularioBusqueda()
+    {
+        $tiposEventos = $this->getDoctrine()->getManager()->getRepository('RegistroEventosCoreBundle:TipoEvento')->findAll();
+        $opcionesTipoEvento = array();
+        foreach ($tiposEventos as $te) {
+            $opcionesTipoEvento[$te->getId()] = $te->getNombre();
+        }
+
+        $usuarios = $this->getDoctrine()->getManager()->getRepository('RegistroEventosCoreBundle:Usuario')->findAll();
+        $opcionesUsuarios = array();
+        foreach ($usuarios as $u) {
+            $opcionesUsuarios[$u->getId()] = $u->getNombre();
+        }
+
+        $formBuilder = $this->createFormBuilder();
+        $formBuilder->setAction($this->generateUrl('eventos_busqueda'));
+        $formBuilder->setMethod('POST');
+        $formBuilder->add('tipoEvento', 'choice', array(
+                    'choices' => $opcionesTipoEvento,
+                    'required' => false,
+                    'expanded' => false,
+                    'multiple' => false
+                ))
+                ->add('usuario', 'choice', array(
+                    'choices' => $opcionesUsuarios,
+                    'required' => false,
+                    'expanded' => false,
+                    'multiple' => false
+                ))
+                ->add('estado', 'choice', array(
+                    'choices' => array(true => 'Abierto', false => 'Cerrado'),
+                    'label' => 'Estado del evento',
+                    'required' => false,
+                    'expanded' => false,
+                    'multiple' => false
+                ))
+                ->add('observaciones', 'text', array(
+                    'required' => false
+                ))
+                ->add('fechaDesde', 'datetime', array(
+                    'required' => false
+                ))
+                ->add('fechaHasta', 'datetime', array(
+                    'required' => false
+                ))
+                ->add('Buscar', 'submit');
+        return $formBuilder->getForm();
+    }
+
     public function crearAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 
         $evento = new Evento();
-        
+
         $form = $this->createCreateForm($evento);
         $form->handleRequest($request);
-        
+
         $date = \DateTime::createFromFormat('d/m/Y H:i', $request->request->get('fechaEvento'));
         $evento->setFechaEvento($date);
-       
+
         $evento->setFechaSistema(new \DateTime());
         $evento->setUsuario($this->get('security.context')->getToken()->getUser());
 
@@ -100,9 +163,9 @@ class EventoController extends Controller
         if ($form->isValid()) {
             $em->persist($evento);
             $em->flush();
-            
+
             $this->informar($evento);
-            
+
             return $this->redirect($this->generateUrl('eventos'));
         }
 
@@ -115,55 +178,9 @@ class EventoController extends Controller
                     'seccion' => 'registro',
                     'tiposEvento' => $tiposEvento,
                     'formularioBusqueda' => $formularioBusqueda->createView()
-
         ));
     }
-    
-    private function crearFormularioBusqueda() {
-        $tiposEventos = $this->getDoctrine()->getManager()->getRepository('RegistroEventosCoreBundle:TipoEvento')->listarTiposEventosActivos();
-        $opcionesTipoEvento = array();
-        foreach($tiposEventos as $te){
-            $opcionesTipoEvento[$te->getId()] = $te->getNombre();
-        }
-        
-        $usuarios = $this->getDoctrine()->getManager()->getRepository('RegistroEventosCoreBundle:Usuario')->findAll();
-        $opcionesUsuarios = array();
-        foreach($usuarios as $u){
-            $opcionesUsuarios[$u->getId()] = $u->getNombre();
-        }
-        
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl('eventos_busqueda'))
-            ->setMethod('POST')
-            ->add('tipoEvento', 'choice', array(
-                'choices' => $opcionesTipoEvento,
-                'required' => false,
-                'expanded' => false,
-                'multiple' => false
-            ))
-            ->add('usuario', 'choice', array(
-                'choices' => $opcionesUsuarios,
-                'required' => false,
-                'expanded' => false,
-                'multiple' => false
-            ))
-            ->add('estado','checkbox',array(
-                'label' => 'Estado del evento',
-                'required' => false
-            ))
-            ->add('observaciones', 'text',array(
-                'required' => false
-            ))
-            ->add('fechaEventoDesde', 'datetime', array(
-                'required' => false
-            ))
-            ->add('fechaEventoHasta', 'datetime', array(
-                'required' => false
-            ))
-            ->add('Buscar', 'submit')
-            ->getForm();
-    }
-    
+
     private function createCreateForm(Evento $entity)
     {
         $form = $this->createForm(new EventoType(), $entity, array(
@@ -197,7 +214,7 @@ class EventoController extends Controller
         $evento->setTipoEvento($eventoRectificado->getTipoEvento());
         $evento->setObservaciones($eventoRectificado->getObservaciones());
         $evento->setEstado($eventoRectificado->getEstado());
-        
+
         $form = $this->createForm(new EventoType(), $evento, array(
             'action' => $this->generateUrl('eventos_rectificacion_crear'),
             'method' => 'POST',
@@ -235,10 +252,10 @@ class EventoController extends Controller
         $form->handleRequest($request);
         $evento->setFechaSistema(new \DateTime());
         $evento->setUsuario($this->get('security.context')->getToken()->getUser());
-        
+
         $fechaEvento = \DateTime::createFromFormat('d/m/Y H:i', $request->request->get('fechaEvento'));
         $evento->setFechaEvento($fechaEvento);
-        
+
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
 
@@ -358,26 +375,28 @@ class EventoController extends Controller
         return new JsonResponse(array('agregado' => FALSE, 'html' => $vista));
     }
 
-    private function informar($evento){
+    private function informar($evento)
+    {
         $email = $evento->getTipoEvento()->getEmail();
-        if(!is_null($email)){
+        if (!is_null($email)) {
             $mensaje = \Swift_Message::newInstance()
-            ->setSubject('Alerta de evento')
-            ->setFrom('r11alex.nestor@gmail.com')
-            ->setTo($email)
-            ->setBody(
-                $this->renderView(
-                    'RegistroEventosCoreBundle:Evento:email.txt.twig',array(
+                    ->setSubject('Alerta de evento')
+                    ->setFrom('r11alex.nestor@gmail.com')
+                    ->setTo($email)
+                    ->setBody(
+                    $this->renderView(
+                            'RegistroEventosCoreBundle:Evento:email.txt.twig', array(
                         'tipo' => $evento->getTipoEvento()->getNombre(),
                         'usuario' => $evento->getUsuario()->getNombre(),
                         'observaciones' => $evento->getObservaciones(),
                         'fechaEvento' => $evento->getFechaEvento()->format('d/m/Y H:i'),
                         'fechaRegistro' => $evento->getFechaSistema()->format('d/m/Y H:i')
+                            )
                     )
-                )
             );
-        
+
             $this->get('mailer')->send($mensaje);
         }
     }
+
 }
