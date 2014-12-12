@@ -39,9 +39,10 @@ class UsuarioRepository extends EntityRepository
             ->getResult();			
 	}
         
-        public function listarIntendentes(){
+        public function listarIntendentesBusqueda(){
             return $this->createQueryBuilder('u')
             ->addSelect('u')
+            ->innerJoin('u.eventos','e')
             ->where('u.roles LIKE :rol')->setParameter('rol','%ROLE_INTENDENTE%')
             ->getQuery()
             ->getResult();
