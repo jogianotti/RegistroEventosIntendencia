@@ -66,9 +66,11 @@ class EventoRepository extends EntityRepository
     {
         $qb = $this->createQueryBuilder('e');
         $qb->select('e')
-            ->where('e.rectificacion IS NULL')
-            ->andWhere('e.estado = :estado')->setParameter('estado', $datos['estado']);
-
+            ->where('e.rectificacion IS NULL');
+                
+        if (!is_null($datos['estado']))
+            $qb = $qb->andWhere('e.estado = :estado')->setParameter('estado', $datos['estado']);
+        
         if (!is_null($datos['usuario']))
             $qb = $qb->andWhere('e.usuario = :usuario')->setParameter('usuario', $datos['usuario']);
 
@@ -76,10 +78,10 @@ class EventoRepository extends EntityRepository
             $qb = $qb->andWhere('e.tipoEvento = :tipoEvento')->setParameter('tipoEvento', $datos['tipoEvento']);
         
         if (!is_null($datos['fechaDesde']))
-            $qb = $qb->andWhere('e.fechaDesde = :fechaDesde')->setParameter('fechaDesde', $datos['fechaDesde']);
+            $qb = $qb->andHaving('e.fechaEvento >= :fechaDesde')->setParameter('fechaDesde', $datos['fechaDesde']);
         
         if (!is_null($datos['fechaHasta']))
-            $qb = $qb->andWhere('e.fechaHasta = :fechaHasta')->setParameter('fechaHasta', $datos['fechaHasta']);
+            $qb = $qb->andHaving('e.fechaEvento <= :fechaHasta')->setParameter('fechaHasta', $datos['fechaHasta']);
         
         if (!is_null($datos['observaciones']))
             $qb = $qb->andWhere ('e.observaciones LIKE :texto')->setParameter('texto', '%'. $datos['observaciones'] .'%');

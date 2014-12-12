@@ -1,0 +1,78 @@
+{% extends 'RegistroEventosCoreBundle::base.html.twig' %}
+
+{% block javascript %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('bundles/registroeventoscore/js/eventos.js') }}"></script>
+{% endblock %}
+
+{% block styles %}
+    {{ parent() }}
+    <link type="text/css" rel="stylesheet" href="{{ asset('bundles/registroeventoscore/css/eventos.css') }}" />
+{% endblock %}
+
+
+{% block body -%}
+    <div class="row">
+    <div class="col-sm-10 col-sm-offset-1">
+        <div class="row">
+        <div class="col-sm-10 col-sm-offset-1 div-formulario">
+            <div id="divFormularioBusqueda">
+                {{ form(formularioBusqueda) }}
+            </div>
+        </div>
+        </div>
+    </div>
+    </div>
+    
+    {% if eventos is not empty %}
+    <table id="tablaEventos" class="table table-hover">
+        <h2>Eventos</h2>
+        <thead>
+            <tr>
+                <th>Usuario</th>
+                <th>Fecha del Evento</th>
+                <th>Tipo de Evento</th>
+                <th>Observaciones</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for evento in eventos %}
+                <tr data-id="{{ evento.id }}">
+                    <td>{{ evento.usuario.nombre }}</td>
+                    <td>{{ evento.fechaEvento|date('d-m-Y H:i') }}</td>
+                    <td>{{ evento.tipoEvento }}</td>
+                    <td>{{ evento.observaciones }}</td>
+                    <td class="accion"><button type="button" class="btn btn-success botonVerDetallesSupervision" data-id="{{ evento.id }}">Ver detalles</button></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+    
+    {% if eventos is empty %}
+        <h2 class="text-center">No hay eventos</h2>
+    {% endif %}
+
+    <!-- Ventana emergente -->
+    <div id="ventanaPopUp" class="modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Cerrar</span>
+                    </button>
+                    <h4 id="tituloPopUp" class="modal-title">Evento</h4>
+                </div>
+                <div id="contenidoPopUp" class="modal-body">
+                </div>            
+                <div class="modal-footer" id="piePopUp">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                    <button id="botonGuardarPopUp" type="button" class="btn btn-primary">Registrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ----------------- -->
+{% endblock %}

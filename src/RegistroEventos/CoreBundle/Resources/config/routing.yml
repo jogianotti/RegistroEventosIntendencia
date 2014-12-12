@@ -2,10 +2,6 @@ registro_eventos_core_administracion:
     path:     /administracion
     defaults: { _controller: RegistroEventosCoreBundle:Administracion:index }
 
-registro_eventos_core_supervision:
-    path:     /supervision
-    defaults: { _controller: RegistroEventosCoreBundle:Administracion:supervision }
-
 RegistroEventosCoreBundle_agenda:
     resource: "@RegistroEventosCoreBundle/Resources/config/routing/contacto.yml"
     prefix:   /agenda

@@ -3,20 +3,11 @@ eventos:
     defaults: { _controller: "RegistroEventosCoreBundle:Evento:index" }
     options:
         expose: true
-        
-#eventos_show:
-#    path:     /{id}/ver
-#    defaults: { _controller: "RegistroEventosCoreBundle:Evento:verEvento" }
-
-#eventos_new:
-#    path:     /nuevo
-#    defaults: { _controller: "RegistroEventosCoreBundle:Evento:nuevo" }
 
 eventos_crear:
     path:     /crear
     defaults: { _controller: "RegistroEventosCoreBundle:Evento:crear" }
     requirements: { _method: post }
-
 
 eventos_rectificacion_nueva:
     path:     /rectificacion_nueva
@@ -30,20 +21,6 @@ eventos_rectificacion_crear:
     requirements: { _method: post }
     options:
         expose: true
-
-#eventos_edit:
-#    path:     /{id}/edit
-#    defaults: { _controller: "RegistroEventosCoreBundle:Evento:edit" }
-
-#eventos_update:
-#    path:     /{id}/update
-#    defaults: { _controller: "RegistroEventosCoreBundle:Evento:update" }
-#    requirements: { _method: post|put }
-
-#eventos_delete:
-#    path:     /{id}/delete
-#    defaults: { _controller: "RegistroEventosCoreBundle:Evento:delete" }
-#    requirements: { _method: post|delete }
 
 eventos_abrir:
     path:     /{id}/abrir
@@ -68,3 +45,7 @@ eventos_detalle_crear:
 eventos_busqueda:
     path:     /busqueda
     defaults: { _controller: "RegistroEventosCoreBundle:Evento:busqueda" }
+    
+eventos_supervision:
+    path:     /supervision
+    defaults: { _controller: "RegistroEventosCoreBundle:Evento:supervision" }
