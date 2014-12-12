@@ -101,7 +101,7 @@ class EventoController extends Controller
             $opcionesTipoEvento[$te->getId()] = $te->getNombre();
         }
 
-        $usuarios = $this->getDoctrine()->getManager()->getRepository('RegistroEventosCoreBundle:Usuario')->findAll();
+        $usuarios = $this->getDoctrine()->getManager()->getRepository('RegistroEventosCoreBundle:Usuario')->listarIntendentes();
         $opcionesUsuarios = array();
         foreach ($usuarios as $u) {
             $opcionesUsuarios[$u->getId()] = $u->getNombre();

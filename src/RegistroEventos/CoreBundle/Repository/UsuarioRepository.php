@@ -37,5 +37,13 @@ class UsuarioRepository extends EntityRepository
             ->groupBy('u.id')
             ->getQuery()
             ->getResult();			
-	}	
+	}
+        
+        public function listarIntendentes(){
+            return $this->createQueryBuilder('u')
+            ->addSelect('u')
+            ->where('u.roles LIKE :rol')->setParameter('rol','%ROLE_INTENDENTE%')
+            ->getQuery()
+            ->getResult();
+        }
 }
