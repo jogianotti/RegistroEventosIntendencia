@@ -130,4 +130,12 @@ $(document).ready(function () {
         $('#divFormularioRegistro').removeClass('show');
         $('#divFormularioRegistro').addClass('hide');
     });
+    
+    $('#dtp-fecha-desde').datetimepicker({
+        format: 'DD/MM/YYYY HH:mm'
+    });
+    
+    $('#dtp-fecha-hasta').datetimepicker({
+        format: 'DD/MM/YYYY HH:mm'
+    });
 });

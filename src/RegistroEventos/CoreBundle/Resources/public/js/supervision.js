@@ -16,6 +16,14 @@ $(document).ready(function(){
             }
         );
     });
+    
+    $('#dtp-fecha-desde').datetimepicker({
+        format: 'DD/MM/YYYY HH:mm'
+    });
+    
+    $('#dtp-fecha-hasta').datetimepicker({
+        format: 'DD/MM/YYYY HH:mm'
+    });
 });
 
 

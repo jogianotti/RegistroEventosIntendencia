@@ -69,7 +69,6 @@
                     {{ form_label(form.observaciones) }}
                     {{ form_widget(form.observaciones, { 'attr': {'class': 'form-control'} }) }}
                      
-                    <input type="submit" id="botonRegistrarEvento" class="btn btn-default pull-right" value="Registrar" />
                     
                     {% if not form.observaciones.vars.valid %}
                         <div class="alert alert-danger">{{ form_errors(form.observaciones) }}</div>
@@ -77,11 +76,90 @@
                 </div>
 
                 {{ form_row(form._token) }}
-                
+                <input type="submit" id="botonRegistrarEvento" class="btn btn-default pull-right" value="Registrar" />
             </form>
             </div>
             <div id="divFormularioBusqueda" class="{% if seccion == "busqueda" %} show {% else %} hide {% endif %}">
-                {{ form(formularioBusqueda) }}
+                {{ form_start(formularioBusqueda,{'attr': {'role': 'form'} }) }}
+                {{ form_errors(formularioBusqueda) }}
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            {{ form_label(formularioBusqueda.usuario) }}
+                            {{ form_widget(formularioBusqueda.usuario ,{'attr':{'class': 'form-control'} }) }}
+                            {% if not formularioBusqueda.usuario.vars.valid %}
+                                <div class="alert alert-danger">{{ form_errors(formularioBusqueda.usuario) }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            {{ form_label(formularioBusqueda.tipoEvento) }}
+                            {{ form_widget(formularioBusqueda.tipoEvento ,{'attr':{'class': 'form-control'} }) }}
+                            {% if not formularioBusqueda.tipoEvento.vars.valid %}
+                                <div class="alert alert-danger">{{ form_errors(formularioBusqueda.tipoEvento) }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            {{ form_label(formularioBusqueda.estado) }}
+                            {{ form_widget(formularioBusqueda.estado ,{'attr':{'class': 'form-control'} }) }}
+                            {% if not formularioBusqueda.estado.vars.valid %}
+                                <div class="alert alert-danger">{{ form_errors(formularioBusqueda.estado) }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            {{ form_label(formularioBusqueda.observaciones) }}
+                            {{ form_widget(formularioBusqueda.observaciones ,{'attr':{'class': 'form-control'} }) }}
+                            {% if not formularioBusqueda.observaciones.vars.valid %}
+                                <div class="alert alert-danger">{{ form_errors(formularioBusqueda.observaciones) }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            {{ form_label(formularioBusqueda.fechaDesde) }}
+                            <div class="row padding-5">
+                                <div class="col-sm-12">
+                                    <div class="input-group date" id="dtp-fecha-desde">
+                                        <input id="{{ formularioBusqueda.fechaDesde.vars.id }}" name="{{ formularioBusqueda.fechaDesde.vars.name }}" type="datetime" class="form-control" readonly />
+                                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            {% if not formularioBusqueda.fechaDesde.vars.valid %}
+                                <div class="alert alert-danger">{{ form_errors(formularioBusqueda.fechaDesde) }}</div>
+                            {% endif %}
+                            
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            {{ form_label(formularioBusqueda.fechaHasta) }}
+                            <div class="row padding-5">
+                                <div class="col-sm-12">
+                                    <div class="input-group date" id="dtp-fecha-hasta">
+                                        <input id="{{ formularioBusqueda.fechaHasta.vars.id }}" name="{{ formularioBusqueda.fechaHasta.vars.name }}" type="datetime" class="form-control" readonly/>
+                                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            {% if not formularioBusqueda.fechaHasta.vars.valid %}
+                                <div class="alert alert-danger">{{ form_errors(formularioBusqueda.fechaHasta) }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {{ form_widget(formularioBusqueda._token) }}
+                <input type="submit" class="btn btn-default pull-right" value="Buscar" />
+                </form>
             </div>
         </div>
         </div>
