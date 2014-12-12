@@ -95,13 +95,13 @@ class EventoController extends Controller
 
     private function crearFormularioBusqueda($datosIniciales)
     {
-        $tiposEventos = $this->getDoctrine()->getManager()->getRepository('RegistroEventosCoreBundle:TipoEvento')->findAll();
+        $tiposEventos = $this->getDoctrine()->getManager()->getRepository('RegistroEventosCoreBundle:TipoEvento')->listarTiposEventosBusqueda();
         $opcionesTipoEvento = array();
         foreach ($tiposEventos as $te) {
             $opcionesTipoEvento[$te->getId()] = $te->getNombre();
         }
 
-        $usuarios = $this->getDoctrine()->getManager()->getRepository('RegistroEventosCoreBundle:Usuario')->listarIntendentes();
+        $usuarios = $this->getDoctrine()->getManager()->getRepository('RegistroEventosCoreBundle:Usuario')->listarIntendentesBusqueda();
         $opcionesUsuarios = array();
         foreach ($usuarios as $u) {
             $opcionesUsuarios[$u->getId()] = $u->getNombre();
