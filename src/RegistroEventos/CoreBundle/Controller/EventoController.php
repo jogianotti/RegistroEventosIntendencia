@@ -54,19 +54,21 @@ class EventoController extends Controller
         $evento->setEstado(true);
         $form = $this->createCreateForm($evento);
 
-        $formularioBusqueda = $this->crearFormularioBusqueda($this->generateUrl('eventos_busqueda'));
-        $formularioBusqueda->handleRequest($request);
+        $formularioBusqueda = $this->crearFormularioBusqueda($this->generateUrl('eventos_busqueda'));      
+        $formularioBusqueda->bind($request);
 
         $datos = $formularioBusqueda->getData();
-        $datos['fechaDesde'] = \DateTime::createFromFormat('d/m/Y H:i', $request->request->get('fechaDesde'));
-        $datos['fechaHasta'] = \DateTime::createFromFormat('d/m/Y H:i', $request->request->get('fechaHasta'));
+        
+        if(!is_null($datos['fechaDesde']))
+            $datos['fechaDesde'] = \DateTime::createFromFormat('d/m/Y H:i', $datos['fechaDesde']);
+        if(!is_null($datos['fechaHasta']))
+            $datos['fechaHasta'] = \DateTime::createFromFormat('d/m/Y H:i', $datos['fechaHasta']);
         
         if ($formularioBusqueda->isValid()) {
-            
-            
             $eventosAbiertos = array();
             $eventosCerrados = array();
             if (is_null($datos['estado'])) {
+                echo 'llegue';
                 $eventosAbiertos = $repositorioEventos->buscarEventosAbiertosPor($datos);
                 $eventosCerrados = $repositorioEventos->buscarEventosCerradosPor($datos);
             } else {
@@ -93,7 +95,7 @@ class EventoController extends Controller
         ));
     }
 
-    private function crearFormularioBusqueda($datosIniciales)
+    private function crearFormularioBusqueda($action)
     {
         $tiposEventos = $this->getDoctrine()->getManager()->getRepository('RegistroEventosCoreBundle:TipoEvento')->listarTiposEventosBusqueda();
         $opcionesTipoEvento = array();
@@ -108,7 +110,7 @@ class EventoController extends Controller
         }
 
         $formBuilder = $this->createFormBuilder();
-        $formBuilder->setAction($datosIniciales);
+        $formBuilder->setAction($action);
         $formBuilder->setMethod('POST');
         $formBuilder->add('tipoEvento', 'choice', array(
                     'choices' => $opcionesTipoEvento,
@@ -132,11 +134,10 @@ class EventoController extends Controller
                 ->add('observaciones', 'text', array(
                     'required' => false
                 ))
-                ->add('fechaDesde', 'datetime', array(
-                    'data' => new \DateTime(),
+                ->add('fechaDesde', 'text', array(
                     'required' => false
                 ))
-                ->add('fechaHasta', 'datetime', array(
+                ->add('fechaHasta', 'text', array(
                     'required' => false
                 ))
                 ->add('Buscar', 'submit');
@@ -406,29 +407,24 @@ class EventoController extends Controller
     public function supervisionAction(Request $request) {
         $repositorioEventos = $this->getDoctrine()->getManager()->getRepository('RegistroEventosCoreBundle:Evento');
         
-        $formularioBusqueda = $this->crearFormularioBusqueda($this->generateUrl('eventos_supervision'));
-        
-//        if(!is_null($request->request->get('fechaDesde'))) {
-//            $formularioBusqueda->get('fechaDesde')->setData(\DateTime::createFromFormat('d/m/Y H:i', $request->request->get('fechaDesde')));
-//        }
-//        if(count($request->request->get('fechaHasta')) > 0) {
-//            $fecha = \DateTime::createFromFormat('d/m/Y H:i', $request->request->get('fechaHasta'));
-//            $formularioBusqueda->get('fechaHasta')->setData($fecha);
-//        }
+        $formularioBusqueda = $this->crearFormularioBusqueda($this->generateUrl('eventos_supervision'));      
         $formularioBusqueda->handleRequest($request);
+
+        $datos = $formularioBusqueda->getData();
         
+        if(!is_null($datos['fechaDesde']))
+            $datos['fechaDesde'] = \DateTime::createFromFormat('d/m/Y H:i', $datos['fechaDesde']);
+        if(!is_null($datos['fechaHasta']))
+            $datos['fechaHasta'] = \DateTime::createFromFormat('d/m/Y H:i', $datos['fechaHasta']);
         
         $datosVista['formularioBusqueda'] = $formularioBusqueda->createView();
-        $datosFormulario = $formularioBusqueda->getData();
-//        $datosFormulario['fechaDesde'] = \DateTime::createFromFormat('d/m/Y H:i', $request->request->get('fechaDesde'));
-//        $datosFormulario['fechaHasta'] = \DateTime::createFromFormat('d/m/Y H:i', $request->request->get('fechaHasta'));
         
         if ($formularioBusqueda->isValid()){
-            $datosVista['eventos'] = $repositorioEventos->buscarEventosPor($datosFormulario);
+            $datosVista['eventos'] = $repositorioEventos->buscarEventosPor($datos);
             return $this->render('RegistroEventosCoreBundle:Evento:supervision.html.twig',$datosVista);
         }
         
-        $datosVista['eventos'] = $repositorioEventos->buscarEventosPor($datosFormulario);
+        $datosVista['eventos'] = $repositorioEventos->buscarEventosPor($datos);
         return $this->render('RegistroEventosCoreBundle:Evento:supervision.html.twig',$datosVista);
     }
     
