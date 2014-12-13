@@ -68,7 +68,6 @@ class EventoController extends Controller
             $eventosAbiertos = array();
             $eventosCerrados = array();
             if (is_null($datos['estado'])) {
-                echo 'llegue';
                 $eventosAbiertos = $repositorioEventos->buscarEventosAbiertosPor($datos);
                 $eventosCerrados = $repositorioEventos->buscarEventosCerradosPor($datos);
             } else {
@@ -89,7 +88,7 @@ class EventoController extends Controller
                     'eventosCerrados' => $eventosCerrados,
                     'form' => $form->createView(),
                     'evento' => $evento,
-                    'seccion' => 'busqueda',
+                    'seccion' => (!is_null($request->request->get('seccion')))?$request->request->get('seccion'):'busqueda',
                     'formularioBusqueda' => $formularioBusqueda->createView(),
                     'tiposEvento' => $tiposEvento
         ));

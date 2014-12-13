@@ -80,7 +80,7 @@
             </form>
             </div>
             <div id="divFormularioBusqueda" class="{% if seccion == "busqueda" %} show {% else %} hide {% endif %}">
-                {{ form_start(formularioBusqueda,{'attr': {'role': 'form'} }) }}
+                {{ form_start(formularioBusqueda,{'attr': {'role': 'form','id':'formularioBusqueda'} }) }}
                 {{ form_errors(formularioBusqueda) }}
                 <div class="row">
                     <div class="col-sm-4">
