@@ -87,10 +87,6 @@ class ContactoController extends Controller
         ));
     }
 
-    /**
-     * Displays a form to edit an existing Contacto entity.
-     *
-     */
     public function editAction($id)
     {
         $em = $this->getDoctrine()->getManager();
@@ -98,7 +94,7 @@ class ContactoController extends Controller
         $entity = $em->getRepository('RegistroEventosCoreBundle:Contacto')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Contacto entity.');
+            throw $this->createNotFoundException('El contacto no existe.');
         }
 
         $editForm = $this->createEditForm($entity);
@@ -111,54 +107,44 @@ class ContactoController extends Controller
         ));
     }
 
-    /**
-    * Creates a form to edit a Contacto entity.
-    *
-    * @param Contacto $entity The entity
-    *
-    * @return \Symfony\Component\Form\Form The form
-    */
     private function createEditForm(Contacto $entity)
     {
         $form = $this->createForm(new ContactoType(), $entity, array(
             'action' => $this->generateUrl('agenda_update', array('id' => $entity->getId())),
-            'method' => 'PUT',
+            'method' => 'POST',
         ));
 
         $form->add('submit', 'submit', array('label' => 'Guardar cambios', 'attr' => array('class' => 'btn btn-primary btn-large')));
 
         return $form;
     }
-    /**
-     * Edits an existing Contacto entity.
-     *
-     */
+    
     public function updateAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('RegistroEventosCoreBundle:Contacto')->find($id);
+        $contacto = $em->getRepository('RegistroEventosCoreBundle:Contacto')->find($id);
 
-        if (!$entity) {
+        if (!$contacto) {
             throw $this->createNotFoundException('Unable to find Contacto entity.');
         }
 
-        $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createEditForm($entity);
+        $editForm = $this->createEditForm($contacto);
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
+            $em->persist($contacto);
             $em->flush();
 
             return $this->redirect($this->generateUrl('agenda'));
         }
 
         return $this->render('RegistroEventosCoreBundle:Contacto:edit.html.twig', array(
-            'entity'      => $entity,
+            'entity'      => $contacto,
             'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
         ));
     }
+    
     /**
      * Deletes a Contacto entity.
      *
