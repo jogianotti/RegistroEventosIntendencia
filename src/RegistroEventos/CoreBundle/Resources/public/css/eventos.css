@@ -27,7 +27,7 @@ table td{
     min-height: 90px;
 }
 
-#listado-detalles {
+.alto-scroll {
     max-height: 300px;
     overflow-y: auto;
 }
