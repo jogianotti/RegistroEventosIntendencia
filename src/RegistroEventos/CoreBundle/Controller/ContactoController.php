@@ -67,7 +67,7 @@ class ContactoController extends Controller
             'method' => 'POST',
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Crear usuario', 'attr' => array('class' => 'btn btn-success btn-large')));
+        $form->add('submit', 'submit', array('label' => 'Agendar Contacto', 'attr' => array('class' => 'btn btn-success btn-large')));
 
         return $form;
     }
