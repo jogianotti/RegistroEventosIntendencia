@@ -200,7 +200,7 @@ class EventoController extends Controller
     public function nuevaRectificacionAction(Request $request)
     {
         $id = $request->request->get('id', NULL);
-        $eventoRectificado = $this->getDoctrine()->getManager()->getRepository('RegistroEventosCoreBundle:Evento')->findOneBy(array('id' => $id));
+        $eventoRectificado = $this->getDoctrine()->getManager()->getRepository('RegistroEventosCoreBundle:Evento')->find($id);
 
         if ($eventoRectificado->getUsuario() !== $this->get('security.context')->getToken()->getUser()) {
             return new JsonResponse(array('estado' => FALSE, 'mensaje' => 'Operación no permitida'));
@@ -246,7 +246,7 @@ class EventoController extends Controller
     {
         $id = $request->request->get('eventoRectificadoId', NULL);
 
-        $eventoRectificado = $this->getDoctrine()->getManager()->getRepository('RegistroEventosCoreBundle:Evento')->findOneBy(array('id' => $id));
+        $eventoRectificado = $this->getDoctrine()->getManager()->getRepository('RegistroEventosCoreBundle:Evento')->find($id);
         if ($eventoRectificado->getUsuario() !== $this->get('security.context')->getToken()->getUser()) {
             return new JsonResponse(array('estado' => FALSE, 'mensaje' => 'Operación no permitida'));
         }
@@ -256,9 +256,11 @@ class EventoController extends Controller
         $form->handleRequest($request);
         $evento->setFechaSistema(new \DateTime());
         $evento->setUsuario($this->get('security.context')->getToken()->getUser());
-
+        $evento->setEstado($eventoRectificado->getEstado());
         $fechaEvento = \DateTime::createFromFormat('d/m/Y H:i', $request->request->get('fechaEvento'));
         $evento->setFechaEvento($fechaEvento);
+        
+        
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
@@ -276,7 +278,6 @@ class EventoController extends Controller
                 'rectificado' => TRUE,
                 'evento' => $evento,
                 'eventoRectificado' => $eventoRectificado));
-//            return $this->redirect($this->generateUrl('eventos'));
         }
         $vista = $this->renderView('RegistroEventosCoreBundle:Evento:rectificar.html.twig', array(
             'form' => $form->createView(),
