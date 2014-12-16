@@ -77,6 +77,7 @@ $(document).ready(function () {
             $("#contenidoPopUp").html(html);
             $('.modal-dialog').addClass('modal-lg');
             $('#piePopUp').addClass('hide');
+            $('#piePopUp').removeClass('show');
             $('#ventanaPopUp').modal('show');
         });
         
