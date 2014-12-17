@@ -13,7 +13,6 @@
 /web/bundles/
 /web/css/
 /web/js/
-/web/fotos/
 /web/uploads/temp/*
 !web/uploads/temp/.gitkeep
 /nbproject/
