@@ -31,8 +31,6 @@ class ScriptHandler
             . getcwd() . ', can not clear the cache.' . PHP_EOL;
             return;
         }
-            static::executeCommand($event, $appDir, 'doctrine:database:drop --force', $options['process-timeout']);
-            static::executeCommand($event, $appDir, 'doctrine:database:create', $options['process-timeout']);
             static::executeCommand($event, $appDir, 'doctrine:schema:drop --force', $options['process-timeout']);
             static::executeCommand($event, $appDir, 'doctrine:schema:update --force', $options['process-timeout']);
     }
