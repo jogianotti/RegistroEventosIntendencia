@@ -34,9 +34,17 @@
             <div class="alert alert-danger alert-dismissible fade in" role="alert">{{ form_errors(edit_form.username) }}</div>
         {% endif %}
         <div class="form-group">
+            {#
+                
+            #}
 		{#{{ form_errors(edit_form.role) }}#}
 		{{ form_label(edit_form.role, 'Rol de usuario: ')}}
-		{{ form_widget(edit_form.role, { 'attr': {'class': 'form-control'} }) }}
+                {% if entity == usuario %}
+                    {{ form_widget(edit_form.role, { 'attr': {'class': 'form-control','disabled':'disabled' } }) }}
+                {% else %}
+                    {{ form_widget(edit_form.role, { 'attr': {'class': 'form-control'} }) }}
+                {% endif %}
+{#            #}
 	</div>
         {% if form_errors(edit_form.role) %}
             <div class="alert alert-danger alert-dismissible fade in" role="alert">{{ form_errors(edit_form.role) }}</div>
