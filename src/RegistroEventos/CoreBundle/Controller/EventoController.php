@@ -139,7 +139,8 @@ class EventoController extends Controller
                 ->add('fechaHasta', 'text', array(
                     'required' => false
                 ))
-                ->add('Buscar', 'submit');
+                ->add('buscar', 'submit',array('attr'=> array('value'=>'Buscar')))
+                ->add('limpiar', 'reset',array('attr'=> array('value'=>'Limpiar')));
         return $formBuilder->getForm();
     }
 
@@ -230,12 +231,15 @@ class EventoController extends Controller
             ));
             return new JsonResponse(array('estado' => TRUE, 'vista' => $vista));
         } else {
+            $tiposEvento = $this->getDoctrine()->getManager()->getRepository('RegistroEventosCoreBundle:TipoEvento')->listarTiposEventosActivos();
+            
             $vista = $this->renderView('RegistroEventosCoreBundle:Evento:rectificar.html.twig', array(
                 'form' => $form->createView(),
                 'eventoRectificado' => $eventoRectificado,
                 'rectificaciones' => $rectificaciones,
                 'error' => false,
-                'datetimeEvento' => $evento->getFechaEvento()->format('d/m/Y H:i')
+                'datetimeEvento' => $evento->getFechaEvento()->format('d/m/Y H:i'),
+                'tiposEvento' => $tiposEvento
             ));
 
             return new JsonResponse(array('estado' => TRUE, 'vista' => $vista));
@@ -279,10 +283,13 @@ class EventoController extends Controller
                 'evento' => $evento,
                 'eventoRectificado' => $eventoRectificado));
         }
+        $tiposEvento = $this->getDoctrine()->getManager()->getRepository('RegistroEventosCoreBundle:TipoEvento')->listarTiposEventosActivos();
+        
         $vista = $this->renderView('RegistroEventosCoreBundle:Evento:rectificar.html.twig', array(
             'form' => $form->createView(),
             'eventoRectificado' => $eventoRectificado,
-            'error' => false
+            'error' => false,
+            'tiposEvento' => $tiposEvento
         ));
         return new JsonResponse(array('estado' => TRUE, 'rectificado' => FALSE, 'html' => $vista));
     }

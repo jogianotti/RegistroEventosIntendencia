@@ -95,7 +95,8 @@
                     </div>
                 </div>
                 {{ form_widget(formularioBusqueda._token) }}
-                <input type="submit" class="btn btn-default pull-right" value="Buscar" />
+                {{ form_widget (formularioBusqueda.buscar,{'attr':{'class': 'btn btn-primary pull-right'} })}}
+                {{ form_widget (formularioBusqueda.limpiar,{'attr':{'class': 'btn btn-default pull-right', 'style':'margin-right:10px'} })}}
                 </form>
             </div>
         </div>
