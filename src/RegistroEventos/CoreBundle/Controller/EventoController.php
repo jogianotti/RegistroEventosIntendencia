@@ -436,4 +436,11 @@ class EventoController extends Controller
         
         return $this->render('RegistroEventosCoreBundle:Evento:detalleEventoSupervision.html.twig',array('eventos' => $eventos));
     }
+    
+    public function estadisticasAction(){
+        $eventosUsuarios = $this->getDoctrine()->getManager()->getRepository('RegistroEventosCoreBundle:Usuario')->estadisticaEventosDelUsuario();
+    	$eventosTipos = $this->getDoctrine()->getManager()->getRepository('RegistroEventosCoreBundle:TipoEvento')->estadisticaTiposDeEventos();
+    	$rectificacionesUsuarios = $this->getDoctrine()->getManager()->getRepository('RegistroEventosCoreBundle:Usuario')->estadisticaRectificacionesDelUsuario();
+        return $this->render('RegistroEventosCoreBundle:Evento:estadisticas.html.twig', array('eventosUsuarios'=>$eventosUsuarios, 'rectificaciones'=>$rectificacionesUsuarios, 'tipos'=>$eventosTipos));    
+    }
 }

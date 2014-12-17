@@ -1,0 +1,28 @@
+{% extends "RegistroEventosCoreBundle::base.html.twig" %}
+
+{% block body -%}
+    <div class="row div-navs">
+    <div class="col-sm-10 col-sm-offset-1">
+        <ul class="nav nav-tabs">
+          <li class=""><a href="{{ path('usuarios') }}">Usuarios</a></li>
+          <li class=""><a href="{{ path('tipos_eventos') }}">Tipos de evento</a></li>
+          <li class="active"><a href="{{ path('estadisticas') }}">Estadísticas</a></li>
+        </ul>
+    </div>
+    </div>
+        
+  {% include "RegistroEventosCoreBundle:Evento:estadisticaeventosdelusuario.html.twig" %}
+  {% include "RegistroEventosCoreBundle:Evento:estadisticarectificacionesdelusuario.html.twig" %}
+  {% include "RegistroEventosCoreBundle:Evento:estadisticaeventosdeltipo.html.twig" %}
+
+  <script type="text/javascript">
+    window.onload = function () {
+      estadisticaEventosDelUsuario();
+      estadisticaRectificacionesDelUsuario();
+      estadisticaEventosDelTipo();
+    }
+  </script>
+
+  <script type="text/javascript" src="{{ asset('bundles/registroeventoscore/js/') }}canvasjs.min.js"></script>
+
+{% endblock %}
