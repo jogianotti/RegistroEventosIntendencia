@@ -17,7 +17,3 @@ RegistroEventosCoreBundle_usuarios:
 estadisticas:
     path:     /administracion/estadisticas
     defaults: { _controller: RegistroEventosCoreBundle:Evento:estadisticas }
-
-#RegistroEventosCoreBundle_estadisticas:
-#    path:     /administracion/estadisticas
-#    defaults: { _controller: RegistroEventosCoreBundle:Evento:estadisticas }
