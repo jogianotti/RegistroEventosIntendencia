@@ -94,7 +94,7 @@ EN CASO DE ERROR
 	
 	-Actualiza el esquema de la base de datos. Si no esta creado lo crea.
 	
-		php app/consolo doctrine:schema:update --force
+		php app/console doctrine:schema:update --force
 		
 	-Crea y registra al usuario administrador 'admin'
 	
