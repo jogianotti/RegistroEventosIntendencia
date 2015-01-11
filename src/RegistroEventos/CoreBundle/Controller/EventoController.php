@@ -271,6 +271,8 @@ class EventoController extends Controller
             $em->persist($eventoRectificado);
             $em->flush();
 
+            $this->informar($eventoRectificado);
+
             return new JsonResponse(array(
                 'estado' => TRUE,
                 'rectificado' => TRUE,
@@ -384,8 +386,9 @@ class EventoController extends Controller
         $email = $evento->getTipoEvento()->getEmail();
         if (!is_null($email)) {
             $mensaje = \Swift_Message::newInstance()
-                    ->setSubject('Alerta de evento')
-                    ->setFrom('r11alex.nestor@gmail.com')
+                    ->setSubject('Intendencia - Alerta de evento !')
+                    ->setFrom('no-reply@med.unlp.edu.ar')
+                    ->setContentType('text/html')
                     ->setTo($email)
                     ->setBody(
                     $this->renderView(

@@ -2,11 +2,17 @@
     Error al intentar crear el formulario de rectificacion
 {% else %}
     {% if rectificaciones %}
-        <div id="mostrarRectificaciones" onclick="openClose('rectificaciones');">RECTIFICACIONES ANTERIORES</div>
-        <div class="oculto" id="rectificaciones">
-            {% for rectificacion in rectificaciones %}
-                <div id="{{ rectificacion.id }}">Fecha: {{rectificacion.fechaEvento|date('d/m/Y') }} Observaciones: {{ rectificacion.observaciones }}</div>
-            {% endfor %}
+        <div id="mostrarRectificaciones" onclick="openClose('rectificaciones');">
+            <div class="panel panel-default tipoPapel">
+                <div class="panel-heading">
+                  <h3 class="panel-title">RECTIFICACIONES ANTERIORES</h3>
+                </div>
+                <div id="rectificaciones" class="panel-body oculto">
+                    {% for rectificacion in rectificaciones %}
+                        <div id="{{ rectificacion.id }}">Fecha: {{rectificacion.fechaEvento|date('d/m/Y') }} Observaciones: {{ rectificacion.observaciones }}</div>
+                    {% endfor %}
+                </div>
+            </div>
         </div>
     {% endif %}
     
