@@ -26,7 +26,7 @@ class UsuarioController extends Controller
         $usuarios = $em->getRepository('RegistroEventosCoreBundle:Usuario')->findAll();
 
         return $this->render('RegistroEventosCoreBundle:Usuario:index.html.twig', array(
-                    'usuarios' => $usuarios,
+                    'usuarios' => $usuarios
         ));
     }
 
@@ -165,7 +165,9 @@ class UsuarioController extends Controller
 
         $editForm = $this->createEditForm($entity);
         $editForm->handleRequest($request);
-        $entity->setRoles(array($editForm->get('role')->getData($request)));
+        if($entity != $this->get('security.context')->getToken()->getUser()) {
+            $entity->setRoles(array($editForm->get('role')->getData($request)));
+        }
         $error = null;
         if ($editForm->isValid()) {
             if ($editForm['file']->getData()) {
@@ -197,10 +199,15 @@ class UsuarioController extends Controller
         //if ($form->isValid()) {
         $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('RegistroEventosCoreBundle:Usuario')->find($id);
-
+                    
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Usuario entity.');
         }
+        
+        if ($entity == $this->get('security.context')->getToken()->getUser()) {
+            return $this->redirect($this->generateUrl('usuarios'));
+        }
+        
         $entity->setBaja(TRUE);
         $entity->setEnabled(FALSE);
         $em->persist($entity);
@@ -242,7 +249,7 @@ class UsuarioController extends Controller
         $userManager = $this->container->get('fos_user.user_manager');
         $usuario->setPlainPassword($request->request->get('plainPassword'));
         $userManager->updatePassword($usuario);
-
+        
         //if () { validar que sean iguales...
             $em = $this->getDoctrine()->getManager();
             $em->persist($usuario);
@@ -250,6 +257,7 @@ class UsuarioController extends Controller
             
             return new JsonResponse(array('actualizada' => true));
         //}
+        
         $vista = $this->renderView('RegistroEventosCoreBundle:Usuario:cambiar_clave.html.twig',array(
             'form' => $form->createView()
         ));

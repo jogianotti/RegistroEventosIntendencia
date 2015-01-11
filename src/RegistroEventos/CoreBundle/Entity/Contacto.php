@@ -35,7 +35,7 @@ class Contacto
     /**
      * @var string
      *
-     * @ORM\Column(name="apellido", type="string", length=60)
+     * @ORM\Column(name="apellido", type="string", length=60, nullable=true)
      */
     private $apellido;
 

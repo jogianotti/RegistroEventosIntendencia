@@ -54,16 +54,17 @@ class EventoController extends Controller
         $evento->setEstado(true);
         $form = $this->createCreateForm($evento);
 
-        $formularioBusqueda = $this->crearFormularioBusqueda($this->generateUrl('eventos_busqueda'));
-        $formularioBusqueda->handleRequest($request);
+        $formularioBusqueda = $this->crearFormularioBusqueda($this->generateUrl('eventos_busqueda'));      
+        $formularioBusqueda->bind($request);
 
         $datos = $formularioBusqueda->getData();
-        $datos['fechaDesde'] = \DateTime::createFromFormat('d/m/Y H:i', $request->request->get('fechaDesde'));
-        $datos['fechaHasta'] = \DateTime::createFromFormat('d/m/Y H:i', $request->request->get('fechaHasta'));
+        
+        if(!is_null($datos['fechaDesde']))
+            $datos['fechaDesde'] = \DateTime::createFromFormat('d/m/Y H:i', $datos['fechaDesde']);
+        if(!is_null($datos['fechaHasta']))
+            $datos['fechaHasta'] = \DateTime::createFromFormat('d/m/Y H:i', $datos['fechaHasta']);
         
         if ($formularioBusqueda->isValid()) {
-            
-            
             $eventosAbiertos = array();
             $eventosCerrados = array();
             if (is_null($datos['estado'])) {
@@ -87,13 +88,13 @@ class EventoController extends Controller
                     'eventosCerrados' => $eventosCerrados,
                     'form' => $form->createView(),
                     'evento' => $evento,
-                    'seccion' => 'busqueda',
+                    'seccion' => (!is_null($request->request->get('seccion')))?$request->request->get('seccion'):'busqueda',
                     'formularioBusqueda' => $formularioBusqueda->createView(),
                     'tiposEvento' => $tiposEvento
         ));
     }
 
-    private function crearFormularioBusqueda($datosIniciales)
+    private function crearFormularioBusqueda($action)
     {
         $tiposEventos = $this->getDoctrine()->getManager()->getRepository('RegistroEventosCoreBundle:TipoEvento')->listarTiposEventosBusqueda();
         $opcionesTipoEvento = array();
@@ -108,7 +109,7 @@ class EventoController extends Controller
         }
 
         $formBuilder = $this->createFormBuilder();
-        $formBuilder->setAction($datosIniciales);
+        $formBuilder->setAction($action);
         $formBuilder->setMethod('POST');
         $formBuilder->add('tipoEvento', 'choice', array(
                     'choices' => $opcionesTipoEvento,
@@ -132,14 +133,14 @@ class EventoController extends Controller
                 ->add('observaciones', 'text', array(
                     'required' => false
                 ))
-                ->add('fechaDesde', 'datetime', array(
-                    'data' => new \DateTime(),
+                ->add('fechaDesde', 'text', array(
                     'required' => false
                 ))
-                ->add('fechaHasta', 'datetime', array(
+                ->add('fechaHasta', 'text', array(
                     'required' => false
                 ))
-                ->add('Buscar', 'submit');
+                ->add('buscar', 'submit',array('attr'=> array('value'=>'Buscar')))
+                ->add('limpiar', 'reset',array('attr'=> array('value'=>'Limpiar')));
         return $formBuilder->getForm();
     }
 
@@ -200,7 +201,7 @@ class EventoController extends Controller
     public function nuevaRectificacionAction(Request $request)
     {
         $id = $request->request->get('id', NULL);
-        $eventoRectificado = $this->getDoctrine()->getManager()->getRepository('RegistroEventosCoreBundle:Evento')->findOneBy(array('id' => $id));
+        $eventoRectificado = $this->getDoctrine()->getManager()->getRepository('RegistroEventosCoreBundle:Evento')->find($id);
 
         if ($eventoRectificado->getUsuario() !== $this->get('security.context')->getToken()->getUser()) {
             return new JsonResponse(array('estado' => FALSE, 'mensaje' => 'Operación no permitida'));
@@ -230,12 +231,15 @@ class EventoController extends Controller
             ));
             return new JsonResponse(array('estado' => TRUE, 'vista' => $vista));
         } else {
+            $tiposEvento = $this->getDoctrine()->getManager()->getRepository('RegistroEventosCoreBundle:TipoEvento')->listarTiposEventosActivos();
+            
             $vista = $this->renderView('RegistroEventosCoreBundle:Evento:rectificar.html.twig', array(
                 'form' => $form->createView(),
                 'eventoRectificado' => $eventoRectificado,
                 'rectificaciones' => $rectificaciones,
                 'error' => false,
-                'datetimeEvento' => $evento->getFechaEvento()->format('d/m/Y H:i')
+                'datetimeEvento' => $evento->getFechaEvento()->format('d/m/Y H:i'),
+                'tiposEvento' => $tiposEvento
             ));
 
             return new JsonResponse(array('estado' => TRUE, 'vista' => $vista));
@@ -246,7 +250,7 @@ class EventoController extends Controller
     {
         $id = $request->request->get('eventoRectificadoId', NULL);
 
-        $eventoRectificado = $this->getDoctrine()->getManager()->getRepository('RegistroEventosCoreBundle:Evento')->findOneBy(array('id' => $id));
+        $eventoRectificado = $this->getDoctrine()->getManager()->getRepository('RegistroEventosCoreBundle:Evento')->find($id);
         if ($eventoRectificado->getUsuario() !== $this->get('security.context')->getToken()->getUser()) {
             return new JsonResponse(array('estado' => FALSE, 'mensaje' => 'Operación no permitida'));
         }
@@ -256,9 +260,11 @@ class EventoController extends Controller
         $form->handleRequest($request);
         $evento->setFechaSistema(new \DateTime());
         $evento->setUsuario($this->get('security.context')->getToken()->getUser());
-
+        $evento->setEstado($eventoRectificado->getEstado());
         $fechaEvento = \DateTime::createFromFormat('d/m/Y H:i', $request->request->get('fechaEvento'));
         $evento->setFechaEvento($fechaEvento);
+        
+        
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
@@ -278,12 +284,14 @@ class EventoController extends Controller
                 'rectificado' => TRUE,
                 'evento' => $evento,
                 'eventoRectificado' => $eventoRectificado));
-//            return $this->redirect($this->generateUrl('eventos'));
         }
+        $tiposEvento = $this->getDoctrine()->getManager()->getRepository('RegistroEventosCoreBundle:TipoEvento')->listarTiposEventosActivos();
+        
         $vista = $this->renderView('RegistroEventosCoreBundle:Evento:rectificar.html.twig', array(
             'form' => $form->createView(),
             'eventoRectificado' => $eventoRectificado,
-            'error' => false
+            'error' => false,
+            'tiposEvento' => $tiposEvento
         ));
         return new JsonResponse(array('estado' => TRUE, 'rectificado' => FALSE, 'html' => $vista));
     }
@@ -409,29 +417,24 @@ class EventoController extends Controller
     public function supervisionAction(Request $request) {
         $repositorioEventos = $this->getDoctrine()->getManager()->getRepository('RegistroEventosCoreBundle:Evento');
         
-        $formularioBusqueda = $this->crearFormularioBusqueda($this->generateUrl('eventos_supervision'));
-        
-//        if(!is_null($request->request->get('fechaDesde'))) {
-//            $formularioBusqueda->get('fechaDesde')->setData(\DateTime::createFromFormat('d/m/Y H:i', $request->request->get('fechaDesde')));
-//        }
-//        if(count($request->request->get('fechaHasta')) > 0) {
-//            $fecha = \DateTime::createFromFormat('d/m/Y H:i', $request->request->get('fechaHasta'));
-//            $formularioBusqueda->get('fechaHasta')->setData($fecha);
-//        }
+        $formularioBusqueda = $this->crearFormularioBusqueda($this->generateUrl('eventos_supervision'));      
         $formularioBusqueda->handleRequest($request);
+
+        $datos = $formularioBusqueda->getData();
         
+        if(!is_null($datos['fechaDesde']))
+            $datos['fechaDesde'] = \DateTime::createFromFormat('d/m/Y H:i', $datos['fechaDesde']);
+        if(!is_null($datos['fechaHasta']))
+            $datos['fechaHasta'] = \DateTime::createFromFormat('d/m/Y H:i', $datos['fechaHasta']);
         
         $datosVista['formularioBusqueda'] = $formularioBusqueda->createView();
-        $datosFormulario = $formularioBusqueda->getData();
-//        $datosFormulario['fechaDesde'] = \DateTime::createFromFormat('d/m/Y H:i', $request->request->get('fechaDesde'));
-//        $datosFormulario['fechaHasta'] = \DateTime::createFromFormat('d/m/Y H:i', $request->request->get('fechaHasta'));
         
         if ($formularioBusqueda->isValid()){
-            $datosVista['eventos'] = $repositorioEventos->buscarEventosPor($datosFormulario);
+            $datosVista['eventos'] = $repositorioEventos->buscarEventosPor($datos);
             return $this->render('RegistroEventosCoreBundle:Evento:supervision.html.twig',$datosVista);
         }
         
-        $datosVista['eventos'] = $repositorioEventos->buscarEventosPor($datosFormulario);
+        $datosVista['eventos'] = $repositorioEventos->buscarEventosPor($datos);
         return $this->render('RegistroEventosCoreBundle:Evento:supervision.html.twig',$datosVista);
     }
     
@@ -442,5 +445,12 @@ class EventoController extends Controller
         $eventos = $repositorioEventos->listarRectificacionesDetallesPara($evento);
         
         return $this->render('RegistroEventosCoreBundle:Evento:detalleEventoSupervision.html.twig',array('eventos' => $eventos));
+    }
+    
+    public function estadisticasAction(){
+        $eventosUsuarios = $this->getDoctrine()->getManager()->getRepository('RegistroEventosCoreBundle:Usuario')->estadisticaEventosDelUsuario();
+    	$eventosTipos = $this->getDoctrine()->getManager()->getRepository('RegistroEventosCoreBundle:TipoEvento')->estadisticaTiposDeEventos();
+    	$rectificacionesUsuarios = $this->getDoctrine()->getManager()->getRepository('RegistroEventosCoreBundle:Usuario')->estadisticaRectificacionesDelUsuario();
+        return $this->render('RegistroEventosCoreBundle:Evento:estadisticas.html.twig', array('eventosUsuarios'=>$eventosUsuarios, 'rectificaciones'=>$rectificacionesUsuarios, 'tipos'=>$eventosTipos));    
     }
 }

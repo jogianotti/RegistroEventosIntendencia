@@ -6,7 +6,17 @@
 {% endblock %}
 
 {% block body -%}
-
+    
+    <div class="row div-navs">
+    <div class="col-sm-10 col-sm-offset-1">
+        <ul class="nav nav-tabs">
+          <li class=""><a href="{{ path('usuarios') }}">Usuarios</a></li>
+          <li class="active"><a href="{{ path('tipos_eventos') }}">Tipos de evento</a></li>
+          <li class=""><a href="{{ path('estadisticas') }}">Estadísticas</a></li>
+        </ul>
+    </div>
+    </div>
+        
     <h2>Tipos de Eventos</h2>
 
     <a href="{{ path('tipos_eventos_new') }}" role="button" class="btn btn-success btn-large">

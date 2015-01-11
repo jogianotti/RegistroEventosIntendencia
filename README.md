@@ -1,67 +1,106 @@
 Registro de Eventos de Intendencia
 
-1) Configuracion de la Base de Datos
-----------------------------------
+NECESARIOS PARA LA INSTALACIÓN
 
-app/config/parameters.yml
-git add .
-git reset HEAD app/config/parameters.yml 
-
-2) Instalacion de la Base de Datos
-----------------------------------
-
-php app/console doctrine:schema:update --force
- 
-    /* Descripción */
-
-
+	1) COMPOSER
+ 		
+ 		https://getcomposer.org/
+    
+    2) GIT (Opcional altamente recomendado)
+    
+    	http://git-scm.com/
+    	
 PROCESO DE INSTALACIÓN
 
-1) Crear en MySQL una base de datos, con un usuario y clave
-    que será usada por el sistema. Por defecto estos valores son:
+	1) Base de Datos y Usuario
+	
+	Se debe crear una base de datos para el proyecto con el nombre que se desee.
+		
+		CREATE DATABASE {base};
+		
+	Seguidamente se debe crear un usuario asignado a esa base de datos con
+	privilegios sobre esa base de datos.
+	
+		CREATE USER '{usuario}'@'localhost' IDENTIFIED BY '{clave}';
 
-    database_driver: pdo_mysql
-    database_host: 127.0.0.1
-    database_port: null
-    database_name: registro_eventos
-    database_user: eventos
-    database_password: 123456
+		GRANT USAGE ON * . * TO '{usuario}'@'localhost' IDENTIFIED BY '{clave}' WITH MAX_QUERIES_PER_HOUR 0 				MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0 MAX_USER_CONNECTIONS 0 ;
 
-2) Clonar el repositorio dentro del directorio de trabajo
+		GRANT ALL PRIVILEGES ON `{base}` . * TO '{usuario}'@'localhost';
+		
+	2) Clonar el proyecto
+	
+	La url del proyecto en GitHub
+	
+		https://github.com/jogianotti/RegistroEventosIntendencia
+	
+	Ubicados en el directorio web (o el directorio donde se desee instalar el sistema)
+	clonamos el proyecto desde GitHub usando git.
+	
+		git clone https://github.com/jogianotti/RegistroEventosIntendencia.git
+		
+	Esto creara la carpeta RegistroEventosIntendencia con el contenido del sistema.
 
-    git clone https://github.com/jogianotti/RegistroEventosIntendencia.git
+	Si no se dispone de GIT instalado se puede descargar el contenido en un paquete
+	comprimido (ej. ZIP), descomprimiendolo en el directorio que se desee.
+	
+		https://github.com/jogianotti/RegistroEventosIntendencia/archive/master.zip
 
-3) Ubicarnos dentro del directorio "RegistroEventosIntendencia" creado e 
-    instalar las dependencias
+	3) Instalación del proyecto y dependencias utilizando Composer
+	
+	Se procede a instalar las dependencias e inicializar el sistema utilizando composer
+	Ubicados dentro del directorio del proyecto (RegistroEventosIntendencia/) ejecutamos
+	
+		php /path/hasta/composer.phar install
+		
+	Si se encuentra instalado como comando
+	
+		composer install
+	
+	Esta ejecucion descargará e instalará todos los paquetes necesarios para el funcionamiento
+	del sistema. Actualizara el archivo de configuración con los dato que le proporcionemos,
+	creará el esquema de la base de datos e insertara un primer usuario administrador
+		
+		Usuario: admin
+		Clave: admin
+	
+	Llegado el momento nos pedira ingresar los datos para acceder a la base de datos que creamos
+	anteriormente, los datos del servidor de mail (si se dispone de uno), y una frase secreta que
+	utilizara para el proceso de encriptado.
 
-    cd RegistroEventosIntendencia
-    composer install
+    	database_driver: pdo_mysql
+    	database_host: 127.0.0.1
+    	database_port: null
+    	database_name: {base}
+    	database_user: {usuario}
+    	database_password: {clave}
+    	
+    	mailer_transport: smtp
+		mailer_host: 127.0.0.1
+		mailer_user: ~
+		mailer_password: ~
+		
+		locale: en
+		secret: {UnaFraseSecretaDeExtensionYComplejidadConsiderable}
 
-  Si la instalación solicita ingresar los datos de la base de datos ingresarlos.
-  Si no actualizar el archivo app/config/parameters.yml con sus valores.
+	Una vez finalizado el proceso sin registrarse ningún error ya se esta en condiciones de acceder al sistema.
+	
+		http://localhost/RegistroEventosIntendencia/web/
+		
+	O al dominio correspondiente si se creo alguno para el sistema.
+	
+EN CASO DE ERROR
 
-4) Crear el esquema de la base de datos
+	Estos comandos pueden se utiles en caso de error. Ubicados dentro del directorio del proyecto:
+	
+	-Actualiza el esquema de la base de datos. Si no esta creado lo crea.
+	
+		php app/console doctrine:schema:update --force
+		
+	-Crea y registra al usuario administrador 'admin'
+	
+		php app/console registro_eventos_core:crear:usuario_admin
+		
+		
 
-    php app/console doctrine:schema:update --force
-
-5) Aplicar los permisos necesarios a los directorios app/cache y app/logs
-    siguiendo la explicación en el siguiente enlace de acuerdo el sistema
-    operativo.
-
-    http://symfony.es/documentacion/como-solucionar-el-problema-de-los-permisos-de-symfony2/
-
-6) Vaciar la cache
-
-    php app/console cache:clear
-
-7) En el directorio root se encuentra una copia de la base de datos "registro_eventos.sql".
-
-8) Comprobar que se se haya instalado correctamente ingresando a
-
-    {dominio o path}/app_dev.php/login
-
-9) 
-php app/console assets:install --symlink web
-
-10)
-php app/console registroeventoscore:crear:datos_prueba
+		
+	

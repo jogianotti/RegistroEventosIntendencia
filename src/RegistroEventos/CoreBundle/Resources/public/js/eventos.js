@@ -77,6 +77,7 @@ $(document).ready(function () {
             $("#contenidoPopUp").html(html);
             $('.modal-dialog').addClass('modal-lg');
             $('#piePopUp').addClass('hide');
+            $('#piePopUp').removeClass('show');
             $('#ventanaPopUp').modal('show');
         });
         
@@ -114,12 +115,22 @@ $(document).ready(function () {
     $(".estado-switch").bootstrapSwitch();
     
     $('#botonFormularioRegistro').on('click',function(){
-        $('#botonFormularioBusqueda').removeClass('active');
-        $(this).addClass('active');
-        $('#divFormularioRegistro').removeClass('hide');
-        $('#divFormularioRegistro').addClass('show');
-        $('#divFormularioBusqueda').removeClass('show');
-        $('#divFormularioBusqueda').addClass('hide');
+        if(! $('#botonFormularioRegistro').hasClass('active')) {
+            $(':input','#formularioBusqueda')
+             .not(':button, :submit, :reset, :hidden')
+             .val('')
+             .removeAttr('checked')
+             .removeAttr('selected');
+
+            $('#formularioBusqueda').append('<input type="hidden" name="seccion" value="registro" />');
+            $('#formularioBusqueda').submit();
+        }
+//        $('#botonFormularioBusqueda').removeClass('active');
+//        $(this).addClass('active');
+//        $('#divFormularioRegistro').removeClass('hide');
+//        $('#divFormularioRegistro').addClass('show');
+//        $('#divFormularioBusqueda').removeClass('show');
+//        $('#divFormularioBusqueda').addClass('hide');
     });
     
     $('#botonFormularioBusqueda').on('click',function(){

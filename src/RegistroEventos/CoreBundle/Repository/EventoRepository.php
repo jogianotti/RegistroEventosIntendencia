@@ -87,7 +87,7 @@ class EventoRepository extends EntityRepository
             $qb = $qb->andWhere ('e.observaciones LIKE :texto')->setParameter('texto', '%'. $datos['observaciones'] .'%');
             
         $qb = $qb->orderBy('e.fechaEvento', 'DESC');
-
+        
         return $qb->getQuery()->getResult();
     }
     

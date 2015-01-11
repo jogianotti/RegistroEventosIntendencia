@@ -26,3 +26,6 @@ body{
 .navbar-nav a.active{
 	color: #337AB7!important;
 }
+.div-navs {
+    margin-bottom: 30px;
+}

@@ -15,19 +15,28 @@
             </div>
         </div>
     {% endif %}
-    
+
     <form role="form" name="formularioRectificarEvento" id="formularioRectificarEvento" action="{{ path('eventos_rectificacion_crear') }}" method="post" {{ form_enctype(form) }}>
         {{ form_errors(form) }}
-        <div class="form-group">
-            {{ form_label(form.tipoEvento, 'Tipo de Evento: ',{ 'attr': {'for': form.tipoEvento.vars.id} }) }}
-            {{ form_errors(form.tipoEvento) }}
-            {{ form_widget(form.tipoEvento) }}
+        
+        <div class="form-group {% if not form.tipoEvento.vars.valid %}has-error{% endif %}">
+            {{ form_label(form.tipoEvento, 'Tipo de Evento',{ 'attr': {'for': form.tipoEvento.vars.id} }) }}
+            <select name="{{form.tipoEvento.vars.full_name}}" id="{{form.tipoEvento.vars.id}}" required="required" class="form-control" >
+                {% for tipo in tiposEvento %}
+                    <option value="{{tipo.id}}">{{tipo}}</option>
+                {% endfor %}
+            </select>
+            {% if not form.tipoEvento.vars.valid %}
+                <div class="alert alert-danger">{{ form_errors(form.tipoEvento) }}</div>
+            {% endif %}
         </div>
-        <div class="form-group">
-            {{ form_label(form.estado, 'Estado del evento: ',{ 'attr': {'for': form.estado.vars.id} }) }}
-            {{ form_errors(form.estado) }}
-            {{ form_widget(form.estado) }}
-        </div>
+
+
+        {# <div class="form-group">
+             {{ form_label(form.estado, 'Estado del evento: ',{ 'attr': {'for': form.estado.vars.id} }) }}
+             {{ form_errors(form.estado) }}
+             {{ form_widget(form.estado) }}
+         </div>#}
         <div class="form-group">
             {{ form_label(form.fechaEvento, 'Fecha del Evento: ') }}
             <span>{{ form_errors(form.fechaEvento) }}</span>
@@ -37,18 +46,18 @@
             <span>{{ form_widget(form.fechaEvento.time.hour) }}</span>
             <span>{{ form_widget(form.fechaEvento.time.minute) }}</span>#}
             <div class="row padding-5">
-                    <div class="col-sm-12">
-                        <div class="input-group date" id="dp-rectificar">
-                            <input id="{{ form.fechaEvento.vars.id }}" 
-                                   name="{{ form.fechaEvento.vars.name }}" 
-                                   type="datetime" class="form-control" 
-                                   value="{{ datetimeEvento }}" readonly/>
-                            <span class="input-group-addon">
-                                <span class="glyphicon glyphicon-calendar"></span>
-                            </span>
-                        </div>
+                <div class="col-sm-12">
+                    <div class="input-group date" id="dp-rectificar">
+                        <input id="{{ form.fechaEvento.vars.id }}" 
+                               name="{{ form.fechaEvento.vars.name }}" 
+                               type="datetime" class="form-control" 
+                               value="{{ datetimeEvento }}" readonly/>
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
                     </div>
                 </div>
+            </div>
         </div>
         <div class="form-group">
             {{ form_label(form.observaciones, 'Observaciones: ') }} 
@@ -57,8 +66,8 @@
         </div>
 
         {{ form_row(form._token) }}
-    
-{#        <input name="{{ form.estado.vars.name }}" type="hidden" value="{{ form.estado.vars.value }}">#}
+
+        {#        <input name="{{ form.estado.vars.name }}" type="hidden" value="{{ form.estado.vars.value }}">#}
         <input name="eventoRectificadoId" type="hidden" value="{{ eventoRectificado.id }}">
     </form>
 {% endif %}

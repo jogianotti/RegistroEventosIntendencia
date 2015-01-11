@@ -1,14 +1,10 @@
-registro_eventos_core_administracion:
-    path:     /administracion
-    defaults: { _controller: RegistroEventosCoreBundle:Administracion:index }
+RegistroEventosCoreBundle_eventos:
+    resource: "@RegistroEventosCoreBundle/Resources/config/routing/evento.yml"
+    prefix:   /
 
 RegistroEventosCoreBundle_agenda:
     resource: "@RegistroEventosCoreBundle/Resources/config/routing/contacto.yml"
     prefix:   /agenda
-
-RegistroEventosCoreBundle_eventos:
-    resource: "@RegistroEventosCoreBundle/Resources/config/routing/evento.yml"
-    prefix:   /
 
 RegistroEventosCoreBundle_tipos_eventos:
     resource: "@RegistroEventosCoreBundle/Resources/config/routing/tipoevento.yml"
@@ -18,4 +14,6 @@ RegistroEventosCoreBundle_usuarios:
     resource: "@RegistroEventosCoreBundle/Resources/config/routing/usuario.yml"
     prefix:   /administracion/usuarios
 
-
+estadisticas:
+    path:     /administracion/estadisticas
+    defaults: { _controller: RegistroEventosCoreBundle:Evento:estadisticas }

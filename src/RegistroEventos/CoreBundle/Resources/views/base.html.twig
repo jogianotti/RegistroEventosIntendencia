@@ -8,8 +8,8 @@
     {% block menu %}
     {% if usuario is not null %}
         {% if usuario.hasRole('ROLE_ADMINISTRADOR') %}
-        <li><a id="usuarios" href="{{ path('usuarios')  }}">Usuarios</a></li>
-        <li><a id="tipos_eventos" href="{{ path('tipos_eventos') }}">Tipos de Eventos</a></li>
+        <li><a id="usuarios" href="{{ path('usuarios')  }}">Administración</a></li>
+        <li><a id="tipos_eventos" href="{{ path('eventos_supervision') }}">Supervisión</a></li>
         {% elseif usuario.hasRole('ROLE_SUPERVISOR') %}
         <li><a id="eventos_supervisor" href="{{ path('eventos_supervision') }}">Registro</a></li> 
         {% elseif usuario.hasRole('ROLE_INTENDENTE') %}
